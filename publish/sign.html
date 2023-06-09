@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEDI-CITY</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+     <!-- 플러그인 -->
+     <script src="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+     <link rel="stylesheet" href="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+     <script type="text/javascript" language="javascript" src="js/nav.js"></script>
+     <script type="text/javascript" language="javascript" src="js/sign.js"></script>
+     <link rel="stylesheet" href="css/default.css">
+     <link rel="stylesheet" href="css/style.css">
+ 
+</head>
+<body>
+    <div class="wrap">
+        <header></header>
+
+        <!-- con_area //S -->
+        <div id="con_area">
+            <div class="form sign">
+                <h5>아이디 <span class="red">*</span></h5>
+                <div class="flex">
+                    <div>
+                        <input type="email" class="input w600">
+                    </div>
+                    <a href="" class="subbtn on" onclick="idDuplicateCheck();">중복 확인</a>
+                    <p class="mark" id="mark_id">아이디는 이메일 형식으로 입력하세요</p>
+                </div>
+                <div class="flex">
+                    <div>
+                        <h5>비밀번호 <span class="red">*</span></h5>
+                        <input type="password" class="input w370">
+                    </div>
+                    <div>
+                        <h5>비밀번호 확인 <span class="red">*</span></h5>
+                        <input type="password" class="input w370">
+                    </div>
+                </div>
+                <div class="flex">
+                    <div>
+                        <h5>성명 (국문) <span class="red">*</span></h5>
+                        <input type="name" class="input w180" placeholder="성">
+                        <input type="name" class="input w180" placeholder="이름">
+                    </div>
+                    <div>
+                        <h5>성명 (영문) <span class="red">*</span></h5>
+                        <input type="name" class="input w180" placeholder="First name">
+                        <input type="name" class="input w180" placeholder="Last name">
+                    </div>
+                </div>
+                <div class="flex end">
+                    <div>
+                        <div class="flex mb15">
+                            <h5 class="m0">휴대전화 <span class="red">*</span></h5>
+                            <div id="phone_check_after_btn">
+                                <a href="javascript:void(0);" class="font-12 mr10 ml10" onclick="phoneCheck(3);">인증번호가 오지 않았나요?</a>
+                                <a href="javascript:void(0);" class="font-12"onclick="phoneCheck(4);">휴대전화 재입력</a>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <select name="" id="phone" class="w100 mr10">
+                                <option value="">+82</option>
+                            </select>
+                            <div id="phone_num" class="m0">
+                                <input type="tel" class="input w100" id="phone_num1">
+                                <input type="tel" class="input w120" id="phone_num2">
+                                <input type="tel" class="input w120" id="phone_num3">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="phone_check_before">
+                        <a href="javascript:void(0);" class="subbtn on m0" onclick="phoneCheck(1);">인증 번호</a>
+                    </div>
+                    <div id="phone_check_after">
+                        <h5>인증번호 <span class="red">*</span></h5>
+                        <div class="flex">
+                            <input type="text" class="input w180" id="phone_d_num">
+                            <a href="javascript:void(0);" class="subbtn on" onclick="phoneCheck(2);" id="phoneCheck" >인증 확인</a>
+                        </div>
+                    </div>
+                    <p class="mark" id="mark_tel">휴대폰 인증을 진행해주세요.</p>
+                </div>
+                <div>
+                    <h5>면허번호 <span class="red">*</span></h5>
+                    <input type="text" class="input w370">
+                </div>
+                <div class="flex">
+                    <div>
+                        <h5>소속 기관</h5>
+                        <input type="text" class="input w370">
+                    </div>
+                    <div>
+                        <h5>전공과</h5>
+                        <input type="text" class="input w370">
+                    </div>
+                </div>
+                <div>
+                    <h5>약관에 동의하겠습니까? <span class="red">*</span></h5>
+                    <div class="linebox">
+                        <div class="flex between">
+                            <h6>이용약관 <a href="" class="font-12">전문보기</a></h6>
+                            <input type="checkbox" id="agree">
+                            <label for="agree" class="checkbox">
+                                <svg width="9.772" height="7.181" viewBox="0 0 9.772 7.181" fill="#bdbdbd">
+                                    <path d="M0,6.181a1,1,0,0,1-.707-.293,1,1,0,0,1,0-1.414L4.474-.707a1,1,0,0,1,1.414,0,1,1,0,0,1,0,1.414L.707,5.888A1,1,0,0,1,0,6.181Z" transform="translate(3.591 1)"/>
+                                    <path d="M2.591,3.591A1,1,0,0,1,1.883,3.3L-.707.707a1,1,0,0,1,0-1.414,1,1,0,0,1,1.414,0L3.3,1.883a1,1,0,0,1-.707,1.707Z" transform="translate(1 3.591)" />
+                                </svg>
+                            </label>
+                        </div>
+                        <div class="flex between">
+                            <h6>개인정보처리동의 <a href="" class="font-12">전문보기</a></h6>
+                            <input type="checkbox" id="privacy">
+                            <label for="privacy" class="checkbox">
+                                <svg width="9.772" height="7.181" viewBox="0 0 9.772 7.181" fill="#bdbdbd">
+                                    <path d="M0,6.181a1,1,0,0,1-.707-.293,1,1,0,0,1,0-1.414L4.474-.707a1,1,0,0,1,1.414,0,1,1,0,0,1,0,1.414L.707,5.888A1,1,0,0,1,0,6.181Z" transform="translate(3.591 1)"/>
+                                    <path d="M2.591,3.591A1,1,0,0,1,1.883,3.3L-.707.707a1,1,0,0,1,0-1.414,1,1,0,0,1,1.414,0L3.3,1.883a1,1,0,0,1-.707,1.707Z" transform="translate(1 3.591)" />
+                                </svg>
+                            </label>
+                        </div>
+                    </div>
+                      
+                </div>
+            </div>
+        </div>
+         <!-- con_area //E -->
+
+
+        <footer></footer>
+
+        
+    </div>
+</body>
+</html>
+<script>
+    // header
+    const header = document.querySelector('header');
+    fetch('include/header.html')
+    .then(res => res.text())
+    .then(data => header.innerHTML = data);
+
+    //footer
+    const footer = document.querySelector('footer');
+    fetch('include/footer.html')
+    .then(res => res.text())
+    .then(data => footer.innerHTML = data);
+</script>

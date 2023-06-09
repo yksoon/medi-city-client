@@ -5,33 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MEDI-CITY</title>
-    <link rel="stylesheet" href="css/default.css">
-    <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+     <!-- 플러그인 -->
+     <script src="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+     <link rel="stylesheet" href="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+     <script type="text/javascript" language="javascript" src="js/nav.js"></script>
+     <link rel="stylesheet" href="css/default.css">
+     <link rel="stylesheet" href="css/style.css">
+ 
 </head>
 <body>
     <div class="wrap">
-        <header>
-            <div class="header_content">
-                <h1 class="logo"><a href=""><img src="img/common/logo.png" alt=""></a></h1>
-                <div>
-                    <input type="email" placeholder="ID" class="login">
-                    <input type="password" placeholder="PASSWORD" class="login">
-                    <a href="" class="login">LOGIN</a>
-                    <a href="" class="login">SIGN UP</a>
-                    <nav>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </nav>
-                    <a href=""><img src="img/common/header_home.png" alt=""></a>
-                </div>
-            </div>
-            <a href="" class="font-12">로그인에 문제가 발생하였나요?</a>
-        </header>
-        <div class="mainvisual"></div>
+        <header></header>
+        
+        <div id="mainvisual">
+            <div class="mainvisual">
+				<div class="mainvisual01"><a href=""></a></div>
+				<div class="mainvisual02"><a href=""></a></div>
+			</div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('.mainvisual').bxSlider({
+                    auto: true,
+                    speed: 2000,
+                    pause: 4000,
+                    pager: false,
+                    autoControls: false,
+                    controls: false,
+                    touchEnabled: true,
+                });
+            });
+        </script>
         <div class="content">
             <div class="quick">
                 <div class="title">
@@ -39,7 +48,7 @@
                 </div>
                 <ul>
                     <li>
-                        <a href="">
+                        <a href="sitemap.html">
                             <span><img src="img/main/quick01.png" alt=""></span>
                             <p>전체</p>
                         </a>
@@ -93,7 +102,7 @@
                     <h3>메디씨티와 함께하는 시원한 여름나기 호캉스!</h3>
                     <p>추천 HOTEL</p>
                 </div>
-                <ul>
+                <ul class="hotel_slider"> 
                     <li class="event">
                         <a href="">
                             <span class="hotel_thumb"><img src="img/main/hotel01.png" alt=""></span>
@@ -130,18 +139,121 @@
                         </a>
                     </li>
                 </ul>
+                <script>
+                    $(function(){
+                      $('.hotel_slider').slick({
+                          infinite : true,
+                          slidesToShow : 4,
+                          slidesToScroll : 1,
+                          arrows : false,
+                          dots : true,
+                          autoplay : true,
+                          autoplaySpeed : 10000, 		// 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+                          pauseOnHover : false,
+                          draggable : true, 	//드래그 가능 여부 
+                          responsive: [ // 반응형 웹 구현 옵션
+                              {  
+                                  breakpoint: 960, //화면 사이즈 960px
+                                  settings: {
+                                      //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+                                      slidesToShow:3 
+                                  } 
+                              },
+                              { 
+                                  breakpoint: 768, //화면 사이즈 768px
+                                  settings: {	
+                                      //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+                                      slidesToShow:2 
+                                  } 
+                              }
+                          ]
+                      });
+                      var slick_length = $('.slick-dots li').length;
+                      $('.slick-dots button').text('');
+                      $('.slick-dots li').css('width','calc(100% /' + slick_length + ' )');
+                    })
+              </script>
             </div>
             <div class="main_banner">
-                <div><a href="img/main/banner01.png"></a></div>
-                <div><a href="img/main/banner02.png"></a></div>
+                <div class="banner01"><a href=""><img src="img/main/banner01_icon.png" alt=""></a></div>
+                <div class="banner02"><a href=""><img src="img/main/banner02_icon.png" alt=""></a></div>
             </div>
             <div class="main_news">
                 <div class="title">
                     <h3>학회소식</h3>
                     <p>의료관련 학회소식</p>
                 </div>
+                <ul>
+                    <li class="comming">
+                        <a href="">
+                            <h4 class="font-24">IANR 2023</h4>
+                            <p class="font-18 gray-6">2023. 11. 03 ~ 04</p>
+                            <p class="font-18 gray-6">세종컨벤션</p>
+                        </a>
+                        <a href="https://ianr2023korea.org/" target="_blank" class="home_btn"><img src="img/common/home.png" alt=""></a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <h4 class="font-24">IANR 2023</h4>
+                            <p class="font-18 gray-6">2023. 11. 03 ~ 04</p>
+                            <p class="font-18 gray-6">세종컨벤션</p>
+                        </a>
+                        <a href="" class="home_btn"><img src="img/common/home.png" alt=""></a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <h4 class="font-24">IANR 2023</h4>
+                            <p class="font-18 gray-6">2023. 11. 03 ~ 04</p>
+                            <p class="font-18 gray-6">세종컨벤션</p>
+                        </a>
+                        <a href="" class="home_btn"><img src="img/common/home.png" alt=""></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="main_board">
+                <div class="flex">
+                    <div class="main_faq">
+                        <div class="title">
+                            <h3>FAQ</h3>
+                            <p>자주묻는질문</p>
+                        </div>
+                        <ul>
+                            <li><a href=""><h4 class="font-21">Q. 메디씨티 포인트는 어디에서 확인 가능한가요?</h4></a></li>
+                            <li><a href=""><h4 class="font-21">Q. 메디씨티 포인트는 어디에서 확인 가능한가요?</h4></a></li>
+                            <li><a href=""><h4 class="font-21">Q. 메디씨티 포인트는 어디에서 확인 가능한가요?</h4></a></li>
+                            <li><a href=""><h4 class="font-21">Q. 메디씨티 포인트는 어디에서 확인 가능한가요?</h4></a></li>
+                        </ul>
+                    </div>
+                    <div class="main_notice">
+                        <div class="title">
+                            <h3>NOTICE</h3>
+                            <p>공지사항</p>
+                        </div>
+                        <ul>
+                            <li><a href=""><h4 class="font-21">NOTICE TITLE</h4><p class="font-21 gray-6">2023. 05. 25</p></a></li>
+                            <li><a href=""><h4 class="font-21">NOTICE TITLE</h4><p class="font-21 gray-6">2023. 05. 25</p></a></li>
+                            <li><a href=""><h4 class="font-21">NOTICE TITLE</h4><p class="font-21 gray-6">2023. 05. 25</p></a></li>
+                            <li><a href=""><h4 class="font-21">NOTICE TITLE</h4><p class="font-21 gray-6">2023. 05. 25</p></a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
+        <footer></footer>
     </div>
 </body>
 </html>
+
+<script>
+    // header
+    const header = document.querySelector('header');
+    fetch('include/header.html')
+    .then(res => res.text())
+    .then(data => header.innerHTML = data);
+  
+    //footer
+    const footer = document.querySelector('footer');
+    fetch('include/footer.html')
+    .then(res => res.text())
+    .then(data => footer.innerHTML = data);
+  </script>
