@@ -25,13 +25,13 @@
 
         <!-- con_area //S -->
         <div id="con_area">
-            <div class="form sign">
+            <div class="form sign" id="sign_form">
                 <h5>아이디 <span class="red">*</span></h5>
                 <div class="flex">
                     <div>
                         <input type="email" class="input w600">
                     </div>
-                    <a href="" class="subbtn on" onclick="idDuplicateCheck();">중복 확인</a>
+                    <a href="javascript:void(0);" class="subbtn on" onclick="idDuplicateCheck();">중복 확인</a>
                     <p class="mark" id="mark_id">아이디는 이메일 형식으로 입력하세요</p>
                 </div>
                 <div class="flex">
@@ -42,6 +42,10 @@
                     <div>
                         <h5>비밀번호 확인 <span class="red">*</span></h5>
                         <input type="password" class="input w370">
+                    </div>
+                    <div>
+                        <h5>&nbsp;</h5>
+                        <p class="mark" id="mark_pw">비밀번호는 4-10자리로 입력해주세요</p>
                     </div>
                 </div>
                 <div class="flex">
@@ -106,7 +110,7 @@
                     <h5>약관에 동의하겠습니까? <span class="red">*</span></h5>
                     <div class="linebox">
                         <div class="flex between">
-                            <h6>이용약관 <a href="" class="font-12">전문보기</a></h6>
+                            <h6>이용약관 <a href="javascript:void(0);" class="font-12">전문보기</a></h6>
                             <input type="checkbox" id="agree">
                             <label for="agree" class="checkbox">
                                 <svg width="9.772" height="7.181" viewBox="0 0 9.772 7.181" fill="#bdbdbd">
@@ -116,7 +120,7 @@
                             </label>
                         </div>
                         <div class="flex between">
-                            <h6>개인정보처리동의 <a href="" class="font-12">전문보기</a></h6>
+                            <h6>개인정보처리동의 <a href="javascript:void(0);" class="font-12">전문보기</a></h6>
                             <input type="checkbox" id="privacy">
                             <label for="privacy" class="checkbox">
                                 <svg width="9.772" height="7.181" viewBox="0 0 9.772 7.181" fill="#bdbdbd">
@@ -126,7 +130,10 @@
                             </label>
                         </div>
                     </div>
-                      
+                   <div class="btn_box">
+                        <a href="sign_ok.html" class="mainbtn btn01">가입하기</a>
+                        <a href="index.html" class="mainbtn btn02">뒤로가기</a>
+                   </div>   
                 </div>
             </div>
         </div>

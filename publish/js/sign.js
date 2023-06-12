@@ -1,25 +1,15 @@
 const mark_id = document.getElementById('mark_id');
 
+// signform 내 모든 a링크 해제
+
+// 01. 아이디 중복확인
 function idDuplicateCheck(){
     alert('중복된 아이디입니다.');
 }
 
-//인증번호 발송
-//function phoneCheck1(){
-//    alert('인증번호를 발송하였습니다.');
-//    document.querySelector('.phone_cheak_before').style.display = 'none';
-//    document.querySelector('.phone_cheak_after').style.display = 'block';
-//    document.querySelector('.phone_cheak_after_btn').style.display = 'block';
-//}
-//
-////인증번호 확인
-//function phoneCheck2(){
-//    alert('인증번호가 확인되었습니다.');
-//    document.getElementById('phoneCheck').classList.add('hold');
-//    document.getElementById('phone_d_num').classList.add('hold');
-//    document.getElementById('phone_d_num').readOnly=true;
-//}
 
+
+// 04. 휴대폰 인증
 function phoneAction (readOnlyYn, cssName) {
     let phone_num = "phone_num";
     let phone_num_name = "";
@@ -27,10 +17,10 @@ function phoneAction (readOnlyYn, cssName) {
     for (let i = 1; i <= 3; i++) {
         phone_num_name = phone_num + i;
 
-        if(document.getElementById(phone_num_name).value == null || document.getElementById(phone_num_name).value == ""){
-            alert('번호를 입력해주세요');
-            result = false;
-        }
+        //if(document.getElementById(phone_num_name).value == null || document.getElementById(phone_num_name).value == ""){
+        //    alert('번호를 입력해주세요');
+        //    result = false;
+        //}
 
         document.getElementById(phone_num_name).readOnly = readOnlyYn;
         if(readOnlyYn) {
@@ -38,7 +28,6 @@ function phoneAction (readOnlyYn, cssName) {
         } else{
             document.getElementById(phone_num_name).classList.remove(cssName);
         }
-        return result;
     }
 }
 
