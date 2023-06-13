@@ -24,13 +24,21 @@ a.font-12 {font-size: 12px; font-weight: 500; color: #818181; text-decoration: u
 .w100 {width:100px;}
 .w120 {width:120px;}
 .w180 {width:180px;}
+.w230 {width:230px;}
 .w370 {width:370px;}
+.w460 {width:460px;}
 .w600 {width:600px;}
+
+.wp100 {width:100% !important;}
 
 .mb15 {margin-bottom:15px !important;}
 .mr10 {margin-right:10px !important;}
 .ml10 {margin-left:10px !important;}
 .m0 {margin:0 !important;}
+
+.bd10 {border-radius: 10px !important;}
+.bd20 {border-radius: 20px !important;}
+.bd50 {border-radius: 50px !important;}
 
 .blue {color: #0047a0;}
 .red {color: #de1414;}
@@ -51,7 +59,7 @@ a.subbtn.on:hover {background: #0047a0;color:#fff;}
 a.subbtn.off {border: 1px solid #ddd;color: #ddd;}
 a.subbtn.hold {border: 1px solid #efefef;background: #efefef;color: #bdbdbd;}
 a.subbtn.hold:hover {border: 1px solid #efefef;background: #efefef;color: #bdbdbd;}
-a.backbtn {display:inline-block;height: 53px;line-height: 53px;font-size: 16px;text-align: center;border-radius: 50px;margin: 0 20px 0 0 ;transition:all 0.3s;border: 1px solid #ddd;padding: 0 60px;color: #bdbdbd;}
+a.backbtn {display:inline-block;height: 53px;line-height: 53px;font-size: 16px;text-align: center;border-radius: 50px;transition:all 0.3s;border: 1px solid #ddd;padding: 0 60px;color: #bdbdbd;}
 a.backbtn:hover {color: #616161;border: 1px solid #a8a8a8;}
 
 
@@ -68,6 +76,7 @@ input[type="checkbox"]:checked + label.checkbox svg {fill:#fff;}
 
 .title{margin: 0 0 34px;}
 .title h3 {display:inline-block;font-size: 38px;font-weight: 700;}
+h3.title {font-size: 38px;font-weight: 700;}
 .title p {display:inline-block;font-size: 21px;font-weight: 500;color: #818181;margin: 0 0 0 30px;}
 
 .subtitle {font-size: 42px;font-weight: 700;}
@@ -181,10 +190,11 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 
 .sitemap_sub #sitemap {position:static;display:block;height:auto;margin:0;}
 
-#con_area {width:1600px;margin:0 auto;}
+#con_area {width:1600px;margin:46px auto 0;}
 
 /* member */
 .form {padding:0 10%;}
+.form .title{text-align: center;}
 .form .mark {white-space: nowrap;margin:0 0 0 40px; font-weight:700;color: #a6a6a6;font-size: 16px;height:48px;line-height:48px;}
 .form .mark.red {color: #de1414;}
 .form .mark.green {color: #05b10b;}
@@ -192,7 +202,7 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .form .mark.red::before {background: #de1414;}
 .form .mark.green::before {background:#05b10b;}
 
-.sign > div {margin: 0 0 40px;}
+.sign > div > div {margin: 0 0 40px;}
 .sign .flex > div {margin:0 0 0 20px;}
 .sign .flex > div:first-child {margin:0;}
 .sign h5 {font-size: 21px;font-weight:500;margin:0 0 15px;}
@@ -205,3 +215,7 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 /* 확인페이지 */
 .ok {padding:60px 0 0;text-align:center;}
 .ok h3 {font-size: 32px;font-weight: 700;margin: 32px 0 15px;}
+
+/* 아이디,비밀번호찾기 */
+.find .flex {justify-content: center;}
+.pwfind {width: 480px;margin:0 auto;}
