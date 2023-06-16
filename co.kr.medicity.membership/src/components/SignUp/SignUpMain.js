@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { path } from "routerPath";
+import { routerPath } from "webPath";
 
 function SignUpMain() {
   return (
@@ -10,13 +10,13 @@ function SignUpMain() {
       </div>
       <div>
         <button>
-          <Link to={path.myPage_url}>테스트 버튼 마이페이지</Link>
+          <Link to={routerPath.myPage_url}>테스트 버튼 마이페이지</Link>
         </button>
         <button>
           <Link to="/mypage">테스트 버튼2</Link>
         </button>
         <button>
-          <Link to={path.main_url}>테스트 버튼 홈</Link>
+          <Link to={routerPath.main_url}>테스트 버튼 홈</Link>
         </button>
       </div>
     </>

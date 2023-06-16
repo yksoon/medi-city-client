@@ -1,36 +1,32 @@
 import { React, useEffect } from "react";
+import { apiPath } from "webPath";
 import axios from "axios";
+import Instance from "./Instance";
+
+const url = apiPath.api_login;
 
 function Login() {
-  const url = "http://dev-api.medi-city.co.kr:60000/auth/v1/info";
-
-  async function getUser() {
-    // async, await을 사용하는 경우
-    try {
-      // GET 요청은 params에 실어 보냄
-      const response = await axios.get(url, {
-        params: {},
-      });
-
-      // 응답 결과(response)를 변수에 저장하거나.. 등 필요한 처리를 해 주면 된다.
-
-      // await axios.get("/user?ID=12345"); // 위의 요청과 동일
-
-      // var userId = 12345;
-      // await axios.get(`/user?ID=${userId}`); // Backtick(`)을 이용해 이렇게 요청할 수도 있다.
-
-      let res = response;
-
-      let test = res.data.result_info;
-      console.log(test);
-    } catch (e) {
-      // 실패 시 처리
-      console.error(e);
-    }
-  }
-
   useEffect(() => {
-    getUser();
+    Instance.post(url, {
+      signup_type: "000",
+      user_id: "hery2@medi-city.co.kr",
+      user_pwd: "1234qwer!@",
+    })
+      .then(function (response) {
+        // response
+        console.log(response);
+        let user_info;
+        let result_code = response.headers.result_code;
+
+        if (result_code === "0000") {
+          user_info = response.data.result_info;
+          localStorage.setItem("userInfo", user_info);
+        }
+      })
+      .catch(function (error) {
+        // 오류발생시 실행
+        console.log(error);
+      });
   }, []);
 }
 

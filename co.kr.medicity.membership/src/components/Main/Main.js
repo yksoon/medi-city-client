@@ -1,7 +1,7 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
-import { path } from "routerPath";
+import { routerPath } from "webPath";
 
 import Login from "common/js/Login";
 import { CommonAlert, CommonConfirm } from "common/js/Common";
@@ -30,11 +30,11 @@ function Main() {
         <h1>메인</h1>
       </div>
       <div>
-        <Link to={path.myPage_url}>
+        <Link to={routerPath.myPage_url}>
           <Button>테스트 버튼 마이페이지</Button>
         </Link>
 
-        <Link to={path.signup_url}>
+        <Link to={routerPath.signup_url}>
           <Button>테스트 버튼 회원가입</Button>
         </Link>
       </div>

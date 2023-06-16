@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router";
 
-import { path } from "routerPath";
+import { routerPath } from "webPath";
 
 import NotFoundPage from "NotFoundPage";
 import Main from "components/Main/Main";
@@ -12,9 +12,9 @@ function App() {
     <>
       <Routes>
         {/* /link를 입력하면 LinkPage 오픈 */}
-        <Route path={path.main_url} element={<Main />} />
-        <Route path={path.myPage_url} element={<MyPageMain />} />
-        <Route path={path.signup_url} element={<SignUpMain />} />
+        <Route path={routerPath.main_url} element={<Main />} />
+        <Route path={routerPath.myPage_url} element={<MyPageMain />} />
+        <Route path={routerPath.signup_url} element={<SignUpMain />} />
 
         {/* /location으로 시작하는 url을 입력하면 LocationPage 오픈 */}
         {/* <Route path="/location/*" element={<LocationPage />} /> */}
