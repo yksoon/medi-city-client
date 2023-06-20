@@ -24,8 +24,13 @@ header {
 
 .login-field {
     display: flex;
-        align-items: center; 
+    align-items: center; 
 }
+/* .login-problem {
+    display: flex;
+    justify-content: end;
+    margin-top: 7px;
+} */
 nav {
     position: relative;
     width: 24px;

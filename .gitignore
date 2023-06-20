@@ -183,3 +183,6 @@ $RECYCLE.BIN/
 
 # log
 *.log
+
+#test
+/publish_test/

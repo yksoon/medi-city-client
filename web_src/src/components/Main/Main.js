@@ -61,9 +61,9 @@ function Main() {
 
   return (
     <>
+      <Header />
       <div className="main-wrapper">
         {/* <Login /> */}
-        <Header />
 
         <MainCarousel items={carouselItems} />
 
