@@ -4,6 +4,8 @@ import { Button, Form } from "react-bootstrap";
 import { routerPath } from "webPath";
 import { CommonAlert, CommonConfirm } from "common/js/Common";
 
+import Header from "components/Common/Header";
+
 import MainCarousel from "./Crousel/MainCarousel";
 import MainMenu from "./Content/MainMenu";
 import MainHotel from "./Content/MainHotel";
@@ -61,9 +63,8 @@ function Main() {
     <>
       <div className="main-wrapper">
         {/* <Login /> */}
-        <div>
-          <h1>메인</h1>
-        </div>
+        <Header />
+
         <MainCarousel items={carouselItems} />
 
         <MainMenu />
