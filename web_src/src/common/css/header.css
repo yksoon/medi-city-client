@@ -9,7 +9,7 @@ header {
 }
 
 .header_content {
-    width: 100%;
+    width: 1600px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -17,67 +17,55 @@ header {
     height: 112px;
 }
 
-.header-content-wrapper {
+.header_content div.flex {
     display: flex;
     align-items: center;
 }
 
-.login-field {
-    display: flex;
-    align-items: center; 
+.header_content div.login {
+    text-align: right;
 }
-/* .login-problem {
-    display: flex;
-    justify-content: end;
-    margin-top: 7px;
-} */
-nav {
+
+.header_content div.login input {
+    margin: 0 0 0 10px;
+}
+
+.header_content div.login a {
+    margin: 0 0 0 5px;
+}
+
+.header_content a.home {
+    margin: 0 0 20px;
+}
+
+.header_content .profile {
+    margin: 0 0 20px;
+}
+
+.header_content .profile .profile_img_wrap {
     position: relative;
-    width: 24px;
-    height: 22px;
-    transform: rotate(0deg);
-    transition: 0.5s ease-in-out;
-    cursor: pointer;
-    margin: 0 15px 20px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #e3e3e3;
+    margin: 0 0 0 13px;
 }
 
-nav span {
-    display: block;
-    position: absolute;
-    height: 3px;
+.header_content .profile .profile_img_wrap .profile_img img {
     width: 100%;
-    background-color: #818181;
-    opacity: 1;
-    left: 0;
-    transform: rotate(0deg);
-    transition: 0.25s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-nav span:nth-child(1) {
-    top: 0px;
+.header_content .profile .profile_img_wrap .grade {
+    position: absolute;
+    top: -10px;
+    right: -2px;
+    z-index: 2
 }
 
-nav span:nth-child(2) {
-    top: 8px;
-}
-
-nav span:nth-child(3) {
-    top: 17px;
-}
-
-nav.nav_on span:nth-child(1) {
-    top: 8px;
-    transform: rotate(-45deg);
-}
-
-nav.nav_on span:nth-child(2) {
-    opacity: 0;
-    /*클릭하면 중간선이 사라집니다.*/
-}
-
-nav.nav_on span:nth-child(3) {
-    top: 8px;
-    transform: rotate(-135deg);
-    width: 24px;
-    left: 0;
+#header_profile {
+    display: none;
 }

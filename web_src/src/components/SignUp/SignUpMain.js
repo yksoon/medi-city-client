@@ -1,6 +1,6 @@
 import React from "react";
-// import { Link } from "react-router-dom";
-// import { routerPath } from "webPath";
+import { Link } from "react-router-dom";
+import { routerPath } from "webPath";
 
 import Header from "components/Common/Header";
 
@@ -272,9 +272,9 @@ function SignUpMain() {
               <Box>
                 <h6>
                   이용약관{" "}
-                  <a href="term.html" class="font-12">
+                  <Link to={routerPath.terms_url} class="font-12">
                     전문보기
-                  </a>
+                  </Link>
                 </h6>
               </Box>
               <Box>
@@ -289,9 +289,9 @@ function SignUpMain() {
               <Box>
                 <h6>
                   개인정보처리동의{" "}
-                  <a href="privacy.html" class="font-12">
+                  <Link to={routerPath.privacy_url} class="font-12">
                     전문보기
-                  </a>
+                  </Link>
                 </h6>
               </Box>
               <Box>
@@ -305,12 +305,41 @@ function SignUpMain() {
           </Box>
         </Box>
         <Box className="btn-section" marginTop={5}>
-          <a href="sign_ok.html" class="mainbtn btn01">
-            가입하기
-          </a>
-          <a href="index.html" class="mainbtn btn02">
-            뒤로가기
-          </a>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ width: "100%", display: "flex", justifyContent: "center" }}
+          >
+            <Link to={routerPath.signup_ok_url}>
+              <Button
+                sx={{
+                  borderRadius: 15,
+                  color: "#fff",
+                  backgroundColor: "#0047A0",
+                  fontSize: 21,
+                  width: 280,
+                  height: 68,
+                }}
+              >
+                가입하기
+              </Button>
+            </Link>
+
+            <Link to="/">
+              <Button
+                sx={{
+                  borderRadius: 15,
+                  backgroundColor: "#EFEFEF",
+                  color: "#A6A6A6",
+                  fontSize: 21,
+                  width: 280,
+                  height: 68,
+                }}
+              >
+                뒤로가기
+              </Button>
+            </Link>
+          </Stack>
         </Box>
       </Box>
       {/* <div>

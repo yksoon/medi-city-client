@@ -38,6 +38,11 @@ const routerPath = {
 
   // 회원가입
   signup_url: `${base_url}signup${slash}`,
+  signup_ok_url: `${base_url}signupok${slash}`,
+
+  // 약관
+  terms_url: `${base_url}terms${slash}`,
+  privacy_url: `${base_url}privacy${slash}`,
 };
 
 // api

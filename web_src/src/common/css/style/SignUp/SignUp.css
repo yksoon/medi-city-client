@@ -78,7 +78,7 @@
     width: 70%;
 }
 .signup-content .notice-wrapper {
-    margin-left: 2%;
+    margin-left: 2%; 
 }
 
 .signup-content .terms-box {
@@ -90,8 +90,13 @@
 }
 
 .signup-content .terms-box-section {
-display: flex;
-justify-content: space-between;
-align-items: center;
-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.signup-content .btn-section {
+    display: flex;
+    justify-content: center;
 }

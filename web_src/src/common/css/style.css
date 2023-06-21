@@ -129,8 +129,8 @@ nav.nav_on span:nth-child(3) { top: 8px; transform: rotate(-135deg); width:24px;
 .mainvisual > div{width: 1600px;margin: 0 auto;height:340px;border-radius: 50px;}
 .mainvisual a {display: block; width: 100%;height:100%;}
 .bx-wrapper {border:none;background:none;box-shadow: none;}
-.mainvisual01 {background: url('../img/main/mainvisual01.png') center center no-repeat;}
-.mainvisual02 {background: url('../img/main/mainvisual02.png') center center no-repeat;}
+/* .mainvisual01 {background: url('../img/main/mainvisual01.png') center center no-repeat;} */
+/* .mainvisual02 {background: url('../img/main/mainvisual02.png') center center no-repeat;} */
 
 .content {width: 1600px; margin: 0 auto;}
 .content > div{margin: 0 0 110px;}
@@ -154,7 +154,7 @@ nav.nav_on span:nth-child(3) { top: 8px; transform: rotate(-135deg); width:24px;
 .main_hotel > ul li.slick-slide a h4 {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .main_hotel > ul li.slick-slide a p {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;font-weight:500;}
 .main_hotel > ul li.event {position:relative;}
-.main_hotel > ul li.event:before {position: absolute; left: 20px; top: -25px; content:"";display: block;width: 153px;height: 52px;background: url('../img/common/label_event.png') center center no-repeat;z-index:10;}
+/* .main_hotel > ul li.event:before {position: absolute; left: 20px; top: -25px; content:"";display: block;width: 153px;height: 52px;background: url('../img/common/label_event.png') center center no-repeat;z-index:10;} */
 .main_hotel .slick-dots {display:flex;margin: 42px 0 0;cursor:pointer;}
 .main_hotel .slick-dots li button {width:100%;display:block;border: none;height:7px;background: #f8f8f8;cursor:pointer;}
 .main_hotel .slick-dots li.slick-active button {background: #ddd;}
@@ -165,8 +165,8 @@ nav.nav_on span:nth-child(3) { top: 8px; transform: rotate(-135deg); width:24px;
 .main_banner > div a img {position: absolute;right: 0;bottom: 0;}
 .main_banner > div.banner02 a img {position: absolute;right: -40px;bottom: 20px;}
 .main_banner > div:last-child {margin: 0;}
-.main_banner .banner01 {background: url('../img/main/banner01.png') center center no-repeat;}
-.main_banner .banner02 {background: url('../img/main/banner02.png') center center no-repeat;}
+/* .main_banner .banner01 {background: url('../img/main/banner01.png') center center no-repeat;} */
+/* .main_banner .banner02 {background: url('../img/main/banner02.png') center center no-repeat;} */
 
 .main_news > ul {display:flex;}
 .main_news > ul li {position:relative;width: calc(( 100% - 80px ) / 4);margin: 0 40px 0 0;border: 1px solid #ddd;border-radius: 50px;}
@@ -178,7 +178,7 @@ nav.nav_on span:nth-child(3) { top: 8px; transform: rotate(-135deg); width:24px;
 .main_news > ul li:first-child {width:50%;}
 .main_news > ul li:last-child {margin: 0;}
 .main_news > ul li.comming {position:relative;}
-.main_news > ul li.comming:before {position: absolute; left: 20px; top: -25px; content:"";display: block;width: 177px;height: 52px;background: url('../img/common/label_comming.png') center center no-repeat;z-index:10;}
+/* .main_news > ul li.comming:before {position: absolute; left: 20px; top: -25px; content:"";display: block;width: 177px;height: 52px;background: url('../img/common/label_comming.png') center center no-repeat;z-index:10;} */
 
 .main_board .flex > div {width: calc(( 100% - 40px ) /2);}
 .main_board .flex > div li {border: 1px solid #ddd;margin: 0 0 16px;border-radius: 20px;}
@@ -257,7 +257,7 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .my_quick {padding: 40px 50px;border: 1px solid #ddd;border-radius: 50px;margin:0 0 32px}
 .my_quick .name {display:flex; align-items: center;margin: 0 0 28spx 0;}
 .my_quick .name h3 {font-size: 38px;font-weight: 700;color: #0047a0;margin:0 18px 0 0;}
-.my_quick .name p.point {color: #0047a0;font-size: 24px;font-weight: 700;background: url('../img/main/quick02.png') left center no-repeat;background-size:32px;padding:0 0 0 40px;}
+/* .my_quick .name p.point {color: #0047a0;font-size: 24px;font-weight: 700;background: url('../img/main/quick02.png') left center no-repeat;background-size:32px;padding:0 0 0 40px;} */
 .my_quick .my_list .flex {align-items: flex-start;}
 .my_quick .my_list ul {margin: 0 56px 0 0;}
 .my_quick .my_list ul li a {display: inline-block; color: #333;font-size: 24px;font-weight: 700;margin: 20px 0 0;}

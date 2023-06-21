@@ -9,6 +9,7 @@ import "common/css/bootstrap.min.css";
 import App from "./App";
 
 import "common/css/Common.css";
+import "common/css/style.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
