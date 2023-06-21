@@ -16,12 +16,6 @@ function phoneAction (readOnlyYn, cssName) {
     let result = true;
     for (let i = 1; i <= 3; i++) {
         phone_num_name = phone_num + i;
-
-        //if(document.getElementById(phone_num_name).value == null || document.getElementById(phone_num_name).value == ""){
-        //    alert('번호를 입력해주세요');
-        //    result = false;
-        //}
-
         document.getElementById(phone_num_name).readOnly = readOnlyYn;
         if(readOnlyYn) {
             document.getElementById(phone_num_name).classList.add(cssName);
@@ -94,3 +88,4 @@ function phoneCheck (checkNum) {
         alert(last_msg);
     }
 }
+
