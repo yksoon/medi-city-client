@@ -20,7 +20,7 @@ const Instance = axios.create({
 Instance.interceptors.request.use(
   (config) => {
     // console.log(config);
-    config.headers["x_medicity_src"] = localStorage.getItem("connIP");
+    config.headers["X_medicity_src"] = localStorage.getItem("connIP");
     return config;
   },
   (err) => {
