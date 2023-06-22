@@ -38,24 +38,22 @@ function MainMenu({ props }) {
 
   return (
     <>
-      <div className="menu-wrapper">
+      <div class="quick">
         <div class="title">
           <h3>메디씨티에서 다양한 혜택을 제공합니다!</h3>
         </div>
-        <div class="quick">
-          <ul>
-            {items.map((item, idx) => (
-              <li idx={idx}>
-                <a href="sitemap.html">
-                  <span>
-                    <img src={item.imgUrl} alt="" />
-                  </span>
-                  <p>{item.title}</p>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul>
+          {items.map((item, idx) => (
+            <li idx={idx}>
+              <a href="sitemap.html">
+                <span>
+                  <img src={item.imgUrl} alt="" />
+                </span>
+                <p>{item.title}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   );
