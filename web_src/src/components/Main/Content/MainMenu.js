@@ -38,13 +38,13 @@ function MainMenu({ props }) {
 
   return (
     <>
-      <div class="quick">
-        <div class="title">
+      <div className="quick">
+        <div className="title">
           <h3>메디씨티에서 다양한 혜택을 제공합니다!</h3>
         </div>
         <ul>
           {items.map((item, idx) => (
-            <li idx={idx}>
+            <li key={`main_quick_${idx}`}>
               <a href="sitemap.html">
                 <span>
                   <img src={item.imgUrl} alt="" />

@@ -4,7 +4,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 
 // Bootstrap
-import "common/css/bootstrap.min.css";
+// import "common/css/bootstrap.min.css";
 
 import App from "./App";
 

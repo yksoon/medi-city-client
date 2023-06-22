@@ -1,12 +1,9 @@
-.main-content {
+.mainContent {
     margin-top: 60px !important;
-}
-
-.main_hotel .slick-slide {
-    
-    padding: 0 20px;
+    margin-bottom: 110px !important;
 }
 
 .main_hotel .slick-dots li {
     list-style-type: none;
+    
 }

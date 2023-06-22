@@ -28,6 +28,10 @@ const mng = "mng";
 // Account Service
 const account = "account";
 
+// Hotel Service
+const hotel = "hotel";
+
+
 // route
 const routerPath = {
   // 메인
@@ -97,6 +101,7 @@ const apiPath = {
   api_user_check: `${
     base_api_url + slash + account + slash + version + slash
   }user/_check`,
+
 };
 
 export { routerPath, apiPath };

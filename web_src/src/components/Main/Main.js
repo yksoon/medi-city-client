@@ -5,6 +5,7 @@ import { routerPath } from "webPath";
 import { CommonAlert, CommonConfirm } from "common/js/Common";
 
 import Header from "components/Common/Header";
+import Footer from "components/Common/Footer";
 
 import MainCarousel from "./Crousel/MainCarousel";
 import MainMenu from "./Content/MainMenu";
@@ -13,33 +14,33 @@ import MainBanner from "./Content/MainBanner";
 import MainNews from "./Content/MainNews";
 import MainBoard from "./Content/MainBoard";
 
-import Login from "common/js/Login";
-import "common/css/style/Main/Main.css";
+// import Login from "common/js/Login";
+import styles from "common/css/style/Main/Main.module.css";
 
 function Main() {
   return (
     <>
       <Header />
-      <div className="main-wrapper">
-        {/* <Login /> */}
+      {/* <Login /> */}
 
-        <MainCarousel />
+      <MainCarousel />
 
-        <div className="content main-content">
-          <MainMenu />
+      <div className={`content ${styles.mainContent}`}>
+        <MainMenu />
 
-          <MainHotel />
+        <MainHotel />
 
-          <MainBanner />
+        <MainBanner />
 
-          <MainNews />
+        <MainNews />
 
-          <MainBoard />
-        </div>
+        <MainBoard />
+      </div>
 
-        {/* <CarouselMain items={hotelItems} option={hotellOption} /> */}
+      <Footer />
+      {/* <CarouselMain items={hotelItems} option={hotellOption} /> */}
 
-        {/* <div>
+      {/* <div>
         <Link to={routerPath.myPage_url}>
           <Button>테스트 버튼 마이페이지</Button>
         </Link>
@@ -48,21 +49,20 @@ function Main() {
           <Button>테스트 버튼 회원가입</Button>
         </Link>
       </div> */}
-        {/* <div>
+      {/* <div>
         <Button onClick={handleOpen}>알럿 테스트</Button>
       </div> */}
-        {/* <div>
+      {/* <div>
         <Button onClick={handleOpen}>컨펌 테스트</Button>
       </div> */}
 
-        {/* <CommonAlert
+      {/* <CommonAlert
         isOpen={isModalOpen}
         title="알럿"
         content="내용입니다22222"
         btn="메롱"
         closeModal={handleClose}
       /> */}
-      </div>
     </>
   );
 }

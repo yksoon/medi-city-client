@@ -86,7 +86,10 @@ function MainHotel(props) {
       <ul className="hotel_slider">
         <Slider {...option}>
           {hotelItems.map((item, idx) => (
-            <li className="slick-slide-in" key={`hotel_${idx}`}>
+            <li
+              className={item.event === "Y" ? "event" : ""}
+              key={`hotel_${idx}`}
+            >
               <a href="">
                 <span className="hotel_thumb">
                   <img src={item.imgUrl} alt="" />
