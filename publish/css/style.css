@@ -258,7 +258,9 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .my_quick {padding: 40px 50px;border: 1px solid #ddd;border-radius: 50px;margin:0 0 32px}
 .my_quick .name {display:flex; align-items: center;margin: 0 0 28spx 0;}
 .my_quick .name h3 {font-size: 38px;font-weight: 700;color: #0047a0;margin:0 18px 0 0;}
-.my_quick .name p.point {color: #0047a0;font-size: 24px;font-weight: 700;background: url('../img/main/quick02.png') left center no-repeat;background-size:32px;padding:0 0 0 40px;}
+.my_quick .name p.point {color: #0047a0;font-size: 24px;font-weight: 700;}
+.my_quick .name p.point span {display: inline-block;width:32px;margin:0 5px 0 0;}
+.my_quick .name p.point span img {width: 100%;margin:-4px 0;}
 .my_quick .my_list .flex {align-items: flex-start;}
 .my_quick .my_list ul {margin: 0 56px 0 0;}
 .my_quick .my_list ul li a {display: inline-block; color: #333;font-size: 24px;font-weight: 700;margin: 20px 0 0;}
