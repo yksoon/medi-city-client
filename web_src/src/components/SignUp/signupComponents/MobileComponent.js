@@ -104,22 +104,24 @@ function MobileComponent() {
         }
     }
 
+    // 휴대전화 숫자만
     const onlyNum = (e) => {
-        let check = /[^0-9]/g;
-        console.log(check.test(e.target.value));
-        console.log(e.target.value.length);
-        if (check.test(e.target.value) && e.target.value.length >= 1) {
-            e.target.value = "";
-        }
+        let mobile1 = /^[0-9]{1,3}$/;
+        let mobile2 = /^[0-9]{1,4}$/;
+        let mobile3 = /^[0-9]{1,4}$/;
+
         if (e.target === inputMobile1.current) {
-            if (e.target.value.length >= 4) {
+            if (!mobile1.test(e.target.value)) {
                 e.target.value = e.target.value.slice(0, -1);
             }
-        } else if (
-            e.target === inputMobile2.current ||
-            e.target === inputMobile3.current
-        ) {
-            if (e.target.value.length >= 5) {
+        }
+        if (e.target === inputMobile2.current) {
+            if (!mobile2.test(e.target.value)) {
+                e.target.value = e.target.value.slice(0, -1);
+            }
+        }
+        if (e.target === inputMobile3.current) {
+            if (!mobile3.test(e.target.value)) {
                 e.target.value = e.target.value.slice(0, -1);
             }
         }
