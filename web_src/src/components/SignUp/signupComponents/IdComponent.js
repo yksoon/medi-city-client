@@ -9,6 +9,7 @@ const IdComponent = forwardRef((props, ref) => {
     // const inputID = useRef();
 
     const { accountType, inputID } = ref;
+    const idStatus = props.idStatus;
 
     // 0000 = 성공
     // 9997 = 중복
@@ -25,7 +26,7 @@ const IdComponent = forwardRef((props, ref) => {
     const idDuplicateCheck = (e) => {
         // console.log(inputID.current.value);
 
-        console.log(accountType.current.value);
+        // console.log(accountType.current.value);
 
         Instance.post(user_chk_url, {
             user_type: `${accountType.current.value}`,
@@ -39,8 +40,10 @@ const IdComponent = forwardRef((props, ref) => {
 
                 if (ret.headers.result_code === "0000") {
                     setIdchkCode("0000");
+                    idStatus(true);
                 } else {
                     setIdchkCode("9997");
+                    idStatus(false);
                 }
 
                 // let user_info;
@@ -55,6 +58,7 @@ const IdComponent = forwardRef((props, ref) => {
                 // 오류발생시 실행
                 console.log(error);
                 setIdchkCode("400");
+                idStatus(false);
             });
     };
 

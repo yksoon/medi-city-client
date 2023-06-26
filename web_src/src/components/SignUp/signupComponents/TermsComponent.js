@@ -1,6 +1,100 @@
-import React from "react";
+import { CommonAlert } from "common/js/Common";
+import React, { useState, forwardRef } from "react";
+import { Link } from "react-router-dom";
+import { termsContent, privacyContent } from "common/js/terms";
 
-function TermsComponent() {
+const TermsComponent = forwardRef((props, ref) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalContent, setModalContent] = useState([]);
+
+    const [terms, setTerms] = useState(false);
+    const [privacy, setPrivacy] = useState(false);
+    const [marketing, setMarketing] = useState(false);
+    const [sms, setSms] = useState(false);
+    const [mail, setMail] = useState(false);
+
+    const {
+        termsChk,
+        privacyChk,
+        marketingChk,
+        marketing_sms,
+        marketing_mail,
+    } = ref;
+    // const chkRef = useRef([]);
+
+    const handleModalOpen = () => {
+        setIsOpen(true);
+    };
+
+    const handleModalClose = () => {
+        setIsOpen(false);
+        setModalTitle("");
+        setModalContent([]);
+    };
+
+    const termsOpen = () => {
+        setModalTitle("이용약관");
+        setModalContent(termsContent);
+        handleModalOpen();
+    };
+
+    const privacyOpen = () => {
+        setModalTitle("개인정보처리방침");
+        setModalContent(privacyContent);
+        handleModalOpen();
+    };
+
+    const handleChk = (e) => {
+        // console.log(e.target.id);
+
+        switch (e.target.id) {
+            case "agree_term":
+                setTerms(e.target.checked);
+                break;
+
+            case "agree_privacy":
+                setPrivacy(e.target.checked);
+                break;
+
+            case "agree_marketing":
+                setMarketing(e.target.checked);
+                setSms(e.target.checked);
+                setMail(e.target.checked);
+                break;
+
+            case "marketing_sms":
+                setMarketing(e.target.checked);
+                setSms(e.target.checked);
+                break;
+
+            case "marketing_mail":
+                setMarketing(e.target.checked);
+                setMail(e.target.checked);
+                break;
+
+            case "agree_all":
+                if (e.target.checked) {
+                    setTerms(true);
+                    setPrivacy(true);
+                    setMarketing(true);
+                    setSms(true);
+                    setMail(true);
+                } else {
+                    setTerms(false);
+                    setPrivacy(false);
+                    setMarketing(false);
+                    setSms(false);
+                    setMail(false);
+                }
+
+                break;
+
+            default:
+                break;
+        }
+    };
+
     return (
         <>
             <div className="term_top flex start between">
@@ -12,8 +106,13 @@ function TermsComponent() {
                         이용약관을 확인해주세요
                     </p>
                 </div>
-                <input type="checkbox" id="agree_all" className="hide" />
-                <label for="agree_all" className="checkbox">
+                <input
+                    type="checkbox"
+                    id="agree_all"
+                    className="hide"
+                    onChange={(e) => handleChk(e)}
+                />
+                <label htmlFor="agree_all" className="checkbox">
                     <svg
                         width="9.772"
                         height="7.181"
@@ -35,16 +134,24 @@ function TermsComponent() {
                 <div className="flex between">
                     <h6>
                         이용약관{" "}
-                        <a
-                            href="javascript:void(0);"
+                        <Link
                             className="font-12"
-                            onClick="modal_open(term);"
+                            onClick={(e) => {
+                                termsOpen();
+                            }}
                         >
                             전문보기
-                        </a>
+                        </Link>
                     </h6>
-                    <input type="checkbox" id="agree_term" className="hide" />
-                    <label for="agree_term" className="checkbox">
+                    <input
+                        type="checkbox"
+                        id="agree_term"
+                        className="hide"
+                        ref={termsChk}
+                        checked={terms}
+                        onChange={(e) => handleChk(e)}
+                    />
+                    <label htmlFor="agree_term" className="checkbox">
                         <svg
                             width="9.772"
                             height="7.181"
@@ -65,20 +172,24 @@ function TermsComponent() {
                 <div className="flex between">
                     <h6>
                         개인정보처리동의{" "}
-                        <a
-                            href="javascript:void(0);"
+                        <Link
                             className="font-12"
-                            onClick="modal_open(privacy);"
+                            onClick={(e) => {
+                                privacyOpen();
+                            }}
                         >
                             전문보기
-                        </a>
+                        </Link>
                     </h6>
                     <input
                         type="checkbox"
                         id="agree_privacy"
                         className="hide"
+                        ref={privacyChk}
+                        checked={privacy}
+                        onChange={(e) => handleChk(e)}
                     />
-                    <label for="agree_privacy" className="checkbox">
+                    <label htmlFor="agree_privacy" className="checkbox">
                         <svg
                             width="9.772"
                             height="7.181"
@@ -110,8 +221,11 @@ function TermsComponent() {
                                     type="checkbox"
                                     id="marketing_sms"
                                     className="hide"
+                                    checked={sms}
+                                    ref={marketing_sms}
+                                    onChange={(e) => handleChk(e)}
                                 />
-                                <label for="marketing_sms">
+                                <label htmlFor="marketing_sms">
                                     <svg
                                         width="9.772"
                                         height="7.181"
@@ -139,8 +253,11 @@ function TermsComponent() {
                                     type="checkbox"
                                     id="marketing_mail"
                                     className="hide"
+                                    checked={mail}
+                                    ref={marketing_mail}
+                                    onChange={(e) => handleChk(e)}
                                 />
-                                <label for="marketing_mail">
+                                <label htmlFor="marketing_mail">
                                     <svg
                                         width="9.772"
                                         height="7.181"
@@ -163,7 +280,7 @@ function TermsComponent() {
                                     E-mail
                                 </label>
                             </div>
-                            <div>
+                            {/* <div>
                                 <input
                                     type="checkbox"
                                     id="marketing_web"
@@ -191,15 +308,18 @@ function TermsComponent() {
                                     </svg>
                                     웹
                                 </label>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <input
                         type="checkbox"
                         id="agree_marketing"
                         className="hide"
+                        ref={marketingChk}
+                        checked={marketing}
+                        onChange={(e) => handleChk(e)}
                     />
-                    <label for="agree_marketing" className="checkbox">
+                    <label htmlFor="agree_marketing" className="checkbox">
                         <svg
                             width="9.772"
                             height="7.181"
@@ -218,8 +338,14 @@ function TermsComponent() {
                     </label>
                 </div>
             </div>
+            <CommonAlert
+                isOpen={isOpen}
+                handleModalClose={handleModalClose}
+                content={modalContent}
+                title={modalTitle}
+            />
         </>
     );
-}
+});
 
 export default TermsComponent;

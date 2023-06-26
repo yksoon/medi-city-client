@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 // import { apiPath, routerPath } from "webPath";
 
@@ -30,13 +30,32 @@ function SignUpMain() {
         inputMobile1: useRef(null),
         inputMobile2: useRef(null),
         inputMobile3: useRef(null),
+        termsChk: useRef(null),
+        privacyChk: useRef(null),
+        marketingChk: useRef(null),
+        marketing_sms: useRef(null),
+        marketing_mail: useRef(null),
     };
     // const inputID = useRef(null);
 
+    // 사용 가능한 아이디 확인
+    const [chkId, setChkId] = useState(false);
+    const [chkPw, setChkPw] = useState(false);
+    const [chkMobile, setChkMobile] = useState(false);
+
     const sendSignupForm = () => {
-        console.log(signupRefs.inputID.current.value);
-        console.log(signupRefs.inputPW.current.value);
-        console.log(signupRefs.user_name_first_ko.current.value);
+        if (validation()) {
+            alert("통과");
+        } else {
+            alert("부ㅡㄹ합격");
+        }
+        // console.log(signupRefs.inputID.current.value);
+        // console.log(signupRefs.inputPW.current.value);
+        // console.log(signupRefs.user_name_first_ko.current.value);
+
+        // console.log(signupRefs.marketing_sms.current.checked);
+        // console.log("chkId", chkId);
+        // console.log("chkPw", chkPw);
     };
 
     // ref 여러개 전달
@@ -53,6 +72,59 @@ function SignUpMain() {
     //   const { localVideoRef, socketRef, pcRef, remoteVideoRef } = ref;
     //   ...
     // };
+
+    const idStatus = (status) => {
+        setChkId(status);
+    };
+    const pwStatus = (status) => {
+        setChkPw(status);
+    };
+    const mobileStatus = (status) => {
+        setChkMobile(status);
+    };
+
+    const validation = () => {
+        if (!chkId) {
+            alert("아이디를 확인해주세요");
+            signupRefs.inputID.current.focus();
+
+            return false;
+        }
+        if (!chkPw) {
+            alert("비밀번호를 확인해주세요");
+            signupRefs.inputPW.current.focus();
+
+            return false;
+        }
+        // if (!chkMobile) {
+        //     alert("휴대폰 인증을 완료해주세요");
+        //     signupRefs.inputMobile2.current.focus();
+
+        //     return false;
+        // }
+        if (
+            signupRefs.user_name_first_ko.current.value === "" ||
+            signupRefs.user_name_last_ko.current.value === "" ||
+            signupRefs.user_name_first_en.current.value === "" ||
+            signupRefs.user_name_last_en.current.value === ""
+        ) {
+            alert("성명을 입력해주세요");
+            signupRefs.user_name_first_ko.current.focus();
+
+            return false;
+        }
+        if (
+            !signupRefs.termsChk.current.checked ||
+            !signupRefs.privacyChk.current.checked
+        ) {
+            alert("약관에 동의해주세요");
+            signupRefs.termsChk.current.focus();
+
+            return false;
+        }
+        return true;
+    };
+
     return (
         <>
             <Header />
@@ -61,10 +133,10 @@ function SignUpMain() {
                     <h3 className="title">회원가입</h3>
                     <div>
                         {/* 아이디 영역 */}
-                        <IdComponent ref={signupRefs} />
+                        <IdComponent ref={signupRefs} idStatus={idStatus} />
 
                         {/* 패스워드 영역 */}
-                        <PwComponent ref={signupRefs} />
+                        <PwComponent ref={signupRefs} pwStatus={pwStatus} />
 
                         <div className="flex">
                             {/* 성명 영역 */}
@@ -72,7 +144,10 @@ function SignUpMain() {
                         </div>
                         <div className="flex end">
                             {/* 휴대폰 인증 영역 */}
-                            <MobileComponent ref={signupRefs} />
+                            <MobileComponent
+                                ref={signupRefs}
+                                mobileStatus={mobileStatus}
+                            />
                         </div>
                         <div>
                             {/* 면허번호 영역 */}
@@ -84,7 +159,7 @@ function SignUpMain() {
                         </div>
                         <div className="term_wrap">
                             {/* 약관 영역 */}
-                            <TermsComponent />
+                            <TermsComponent ref={signupRefs} />
                             <div className="btn_box">
                                 <Link
                                     className="mainbtn btn01"

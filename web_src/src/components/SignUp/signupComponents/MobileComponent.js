@@ -6,10 +6,9 @@ import { apiPath } from "webPath";
 const MobileComponent = forwardRef((props, ref) => {
     const { inputMobile1, inputMobile2, inputMobile3, inter_phone_number } =
         ref;
-    // const inputMobile1 = useRef();
-    // const inputMobile2 = useRef();
-    // const inputMobile3 = useRef();
     const certInput = useRef();
+
+    const mobileStatus = props.mobileStatus;
 
     // 인증 idx
     let certNumIdxFromServer;
@@ -157,7 +156,9 @@ const MobileComponent = forwardRef((props, ref) => {
                 alert(msg);
 
                 // 인증 idx
-                certNumIdxFromServer = res.data.result_info.certification_idx;
+                certNumIdxFromServer = String(
+                    res.data.result_info.certification_idx
+                );
                 console.log(res);
                 // console.log(res.response);
 
@@ -192,7 +193,10 @@ const MobileComponent = forwardRef((props, ref) => {
 
         Instance.put(api_user_cert_chk, {
             certification_idx: certNumIdxFromServer,
+            // certification_idx: "5",
             auth_code: certInputValue,
+            certification_tool: "000",
+            certification_type: "000",
         })
             .then(function (response) {
                 // response
@@ -210,6 +214,9 @@ const MobileComponent = forwardRef((props, ref) => {
                         .classList.add("hold");
                     document.getElementById("phone_d_num").readOnly = true;
                     phoneMark("인증이 완료되었습니다.", "green", "red");
+
+                    // 인증 완료후 상태 변경
+                    mobileStatus(true);
                 } else {
                     alert("인증번호를 확인 해주세요");
                 }
@@ -257,12 +264,14 @@ const MobileComponent = forwardRef((props, ref) => {
                         />
                         <input
                             type="tel"
-                            className="input w120"
+                            className="input w120 hold"
                             id="phone_num1"
                             ref={inputMobile1}
                             onKeyUp={(e) => {
                                 onlyNum(e);
                             }}
+                            value="010"
+                            readOnly
                         />
                         <input
                             type="tel"
