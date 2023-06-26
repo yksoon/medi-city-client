@@ -1,8 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, forwardRef } from "react";
 
-function PwComponent() {
+const PwComponent = forwardRef((props, ref) => {
     const [pwChk, setPwChk] = useState("normal");
-    const inputPW = useRef();
+
+    const { inputPW } = ref;
+    // const inputPW = useRef();
     const inputPWChk = useRef();
 
     const chkPW = () => {
@@ -61,6 +63,6 @@ function PwComponent() {
             </div>
         </>
     );
-}
+});
 
 export default PwComponent;
