@@ -1,8 +1,9 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import { apiPath } from "webPath";
 import { Instance } from "common/js/Instance";
+import { RestServer } from "common/js/Rest";
 
-const user_chk_url = apiPath.api_user_check;
+// const user_chk_url = apiPath.api_user_check;
 
 const IdComponent = forwardRef((props, ref) => {
     // const accountType = useRef();
@@ -28,38 +29,39 @@ const IdComponent = forwardRef((props, ref) => {
 
         // console.log(accountType.current.value);
 
-        Instance.post(user_chk_url, {
+        // Instance.post(user_chk_url, {
+        //     user_type: `${accountType.current.value}`,
+        //     user_id: `${inputID.current.value}`,
+        // })
+        //     .then(function (response) {
+        //         // response
+        //         let res = response;
+        //         // console.log(ret);
+        //         // console.log(ret.response);
+
+        //         if (res.headers.result_code === "0000") {
+        //             setIdchkCode("0000");
+        //             idStatus(true);
+        //         } else {
+        //             setIdchkCode("9997");
+        //             idStatus(false);
+        //         }
+        //     })
+        //     .catch(function (error) {
+        //         // 오류발생시 실행
+        //         console.log(error);
+        //         setIdchkCode("400");
+        //         idStatus(false);
+        //     });
+
+        const user_chk_url = apiPath.api_user_check;
+        let data = {
             user_type: `${accountType.current.value}`,
             user_id: `${inputID.current.value}`,
-        })
-            .then(function (response) {
-                // response
-                let res = response;
-                // console.log(ret);
-                // console.log(ret.response);
+        };
 
-                if (res.headers.result_code === "0000") {
-                    setIdchkCode("0000");
-                    idStatus(true);
-                } else {
-                    setIdchkCode("9997");
-                    idStatus(false);
-                }
-
-                // let user_info;
-                // let result_code = response.headers.result_code;
-
-                // if (result_code === "0000") {
-                //   user_info = response.data.result_info;
-                //   localStorage.setItem("userInfo", user_info);
-                // }
-            })
-            .catch(function (error) {
-                // 오류발생시 실행
-                console.log(error);
-                setIdchkCode("400");
-                idStatus(false);
-            });
+        console.log(RestServer("post", user_chk_url, data));
+        // RestServer("post", user_chk_url, data)
     };
 
     return (

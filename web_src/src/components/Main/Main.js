@@ -22,7 +22,7 @@ function Main() {
     return (
         <>
             <Header />
-            <Login />
+            {/* <Login /> */}
 
             <MainCarousel />
 
