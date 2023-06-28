@@ -1,0 +1,102 @@
+.red {
+    color: #de1414;
+}
+
+.signup-content .mark {
+    white-space: nowrap;
+    margin: 0 0 0 40px;
+    font-weight: 700;
+    color: #a6a6a6;
+    font-size: 16px;
+    height: 48px;
+    line-height: 48px;
+    background-color: transparent !important;
+}
+
+.signup-content .mark.red {
+    color: #de1414;
+}
+
+.signup-content .mark.green {
+    color: #05b10b;
+}
+
+.signup-content .mark::before {
+    display: inline-block;
+    content: "!";
+    width: 27px;
+    height: 27px;
+    background: #A6A6A6;
+    color: #fff;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 50%;
+    line-height: 27px;
+    margin: 0 10px 0 0;
+}
+
+.signup-content .mark.red::before {
+    background: #de1414;
+}
+
+.signup-content .mark.green::before {
+    background: #05b10b;
+}
+
+.signup-content .red {
+    margin-left: 10px;
+}
+.signup-content-wrapper {
+    margin-top: 2%;
+}
+
+.signup-title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.signup-content {
+    padding: 0 10% 10%;
+}
+
+.signup-content h5 {
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.signup-content h5 span {
+    display: inline-block;
+    font-size: 16px;
+}
+.signup-content .section {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.signup-content .input-wrapper {
+    width: 70%;
+}
+.signup-content .notice-wrapper {
+    margin-left: 2%; 
+}
+
+.signup-content .terms-box {
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0.23);
+    border-radius: 8px;
+    padding: 2%;
+}
+
+.signup-content .terms-box-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.signup-content .btn-section {
+    display: flex;
+    justify-content: center;
+}
