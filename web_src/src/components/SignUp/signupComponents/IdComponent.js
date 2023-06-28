@@ -60,7 +60,9 @@ const IdComponent = forwardRef((props, ref) => {
             user_id: `${inputID.current.value}`,
         };
 
-        console.log(RestServer("post", user_chk_url, data));
+        let res = RestServer("post", user_chk_url, data);
+
+        console.log(res);
         // RestServer("post", user_chk_url, data)
     };
 
