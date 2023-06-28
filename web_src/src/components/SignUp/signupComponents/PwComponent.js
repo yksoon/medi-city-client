@@ -1,19 +1,25 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, forwardRef } from "react";
 
-function PwComponent() {
+const PwComponent = forwardRef((props, ref) => {
     const [pwChk, setPwChk] = useState("normal");
-    const inputPW = useRef();
+
+    const { inputPW } = ref;
     const inputPWChk = useRef();
+
+    const pwStatus = props.pwStatus;
 
     const chkPW = () => {
         if (inputPW.current.value !== inputPWChk.current.value) {
             setPwChk("notSame");
+            pwStatus(false);
         } else {
             setPwChk("same");
+            pwStatus(true);
         }
 
         if (inputPW.current.value === "") {
             setPwChk("normal");
+            pwStatus(false);
         }
     };
     return (
@@ -61,6 +67,6 @@ function PwComponent() {
             </div>
         </>
     );
-}
+});
 
 export default PwComponent;

@@ -1,11 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import { apiPath, routerPath } from "webPath";
-import Instance from "common/js/Instance";
+import React, { useState, useEffect, forwardRef } from "react";
+import { apiPath } from "webPath";
+import { Instance } from "common/js/Instance";
+import { RestServer } from "common/js/Rest";
 
-const user_chk_url = apiPath.api_user_check;
+// const user_chk_url = apiPath.api_user_check;
 
-function IdComponent() {
-    const inputID = useRef();
+const IdComponent = forwardRef((props, ref) => {
+    // const accountType = useRef();
+    // const inputID = useRef();
+
+    const { accountType, inputID } = ref;
+    const idStatus = props.idStatus;
 
     // 0000 = 성공
     // 9997 = 중복
@@ -17,39 +22,48 @@ function IdComponent() {
             // 할당한 DOM 요소가 불러지면 (마운트 되면)
             inputID.current.focus(); // focus 할당!
         }
-    }, []);
+    });
 
     const idDuplicateCheck = (e) => {
-        console.log(inputID.current.value);
+        // console.log(inputID.current.value);
 
-        Instance.post(user_chk_url, {
+        // console.log(accountType.current.value);
+
+        // Instance.post(user_chk_url, {
+        //     user_type: `${accountType.current.value}`,
+        //     user_id: `${inputID.current.value}`,
+        // })
+        //     .then(function (response) {
+        //         // response
+        //         let res = response;
+        //         // console.log(ret);
+        //         // console.log(ret.response);
+
+        //         if (res.headers.result_code === "0000") {
+        //             setIdchkCode("0000");
+        //             idStatus(true);
+        //         } else {
+        //             setIdchkCode("9997");
+        //             idStatus(false);
+        //         }
+        //     })
+        //     .catch(function (error) {
+        //         // 오류발생시 실행
+        //         console.log(error);
+        //         setIdchkCode("400");
+        //         idStatus(false);
+        //     });
+
+        const user_chk_url = apiPath.api_user_check;
+        let data = {
+            user_type: `${accountType.current.value}`,
             user_id: `${inputID.current.value}`,
-        })
-            .then(function (response) {
-                // response
-                let ret = response;
-                console.log(ret);
-                console.log(ret.response);
+        };
 
-                if (ret.headers.result_code === "0000") {
-                    setIdchkCode("0000");
-                } else {
-                    setIdchkCode("9997");
-                }
+        let res = RestServer("post", user_chk_url, data);
 
-                // let user_info;
-                // let result_code = response.headers.result_code;
-
-                // if (result_code === "0000") {
-                //   user_info = response.data.result_info;
-                //   localStorage.setItem("userInfo", user_info);
-                // }
-            })
-            .catch(function (error) {
-                // 오류발생시 실행
-                console.log(error);
-                setIdchkCode("400");
-            });
+        console.log(res);
+        // RestServer("post", user_chk_url, data)
     };
 
     return (
@@ -59,6 +73,7 @@ function IdComponent() {
             </h5>
             <div className="flex">
                 <div>
+                    <input type="hidden" ref={accountType} value="000" />
                     <input
                         type="email"
                         className="input w600"
@@ -76,7 +91,7 @@ function IdComponent() {
                     </p>
                 ) : idchkCode === "9997" ? (
                     <p className="mark red" id="mark_id">
-                        아이디는 이메일 형식으로 입력하세요
+                        이미 사용중인 아이디입니다
                     </p>
                 ) : (
                     <p className="mark red" id="mark_id">
@@ -86,6 +101,6 @@ function IdComponent() {
             </div>
         </>
     );
-}
+});
 
 export default IdComponent;
