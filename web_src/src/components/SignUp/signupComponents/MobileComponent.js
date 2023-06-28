@@ -1,17 +1,83 @@
-import React, { useRef, forwardRef } from "react";
+import React, { useRef, forwardRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Instance from "common/js/Instance";
+import { Instance } from "common/js/Instance";
 import { apiPath } from "webPath";
 
+// 인증 idx
+let certNumIdxFromServer;
+
 const MobileComponent = forwardRef((props, ref) => {
-    const { inputMobile1, inputMobile2, inputMobile3, inter_phone_number } =
-        ref;
-    const certInput = useRef();
+    const {
+        inputMobile1,
+        inputMobile2,
+        inputMobile3,
+        inter_phone_number,
+        auth_code,
+    } = ref;
+    // const certInput = useRef();
+
+    const changeCertIdx = props.changeCertIdx;
+
+    //컴포넌트는 useState 훅을 사용하여 min, sec 두 개의 상태 변수 정의
+    const [min, setMin] = useState(3);
+    const [sec, setSec] = useState(0);
+    const time = useRef(180); // useRef hook time 변수 생성, 초 단위로 5분
+    const timerId = useRef(null); // 간격 타이머의 Id 저장
+    const timerSpan = useRef(null);
+    const [timerStatus, setTimerStatus] = useState(false);
 
     const mobileStatus = props.mobileStatus;
 
-    // 인증 idx
-    let certNumIdxFromServer;
+    // 타이머 시작
+    // - 의존성 배열이 비어있으므로 한 번만 실행됨
+    // - setInterval 1초마다 실행
+    // - 나중에 사용하기 위해 timerId.current ref에 저장되는 Id를 반환
+    // - 간격 함수 내에서 남은 시간을 분과 초를 반환하여 min,sec 상태 변수 업데이트
+    useEffect(() => {
+        if (timerStatus) {
+            timerId.current = setInterval(() => {
+                setMin(parseInt(time.current / 60));
+                setSec(time.current % 60);
+                time.current -= 1; // 남은 시간을 추적하기 위해 1씩 감소
+
+                console.log(time);
+            }, 1000);
+
+            return () => clearInterval(timerId.current); // 컴포넌트가 마운트 해제될 때 간격을 지우기 위해 clearInterval 함수 반환
+        } else {
+            clearInterval(timerId.current);
+        }
+    }, [timerStatus]);
+
+    // 시간이 0에 도달했을 때 확인
+    // sec 상태 변수가 변경될 때마다 실행
+    useEffect(() => {
+        if (time.current <= 0) {
+            console.log("time out");
+            clearInterval(timerId.current); // 간격지우고 콘솔에 메시지 기록
+
+            // 타임 아웃을 처리하기 위해 이벤트를 dispatch
+            stopTimer();
+        }
+    }, [sec]);
+
+    // setInterval()를 멈추기 위한 clearInterval() 호출
+    const stopTimer = () => {
+        setMin(0);
+        setSec(0);
+        timerSpan.current.style.setProperty("display", "none");
+        // clearInterval(timerId.current);
+        setTimerStatus(false);
+    };
+
+    // 타이머 재시작
+    const restartTimer = () => {
+        setMin(3);
+        setSec(0);
+        time.current = 180;
+        // clearInterval(timerId.current);
+        setTimerStatus(true);
+    };
 
     // 04. 휴대폰 인증
     function phoneCheck(checkNum) {
@@ -37,6 +103,7 @@ const MobileComponent = forwardRef((props, ref) => {
 
             case 4:
                 // 번호 재입력
+                stopTimer();
                 phoneAction(false, "hold");
                 phoneDisplay("phone_check_before", "block");
                 phoneDisplay("phone_check_after", "none");
@@ -159,7 +226,8 @@ const MobileComponent = forwardRef((props, ref) => {
                 certNumIdxFromServer = String(
                     res.data.result_info.certification_idx
                 );
-                console.log(res);
+
+                changeCertIdx(res.data.result_info.certification_idx);
                 // console.log(res.response);
 
                 phoneDisplay("phone_check_before", "none");
@@ -167,6 +235,10 @@ const MobileComponent = forwardRef((props, ref) => {
                 phoneDisplay("phone_check_after_btn", "block");
                 phoneAction(true, "hold");
                 phoneMark("인증번호를 입력해주세요", "red", null);
+
+                // 인증번호 타이머 3분 시작
+                // setTimerStatus(true);
+                restartTimer();
             })
             .catch(function (error) {
                 // 오류발생시 실행
@@ -177,11 +249,11 @@ const MobileComponent = forwardRef((props, ref) => {
 
     // 인증번호 확인
     const chkCert = () => {
-        let certInputValue = certInput.current.value;
+        let certInputValue = auth_code.current.value;
 
         if (!certInputValue) {
             alert("인증번호를 입력해주세요");
-            certInput.current.focus();
+            auth_code.current.focus();
         } else {
             socketChkCert(certNumIdxFromServer, certInputValue);
         }
@@ -217,6 +289,11 @@ const MobileComponent = forwardRef((props, ref) => {
 
                     // 인증 완료후 상태 변경
                     mobileStatus(true);
+
+                    // 타이머 종료
+                    stopTimer(false);
+
+                    phoneDisplay("phone_check_after_btn", "none");
                 } else {
                     alert("인증번호를 확인 해주세요");
                 }
@@ -307,13 +384,21 @@ const MobileComponent = forwardRef((props, ref) => {
             <div id="phone_check_after">
                 <h5>
                     인증번호 <span className="red">*</span>
+                    <span id="mobileCount" ref={timerSpan}>{`${
+                        "0" + String(min)
+                    } : ${
+                        String(sec).length === 2
+                            ? String(sec)
+                            : "0" + String(sec)
+                    }`}</span>
                 </h5>
+
                 <div className="flex">
                     <input
                         type="text"
                         className="input w180"
                         id="phone_d_num"
-                        ref={certInput}
+                        ref={auth_code}
                     />
                     <Link
                         className="subbtn on"

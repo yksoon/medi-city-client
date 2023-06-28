@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-// import { apiPath, routerPath } from "webPath";
+import { apiPath, routerPath } from "webPath";
+import { Instance } from "common/js/Instance";
 
 import Header from "components/Common/Header";
 import Footer from "components/Common/Footer";
@@ -35,6 +36,7 @@ function SignUpMain() {
         marketingChk: useRef(null),
         marketing_sms: useRef(null),
         marketing_mail: useRef(null),
+        auth_code: useRef(null),
     };
     // const inputID = useRef(null);
 
@@ -42,12 +44,54 @@ function SignUpMain() {
     const [chkId, setChkId] = useState(false);
     const [chkPw, setChkPw] = useState(false);
     const [chkMobile, setChkMobile] = useState(false);
+    const [certification_idx, setCertification_idx] = useState(0);
 
+    const changeCertIdx = (num) => {
+        setCertification_idx(num);
+    };
     const sendSignupForm = () => {
         if (validation()) {
             alert("통과");
-        } else {
-            alert("부ㅡㄹ합격");
+            console.log(signupRefs);
+
+            let data = {
+                user_id: signupRefs.inputID.current.value,
+                user_pwd: signupRefs.inputPW.current.value,
+                user_name_first_ko: signupRefs.user_name_first_ko.current.value,
+                user_name_last_ko: signupRefs.user_name_last_ko.current.value,
+                user_name_first_en: signupRefs.user_name_first_en.current.value,
+                user_name_last_en: signupRefs.user_name_last_en.current.value,
+                md_licenses_number: signupRefs.md_licenses_number.current.value,
+                auth_code: signupRefs.auth_code.current.value,
+                inter_phone_number: signupRefs.inter_phone_number.current.value,
+                mobile1: signupRefs.inputMobile1.current.value,
+                mobile2: signupRefs.inputMobile2.current.value,
+                mobile3: signupRefs.inputMobile3.current.value,
+                signup_type: signupRefs.accountType.current.value,
+                organization_name_ko:
+                    signupRefs.organization_name_ko.current.value,
+                specialized_name_ko:
+                    signupRefs.specialized_name_ko.current.value,
+                department_name_ko: signupRefs.department_name_ko.current.value,
+                sms_yn: signupRefs.marketing_sms.current.checked ? "Y" : "N",
+                email_yn: signupRefs.marketing_mail.current.checked ? "Y" : "N",
+                certification_idx: certification_idx,
+            };
+
+            let url = apiPath.api_user;
+            Instance.post(url, data)
+                .then(function (response) {
+                    // response
+                    let res = response;
+
+                    console.log(res);
+                })
+                .catch(function (error) {
+                    // 오류발생시 실행
+                    console.log(error);
+                    console.log(error.response.headers.result_message_ko);
+                    alert(error.response.headers.result_message_ko);
+                });
         }
         // console.log(signupRefs.inputID.current.value);
         // console.log(signupRefs.inputPW.current.value);
@@ -96,12 +140,12 @@ function SignUpMain() {
 
             return false;
         }
-        // if (!chkMobile) {
-        //     alert("휴대폰 인증을 완료해주세요");
-        //     signupRefs.inputMobile2.current.focus();
+        if (!chkMobile) {
+            alert("휴대폰 인증을 완료해주세요");
+            signupRefs.inputMobile2.current.focus();
 
-        //     return false;
-        // }
+            return false;
+        }
         if (
             signupRefs.user_name_first_ko.current.value === "" ||
             signupRefs.user_name_last_ko.current.value === "" ||
@@ -147,6 +191,7 @@ function SignUpMain() {
                             <MobileComponent
                                 ref={signupRefs}
                                 mobileStatus={mobileStatus}
+                                changeCertIdx={changeCertIdx}
                             />
                         </div>
                         <div>

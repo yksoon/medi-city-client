@@ -80,7 +80,10 @@ const apiPath = {
     // ------------------ Account Service ------------------
     // 사용자 상세 GET
     // 사용자 수정 PUT
-    api_user: `${base_api_url + slash + account + slash + version + slash}user`,
+    // 사용자 등록 POST
+    api_user: `${
+        base_api_url + slash + account + slash + version + slash
+    }_user`,
 
     // 사용자 정보 조회 POST
     // 사용자 정보 수정 PUT

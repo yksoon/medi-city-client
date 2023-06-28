@@ -1,6 +1,6 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import { apiPath } from "webPath";
-import Instance from "common/js/Instance";
+import { Instance } from "common/js/Instance";
 
 const user_chk_url = apiPath.api_user_check;
 
@@ -34,11 +34,11 @@ const IdComponent = forwardRef((props, ref) => {
         })
             .then(function (response) {
                 // response
-                let ret = response;
+                let res = response;
                 // console.log(ret);
                 // console.log(ret.response);
 
-                if (ret.headers.result_code === "0000") {
+                if (res.headers.result_code === "0000") {
                     setIdchkCode("0000");
                     idStatus(true);
                 } else {
