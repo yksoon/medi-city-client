@@ -15,6 +15,8 @@ const RestServer = (method, url, data) => {
                 .catch(function (error) {
                     // 오류발생시 실행
                     console.log(error);
+                    res = error;
+                    return res;
                 });
             break;
 
@@ -29,6 +31,8 @@ const RestServer = (method, url, data) => {
                 .catch(function (error) {
                     // 오류발생시 실행
                     console.log(error);
+                    res = error;
+                    return res;
                 });
             break;
 
@@ -43,11 +47,15 @@ const RestServer = (method, url, data) => {
                 .catch(function (error) {
                     // 오류발생시 실행
                     console.log(error);
+                    res = error;
+                    return res;
                 });
             break;
         default:
             break;
     }
+
+    return res;
 };
 
 export { RestServer };
