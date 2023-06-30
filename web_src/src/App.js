@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router";
 import { useEffect } from "react";
 
-import { routerPath } from "webPath";
+import { apiPath, routerPath } from "webPath";
 
 import NotFoundPage from "NotFoundPage";
 import Main from "components/Main/Main";
@@ -10,19 +10,37 @@ import SignUpMain from "components/SignUp/SignUpMain";
 import SignUpOk from "components/SignUp/SignUpOk";
 import TermsMain from "components/TermPrivacy/TermMain";
 import PrivacyMain from "components/TermPrivacy/PrivacyMain";
+import { RestServer } from "common/js/Rest";
 
 function App() {
-    let userInfo = localStorage.getItem("userInfo");
-    console.log("3");
+    useEffect(() => {
+        getResultCode();
+        setInterval(getResultCode, 3600000);
+    }, []);
+
+    const getResultCode = () => {
+        RestServer("get", apiPath.api_result, {})
+            .then((response) => {
+                console.log(response);
+
+                localStorage.removeItem("result_code");
+                localStorage.setItem(
+                    "result_code",
+                    JSON.stringify(response.data.result_info)
+                );
+            })
+            .catch((error) => {
+                // 오류발생시 실행
+                console.log(error);
+            });
+    };
+
     return (
         <>
             <div className="wrap">
                 <Routes>
                     {/* /link를 입력하면 LinkPage 오픈 */}
-                    <Route
-                        path={routerPath.main_url}
-                        element={<Main userInfo={userInfo} />}
-                    />
+                    <Route path={routerPath.main_url} element={<Main />} />
                     <Route
                         path={routerPath.myPage_url}
                         element={<MyPageMain />}

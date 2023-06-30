@@ -18,10 +18,16 @@ import MainBoard from "./Content/MainBoard";
 import styles from "common/css/style/Main/Main.module.css";
 
 function Main({ userInfo }) {
-    console.log("2");
+    //   const handleModalOpen = () => {
+    //     const [isOpen, setIsOpen] = useState(false);
+    //     const [modalTitle, setModalTitle] = useState("");
+    //     const [modalContent, setModalContent] = useState([]);
+
+    //     setIsOpen(true);
+    // };
     return (
         <>
-            <Header userInfo={userInfo} />
+            <Header />
 
             <MainCarousel />
 
@@ -37,32 +43,13 @@ function Main({ userInfo }) {
                 <MainBoard />
             </div>
 
-            <Footer />
-            {/* <CarouselMain items={hotelItems} option={hotellOption} /> */}
-
-            {/* <div>
-        <Link to={routerPath.myPage_url}>
-          <Button>테스트 버튼 마이페이지</Button>
-        </Link>
-
-        <Link to={routerPath.signup_url}>
-          <Button>테스트 버튼 회원가입</Button>
-        </Link>
-      </div> */}
-            {/* <div>
-        <Button onClick={handleOpen}>알럿 테스트</Button>
-      </div> */}
-            {/* <div>
-        <Button onClick={handleOpen}>컨펌 테스트</Button>
-      </div> */}
-
             {/* <CommonAlert
-        isOpen={isModalOpen}
-        title="알럿"
-        content="내용입니다22222"
-        btn="메롱"
-        closeModal={handleClose}
-      /> */}
+                isOpen={isOpen}
+                handleModalClose={handleModalClose}
+                content={modalContent}
+                title={modalTitle}
+            /> */}
+            <Footer />
         </>
     );
 }

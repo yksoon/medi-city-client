@@ -77,6 +77,11 @@ const apiPath = {
         base_api_url + slash + mng + slash + version + slash
     }board${slash}`,
 
+    // 공통 결과코드
+    api_result: `${
+        base_api_url + slash + mng + slash + version + slash
+    }info/result`,
+
     // ------------------ Account Service ------------------
     // 사용자 상세 GET
     // 사용자 수정 PUT
