@@ -1,6 +1,8 @@
 import React, { useRef, forwardRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Instance } from "common/js/Instance";
+// import { Instance } from "common/js/Instance";
+import { RestServer } from "common/js/Rest";
+import { CommonAlert } from "common/js/Common";
 import { apiPath } from "webPath";
 
 // 인증 idx
@@ -15,6 +17,10 @@ const MobileComponent = forwardRef((props, ref) => {
         auth_code,
     } = ref;
     // const certInput = useRef();
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalContent, setModalContent] = useState([]);
 
     const changeCertIdx = props.changeCertIdx;
 
@@ -39,8 +45,6 @@ const MobileComponent = forwardRef((props, ref) => {
                 setMin(parseInt(time.current / 60));
                 setSec(time.current % 60);
                 time.current -= 1; // 남은 시간을 추적하기 위해 1씩 감소
-
-                console.log(time);
             }, 1000);
 
             return () => clearInterval(timerId.current); // 컴포넌트가 마운트 해제될 때 간격을 지우기 위해 clearInterval 함수 반환
@@ -77,6 +81,18 @@ const MobileComponent = forwardRef((props, ref) => {
         time.current = 180;
         // clearInterval(timerId.current);
         setTimerStatus(true);
+    };
+
+    const handleModalOpen = (title, content) => {
+        setModalTitle(title);
+        setModalContent(content);
+        setIsOpen(true);
+    };
+
+    const handleModalClose = () => {
+        setIsOpen(false);
+        setModalTitle("");
+        setModalContent([]);
     };
 
     // 04. 휴대폰 인증
@@ -192,8 +208,9 @@ const MobileComponent = forwardRef((props, ref) => {
             !inputMobile2.current.value ||
             !inputMobile3.current.value
         ) {
-            alert("전화번호를 입력 해주세요");
-            inputMobile1.current.focus();
+            handleModalOpen("알림", "전화번호를 입력 해주세요");
+            // alert("전화번호를 입력 해주세요");
+            inputMobile2.current.focus();
             return;
         } else {
             socketMkCert(
@@ -209,12 +226,13 @@ const MobileComponent = forwardRef((props, ref) => {
     const socketMkCert = (inter_phone_number, mobile1, mobile2, mobile3) => {
         let mk_cert_url = apiPath.api_user_cert;
 
-        Instance.post(mk_cert_url, {
+        let data = {
             inter_phone_number: inter_phone_number,
             mobile1: mobile1,
             mobile2: mobile2,
             mobile3: mobile3,
-        })
+        };
+        RestServer("post", mk_cert_url, data)
             .then(function (response) {
                 // response
                 let res = response;
@@ -263,13 +281,14 @@ const MobileComponent = forwardRef((props, ref) => {
     const socketChkCert = (certNumIdxFromServer, certInputValue) => {
         let api_user_cert_chk = apiPath.api_user_cert_chk;
 
-        Instance.put(api_user_cert_chk, {
+        let data = {
             certification_idx: certNumIdxFromServer,
-            // certification_idx: "5",
             auth_code: certInputValue,
             certification_tool: "000",
             certification_type: "000",
-        })
+        };
+
+        RestServer("put", api_user_cert_chk, data)
             .then(function (response) {
                 // response
                 let res = response.data.result_info;
@@ -414,6 +433,13 @@ const MobileComponent = forwardRef((props, ref) => {
             <p className="mark" id="mark_tel">
                 휴대폰 인증을 진행해주세요.
             </p>
+            <CommonAlert
+                isOpen={isOpen}
+                handleModalClose={handleModalClose}
+                btn={true}
+                content={modalContent}
+                title={modalTitle}
+            />
         </>
     );
 });

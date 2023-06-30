@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { routerPath } from "webPath";
@@ -6,7 +6,6 @@ import { CommonAlert, CommonConfirm } from "common/js/Common";
 
 import Header from "components/Common/Header";
 import Footer from "components/Common/Footer";
-import Login from "common/js/Login";
 
 import MainCarousel from "./Crousel/MainCarousel";
 import MainMenu from "./Content/MainMenu";
@@ -18,11 +17,11 @@ import MainBoard from "./Content/MainBoard";
 // import Login from "common/js/Login";
 import styles from "common/css/style/Main/Main.module.css";
 
-function Main() {
+function Main({ userInfo }) {
+    console.log("2");
     return (
         <>
-            <Header />
-            {/* <Login /> */}
+            <Header userInfo={userInfo} />
 
             <MainCarousel />
 
