@@ -1,9 +1,12 @@
 import { React, useEffect } from "react";
-import { apiPath } from "webPath";
+import { useNavigate } from "react-router-dom";
+import { apiPath, routerPath } from "webPath";
 import { RestServer } from "./Rest";
 // import { Instance } from "./Instance";
 
 const Login = (loginData) => {
+    let navigate = useNavigate();
+
     const url = apiPath.api_login;
 
     let data = {
@@ -28,6 +31,7 @@ const Login = (loginData) => {
                 localStorage.setItem("userInfo", JSON.stringify(user_info));
             }
         })
+        .then(navigate(routerPath.main_url))
         .catch(function (error) {
             // 오류발생시 실행
             console.log(error);
