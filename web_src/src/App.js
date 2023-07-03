@@ -11,13 +11,19 @@ import SignUpOk from "components/SignUp/SignUpOk";
 import TermsMain from "components/TermPrivacy/TermMain";
 import PrivacyMain from "components/TermPrivacy/PrivacyMain";
 import { RestServer } from "common/js/Rest";
+import FindIdMain from "components/FindAccount/FindID/FindIDMain";
+import FindPWMain from "components/FindAccount/FindPW/FindPWMain";
 
 function App() {
     useEffect(() => {
         getResultCode();
+        getCodes();
+        getCountryBank();
         setInterval(getResultCode, 3600000);
+        setInterval(getCodes, 3600000);
     }, []);
 
+    // result code
     const getResultCode = () => {
         RestServer("get", apiPath.api_result, {})
             .then((response) => {
@@ -26,6 +32,48 @@ function App() {
                 localStorage.removeItem("result_code");
                 localStorage.setItem(
                     "result_code",
+                    JSON.stringify(response.data.result_info)
+                );
+            })
+            .catch((error) => {
+                // 오류발생시 실행
+                console.log(error);
+            });
+    };
+
+    // codes
+    const getCodes = () => {
+        RestServer("post", apiPath.api_codes, {
+            code_types: [],
+            exclude_code_types: ["COUNTRY_TYPE", "BANK_TYPE"],
+        })
+            .then((response) => {
+                console.log(response);
+
+                localStorage.removeItem("codes");
+                localStorage.setItem(
+                    "codes",
+                    JSON.stringify(response.data.result_info)
+                );
+            })
+            .catch((error) => {
+                // 오류발생시 실행
+                console.log(error);
+            });
+    };
+
+    // codes
+    const getCountryBank = () => {
+        RestServer("post", apiPath.api_codes, {
+            code_types: ["COUNTRY_TYPE", "BANK_TYPE"],
+            exclude_code_types: [],
+        })
+            .then((response) => {
+                console.log(response);
+
+                localStorage.removeItem("codesCountryBank");
+                localStorage.setItem(
+                    "codesCountryBank",
                     JSON.stringify(response.data.result_info)
                 );
             })
@@ -45,6 +93,8 @@ function App() {
                         path={routerPath.myPage_url}
                         element={<MyPageMain />}
                     />
+
+                    {/* 회원가임 */}
                     <Route
                         path={routerPath.signup_url}
                         element={<SignUpMain />}
@@ -60,6 +110,18 @@ function App() {
                     <Route
                         path={routerPath.privacy_url}
                         element={<PrivacyMain />}
+                    />
+
+                    {/* 아이디 찾기 */}
+                    <Route
+                        path={routerPath.findId_url}
+                        element={<FindIdMain />}
+                    />
+
+                    {/* 비번 찾기 */}
+                    <Route
+                        path={routerPath.findPw_url}
+                        element={<FindPWMain />}
                     />
 
                     {/* /location으로 시작하는 url을 입력하면 LocationPage 오픈 */}

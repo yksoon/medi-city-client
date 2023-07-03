@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import { RestServer } from "common/js/Rest";
@@ -13,6 +13,10 @@ function Header({ props }) {
     const [userId, setUserId] = useState("");
     const [userPwd, setUserPwd] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+
+    const inputId = useRef(null);
+    const inputPw = useRef(null);
+
     let navigate = useNavigate();
 
     let loginInfo;
@@ -22,6 +26,11 @@ function Header({ props }) {
 
     useEffect(() => {
         resultCode = JSON.parse(localStorage.getItem("result_code"));
+
+        // 처음 렌더시 아이디 인풋 포커싱
+        if (!loginInfo) {
+            inputId.current.focus();
+        }
     }, []);
 
     // console.log(JSON.parse(localStorage.getItem("result_code")));
@@ -40,14 +49,23 @@ function Header({ props }) {
 
     const onEmailHandler = (event) => {
         setUserId(event.currentTarget.value);
-        // setUserId("ksyong1990@naver.com");
     };
     const onPasswordHandler = (event) => {
         setUserPwd(event.currentTarget.value);
-        // setUserPwd("Fhrhkd1490!");
     };
 
     const signIn = () => {
+        if (!userId) {
+            alert("아이디를 입력해주세요");
+            inputId.current.focus();
+            return false;
+        }
+        if (!userPwd) {
+            alert("비밀번호를 입력해주세요");
+            inputPw.current.focus();
+            return false;
+        }
+
         setIsLoading(true);
 
         const url = apiPath.api_login;
@@ -73,6 +91,11 @@ function Header({ props }) {
                     setIsLoading(false);
 
                     window.location.replace(routerPath.main_url);
+                } else if (result_code === "1003") {
+                    console.log(response);
+                    alert("사용자가 없습니다.");
+
+                    setIsLoading(false);
                 }
             })
             .catch(function (error) {
@@ -84,7 +107,9 @@ function Header({ props }) {
 
                 for (let i = 0; i < resultCode.length; i++) {
                     if (resultCode[i].result_code === err) {
-                        console.log(resultCode[i].result_message_ko);
+                        let msg = resultCode[i].result_message_ko;
+                        console.log(msg);
+                        alert(msg);
                     }
                 }
 
@@ -125,6 +150,12 @@ function Header({ props }) {
             });
     };
 
+    const handleOnKeyPress = (e) => {
+        if (e.key === "Enter") {
+            signIn(); // Enter 입력이 되면 클릭 이벤트 실행
+        }
+    };
+
     return (
         <>
             <header>
@@ -144,6 +175,8 @@ function Header({ props }) {
                                             placeholder="ID"
                                             className="login"
                                             onChange={(e) => onEmailHandler(e)}
+                                            onKeyDown={handleOnKeyPress} // Enter 입력 이벤트 함수
+                                            ref={inputId}
                                         />
                                         <input
                                             type="password"
@@ -152,6 +185,8 @@ function Header({ props }) {
                                             onChange={(e) =>
                                                 onPasswordHandler(e)
                                             }
+                                            onKeyDown={handleOnKeyPress} // Enter 입력 이벤트 함수
+                                            ref={inputPw}
                                         />
                                         {isLoading ? (
                                             <Link
@@ -183,12 +218,12 @@ function Header({ props }) {
                                             SIGN UP
                                         </Link>
                                     </div>
-                                    <a
-                                        href="id_find_step1.html"
+                                    <Link
+                                        to={routerPath.findId_url}
                                         className="font-12"
                                     >
                                         로그인에 문제가 발생하였나요?
-                                    </a>
+                                    </Link>
                                 </>
                             ) : (
                                 <>

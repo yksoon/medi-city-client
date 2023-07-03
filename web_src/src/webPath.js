@@ -46,6 +46,12 @@ const routerPath = {
     // 약관
     terms_url: `${base_url}terms${slash}`,
     privacy_url: `${base_url}privacy${slash}`,
+
+    // 아이디찾기
+    findId_url: `${base_url}find_id${slash}`,
+
+    // 비번찾기
+    findPw_url: `${base_url}find_pw${slash}`,
 };
 
 // api
@@ -82,6 +88,9 @@ const apiPath = {
         base_api_url + slash + mng + slash + version + slash
     }info/result`,
 
+    // 공통 결과코드
+    api_codes: `${base_api_url + slash + mng + slash + version + slash}_codes`,
+
     // ------------------ Account Service ------------------
     // 사용자 상세 GET
     // 사용자 수정 PUT
@@ -115,10 +124,20 @@ const apiPath = {
         base_api_url + slash + account + slash + version + slash
     }user/_licenses`,
 
-    // 사용자 확인 POST
-    api_user_check: `${
+    // 아이디찾기 POST
+    api_user_find_id: `${
         base_api_url + slash + account + slash + version + slash
-    }user/_check`,
+    }user/find/_id`,
+
+    // 비번찾기 POST
+    api_user_find_pw: `${
+        base_api_url + slash + account + slash + version + slash
+    }user/find/_pwd`,
+
+    // 비번변경 PUT
+    api_user_reset_pw: `${
+        base_api_url + slash + account + slash + version + slash
+    }user/find/_pwd`,
 };
 
 export { routerPath, apiPath };

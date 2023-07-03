@@ -208,7 +208,7 @@ const MobileComponent = forwardRef((props, ref) => {
             !inputMobile2.current.value ||
             !inputMobile3.current.value
         ) {
-            handleModalOpen("알림", "전화번호를 입력 해주세요");
+            handleModalOpen("알림", "전화번호를 입력해주세요");
             // alert("전화번호를 입력 해주세요");
             inputMobile2.current.focus();
             return;
