@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import { RestServer } from "common/js/Rest";
 import { CircularProgress } from "@mui/material";
@@ -14,10 +14,10 @@ function Header({ props }) {
     const [userPwd, setUserPwd] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    const [isSignOut, setIsSignOut] = useState(false);
+
     const inputId = useRef(null);
     const inputPw = useRef(null);
-
-    let navigate = useNavigate();
 
     let loginInfo;
     (() => {
@@ -118,6 +118,8 @@ function Header({ props }) {
     };
 
     const signout = () => {
+        setIsSignOut(true);
+
         const url = apiPath.api_signout;
         let data = {};
 
@@ -131,6 +133,8 @@ function Header({ props }) {
 
                     setUserId("");
                     setUserPwd("");
+
+                    setIsSignOut(false);
 
                     window.location.replace(routerPath.main_url);
                 }
@@ -147,6 +151,8 @@ function Header({ props }) {
                         console.log(resultCode[i].result_message_ko);
                     }
                 }
+
+                setIsSignOut(false);
             });
     };
 
@@ -234,19 +240,31 @@ function Header({ props }) {
                                                 {`${loginInfo.user_name_first_ko}${loginInfo.user_name_last_ko}`}
                                                 님
                                             </h5>
-                                            <Link
-                                                className="font-12"
-                                                id="header_logout"
-                                                onClick={signout}
-                                            >
-                                                로그아웃
-                                            </Link>
-                                            <a
+                                            {isSignOut ? (
+                                                <>
+                                                    <p
+                                                        className="font-12"
+                                                        id="header_logout"
+                                                    >
+                                                        로그아웃
+                                                    </p>
+                                                </>
+                                            ) : (
+                                                <Link
+                                                    className="font-12"
+                                                    id="header_logout"
+                                                    onClick={signout}
+                                                >
+                                                    로그아웃
+                                                </Link>
+                                            )}
+
+                                            {/* <a
                                                 href="mypage_modify_step1.html"
                                                 className="font-12"
                                             >
                                                 회원정보수정
-                                            </a>
+                                            </a> */}
                                         </div>
                                         <a
                                             href="mypage.html"

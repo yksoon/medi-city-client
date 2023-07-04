@@ -155,7 +155,7 @@ function FindIDMain() {
                                 </div>
                                 <div>
                                     <h5>휴대전화</h5>
-                                    <div id="phone_num" class="m0">
+                                    <div id="phone_num" className="m0">
                                         <input
                                             type="tel"
                                             className="input w120"

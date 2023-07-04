@@ -212,8 +212,11 @@ function FindPWMain() {
             certification_tool: certificationTool,
             certification_type: certificationType,
             user_id: userID,
+            user_name_first_ko: firstName,
+            user_name_last_ko: lastName,
         };
 
+        console.log(data);
         RestServer("post", mk_cert_url, data)
             .then(function (response) {
                 // response
@@ -298,14 +301,14 @@ function FindPWMain() {
             });
     };
 
-    const resetPw = () => {
-        if (!resetPWStatus) {
-            alert("휴대폰 인증을 완료해주세요");
-        } else {
-            // console.log("aaaaa");
-            setIsFind("2");
-        }
-    };
+    // const resetPw = () => {
+    //     if (!resetPWStatus) {
+    //         alert("휴대폰 인증을 완료해주세요");
+    //     } else {
+    //         // console.log("aaaaa");
+    //         setIsFind("2");
+    //     }
+    // };
 
     const changeIsFind = (status) => {
         setIsFind(status);
