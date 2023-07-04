@@ -6,6 +6,7 @@ import { CircularProgress } from "@mui/material";
 // import { menu_show } from "./nav";
 // import $ from "jquery";
 import "common/css/header.css";
+import Login from "common/js/Login";
 // import Login from "common/js/Login";
 
 let resultCode;
@@ -69,52 +70,18 @@ function Header({ props }) {
         setIsLoading(true);
 
         const url = apiPath.api_login;
+
         let data = {
             signup_type: "000",
             user_id: userId,
             user_pwd: userPwd,
         };
 
-        RestServer("post", url, data)
-            .then(function (response) {
-                // response
-                let user_info;
+        const handleLoding = (status) => {
+            setIsLoading(status);
+        };
 
-                let result_code = response.headers.result_code;
-
-                if (result_code === "0000") {
-                    user_info = response.data.result_info;
-
-                    localStorage.removeItem("userInfo");
-                    localStorage.setItem("userInfo", JSON.stringify(user_info));
-
-                    setIsLoading(false);
-
-                    window.location.replace(routerPath.main_url);
-                } else if (result_code === "1003") {
-                    console.log(response);
-                    alert("사용자가 없습니다.");
-
-                    setIsLoading(false);
-                }
-            })
-            .catch(function (error) {
-                // 오류발생시 실행
-                console.log(error);
-
-                let err = error.response.headers.result_code;
-                // console.log(err);
-
-                for (let i = 0; i < resultCode.length; i++) {
-                    if (resultCode[i].result_code === err) {
-                        let msg = resultCode[i].result_message_ko;
-                        console.log(msg);
-                        alert(msg);
-                    }
-                }
-
-                setIsLoading(false);
-            });
+        Login(url, data, handleLoding, resultCode);
     };
 
     const signout = () => {
@@ -152,6 +119,7 @@ function Header({ props }) {
                     }
                 }
 
+                localStorage.removeItem("userInfo");
                 setIsSignOut(false);
             });
     };

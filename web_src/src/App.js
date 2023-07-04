@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router";
 import { useEffect } from "react";
 
 import { apiPath, routerPath } from "webPath";
+import { RestServer } from "common/js/Rest";
 
 import NotFoundPage from "NotFoundPage";
 import Main from "components/Main/Main";
@@ -10,7 +11,6 @@ import SignUpMain from "components/SignUp/SignUpMain";
 import SignUpOk from "components/SignUp/SignUpOk";
 import TermsMain from "components/TermPrivacy/TermMain";
 import PrivacyMain from "components/TermPrivacy/PrivacyMain";
-import { RestServer } from "common/js/Rest";
 import FindIdMain from "components/FindAccount/FindID/FindIDMain";
 import FindPWMain from "components/FindAccount/FindPW/FindPWMain";
 
@@ -23,11 +23,28 @@ function App() {
         setInterval(getCodes, 3600000);
     }, []);
 
+    // 새로고침 막기 변수
+    const preventClose = (e) => {
+        e.preventDefault();
+        e.returnValue = ""; // chrome에서는 설정이 필요해서 넣은 코드
+    };
+
+    // 브라우저에 렌더링 시 한 번만 실행하는 코드
+    useEffect(() => {
+        (() => {
+            window.addEventListener("beforeunload", preventClose);
+        })();
+
+        return () => {
+            window.removeEventListener("beforeunload", preventClose);
+        };
+    }, []);
+
     // result code
     const getResultCode = () => {
         RestServer("get", apiPath.api_result, {})
             .then((response) => {
-                console.log(response);
+                console.log("result_code", response);
 
                 localStorage.removeItem("result_code");
                 localStorage.setItem(
@@ -48,7 +65,7 @@ function App() {
             exclude_code_types: ["COUNTRY_TYPE", "BANK_TYPE"],
         })
             .then((response) => {
-                console.log(response);
+                console.log("codes", response);
 
                 localStorage.removeItem("codes");
                 localStorage.setItem(
@@ -69,7 +86,7 @@ function App() {
             exclude_code_types: [],
         })
             .then((response) => {
-                console.log(response);
+                console.log("codesCountryBank", response);
 
                 localStorage.removeItem("codesCountryBank");
                 localStorage.setItem(
