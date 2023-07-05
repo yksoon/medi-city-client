@@ -17,7 +17,7 @@ import MainBoard from "./Content/MainBoard";
 // import Login from "common/js/Login";
 import styles from "common/css/style/Main/Main.module.css";
 
-function Main({ userInfo }) {
+function Main() {
     //   const handleModalOpen = () => {
     //     const [isOpen, setIsOpen] = useState(false);
     //     const [modalTitle, setModalTitle] = useState("");
@@ -25,6 +25,7 @@ function Main({ userInfo }) {
 
     //     setIsOpen(true);
     // };
+
     return (
         <>
             <Header />

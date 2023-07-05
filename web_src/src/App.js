@@ -13,6 +13,12 @@ import TermsMain from "components/TermPrivacy/TermMain";
 import PrivacyMain from "components/TermPrivacy/PrivacyMain";
 import FindIdMain from "components/FindAccount/FindID/FindIDMain";
 import FindPWMain from "components/FindAccount/FindPW/FindPWMain";
+import { useDispatch } from "react-redux";
+import {
+    set_codes,
+    set_result_code,
+    set_country_bank,
+} from "redux/actions/codesAction";
 
 function App() {
     useEffect(() => {
@@ -21,24 +27,11 @@ function App() {
         getCountryBank();
         setInterval(getResultCode, 3600000);
         setInterval(getCodes, 3600000);
+
+        localStorage.clear();
     }, []);
 
-    // 새로고침 막기 변수
-    const preventClose = (e) => {
-        e.preventDefault();
-        e.returnValue = ""; // chrome에서는 설정이 필요해서 넣은 코드
-    };
-
-    // 브라우저에 렌더링 시 한 번만 실행하는 코드
-    useEffect(() => {
-        (() => {
-            window.addEventListener("beforeunload", preventClose);
-        })();
-
-        return () => {
-            window.removeEventListener("beforeunload", preventClose);
-        };
-    }, []);
+    const dispatch = useDispatch();
 
     // result code
     const getResultCode = () => {
@@ -46,10 +39,8 @@ function App() {
             .then((response) => {
                 console.log("result_code", response);
 
-                localStorage.removeItem("result_code");
-                localStorage.setItem(
-                    "result_code",
-                    JSON.stringify(response.data.result_info)
+                dispatch(
+                    set_result_code(JSON.stringify(response.data.result_info))
                 );
             })
             .catch((error) => {
@@ -67,11 +58,7 @@ function App() {
             .then((response) => {
                 console.log("codes", response);
 
-                localStorage.removeItem("codes");
-                localStorage.setItem(
-                    "codes",
-                    JSON.stringify(response.data.result_info)
-                );
+                dispatch(set_codes(JSON.stringify(response.data.result_info)));
             })
             .catch((error) => {
                 // 오류발생시 실행
@@ -88,10 +75,8 @@ function App() {
             .then((response) => {
                 console.log("codesCountryBank", response);
 
-                localStorage.removeItem("codesCountryBank");
-                localStorage.setItem(
-                    "codesCountryBank",
-                    JSON.stringify(response.data.result_info)
+                dispatch(
+                    set_country_bank(JSON.stringify(response.data.result_info))
                 );
             })
             .catch((error) => {

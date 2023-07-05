@@ -7,6 +7,8 @@ import { CircularProgress } from "@mui/material";
 // import $ from "jquery";
 import "common/css/header.css";
 import Login from "common/js/Login";
+import { useSelector, useDispatch } from "react-redux";
+import { set_user_info } from "redux/actions/userInfoAction";
 // import Login from "common/js/Login";
 
 let resultCode;
@@ -20,13 +22,16 @@ function Header({ props }) {
     const inputId = useRef(null);
     const inputPw = useRef(null);
 
-    let loginInfo;
-    (() => {
-        loginInfo = JSON.parse(localStorage.getItem("userInfo"));
-    })();
+    const dispatch = useDispatch();
+    // let loginInfo;
+    // (() => {
+    //     loginInfo = JSON.parse(localStorage.getItem("userInfo"));
+    // })();
 
+    let loginInfo = useSelector((state) => state.userInfo.userInfo);
+    resultCode = useSelector((state) => state.codes.resultCode);
     useEffect(() => {
-        resultCode = JSON.parse(localStorage.getItem("result_code"));
+        // resultCode = JSON.parse(localStorage.getItem("result_code"));
 
         // 처음 렌더시 아이디 인풋 포커싱
         if (!loginInfo) {
@@ -81,7 +86,7 @@ function Header({ props }) {
             setIsLoading(status);
         };
 
-        Login(url, data, handleLoding, resultCode);
+        Login(url, data, handleLoding, resultCode, dispatch);
     };
 
     const signout = () => {
@@ -96,7 +101,8 @@ function Header({ props }) {
                 let result_code = response.headers.result_code;
 
                 if (result_code === "0000") {
-                    localStorage.removeItem("userInfo");
+                    // localStorage.removeItem("userInfo");
+                    dispatch(set_user_info(null));
 
                     setUserId("");
                     setUserPwd("");
@@ -119,7 +125,8 @@ function Header({ props }) {
                     }
                 }
 
-                localStorage.removeItem("userInfo");
+                // localStorage.removeItem("userInfo");
+                dispatch(set_user_info(null));
                 setIsSignOut(false);
             });
     };

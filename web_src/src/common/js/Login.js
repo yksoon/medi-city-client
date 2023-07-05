@@ -1,8 +1,10 @@
 import { routerPath } from "webPath";
 import { RestServer } from "./Rest";
+import { useDispatch } from "react-redux";
+import { set_user_info } from "redux/actions/userInfoAction";
 // import { Instance } from "./Instance";
 
-export default function Login(url, data, handleLoding, resultCode) {
+export default function Login(url, data, handleLoding, resultCode, dispatch) {
     RestServer("post", url, data)
         .then(function (response) {
             // response
@@ -28,10 +30,8 @@ export default function Login(url, data, handleLoding, resultCode) {
                     delete user_info[deleteKey[i]];
                 }
 
-                localStorage.removeItem("userInfo");
-                localStorage.setItem("userInfo", JSON.stringify(user_info));
+                dispatch(set_user_info(JSON.stringify(user_info)));
 
-                // setIsLoading(false);
                 handleLoding(false);
 
                 window.location.replace(routerPath.main_url);
@@ -58,7 +58,6 @@ export default function Login(url, data, handleLoding, resultCode) {
                 }
             }
 
-            // setIsLoading(false);
             handleLoding(false);
         });
 }
