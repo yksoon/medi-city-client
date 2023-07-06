@@ -150,11 +150,14 @@ function App() {
                     />
 
                     {/* 휴대폰인증 테스트 */}
-                    <Route path={"/mobile_test"} element={<MobileTest />} />
+                    <Route
+                        path={"/mobile_test/result"}
+                        element={<MobileTest />}
+                    />
 
                     {/* 휴대폰인증 테스트 */}
                     <Route
-                        path={"/cert/result/:params"}
+                        path={"/cert/result"}
                         element={<MobileTestSuccess />}
                     />
 

@@ -21,10 +21,6 @@ const MobileTest = () => {
             "http://dev-api.medi-city.co.kr:60000/account/v1/user/_cert";
 
         let data = {
-            inter_phone_number: "82",
-            mobile1: "010",
-            mobile2: "5090",
-            mobile3: "7526",
             certification_tool: "000",
             certification_type: "000",
         };
@@ -34,6 +30,11 @@ const MobileTest = () => {
                 // console.log("authTest", response);
 
                 let resData = response.data.result_info;
+
+                localStorage.setItem(
+                    "certification_idx",
+                    resData.certification_idx
+                );
 
                 insertFormData(resData);
             })
