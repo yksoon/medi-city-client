@@ -1,15 +1,25 @@
 import { CircularProgress } from "@mui/material";
 import { RestServer } from "common/js/Rest";
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import { set_cert_info } from "redux/actions/certAction";
 
 const MobileTestSuccess = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const queryList = [...searchParams];
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         certChk();
     }, []);
+
+    const closeWindow = () => {
+        window.opener = null;
+        window.open("", "_self");
+        window.close();
+    };
 
     const certChk = () => {
         let data = Object.fromEntries(queryList);
@@ -25,14 +35,28 @@ const MobileTestSuccess = () => {
                 // console.log("authTest", response);
 
                 let resData = response.data.result_info;
+                let result_code = response.headers.result_code;
 
                 console.log(resData);
-                alert("인증 완료");
+
+                if (result_code === "0000") {
+                    dispatch(set_cert_info(JSON.stringify(resData)));
+                    localStorage.removeItem("certification_idx");
+
+                    alert("인증 완료");
+                    closeWindow();
+                } else {
+                    alert("에러");
+                    localStorage.removeItem("certification_idx");
+                    closeWindow();
+                }
             })
             .catch((error) => {
                 // 오류발생시 실행
                 console.log(error);
+                localStorage.removeItem("certification_idx");
                 alert("에러");
+                closeWindow();
             });
     };
 
