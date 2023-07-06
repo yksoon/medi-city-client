@@ -6,6 +6,7 @@ import storageSession from "redux-persist/lib/storage/session";
 import codes from "./reducers/codes";
 import userInfo from "./reducers/userInfo";
 import ipInfo from "./reducers/ipInfo";
+import certInfo from "./reducers/cert";
 
 const persistConfig = {
     key: "root",
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     codes,
     userInfo,
     ipInfo,
+    certInfo,
 });
 
 export default persistReducer(persistConfig, rootReducer);
