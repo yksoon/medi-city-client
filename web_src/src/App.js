@@ -1,9 +1,17 @@
-import { Route, Routes } from "react-router";
+// import { Route, Routes } from "react-router";
 import { useEffect } from "react";
 
 import { apiPath, routerPath } from "webPath";
 import { RestServer } from "common/js/Rest";
 import axios from "axios";
+
+import { useDispatch } from "react-redux";
+import {
+    set_codes,
+    set_result_code,
+    set_country_bank,
+} from "redux/actions/codesAction";
+import { set_ip_info } from "redux/actions/ipInfoAction";
 
 import NotFoundPage from "NotFoundPage";
 import Main from "components/Main/Main";
@@ -14,15 +22,10 @@ import TermsMain from "components/TermPrivacy/TermMain";
 import PrivacyMain from "components/TermPrivacy/PrivacyMain";
 import FindIdMain from "components/FindAccount/FindID/FindIDMain";
 import FindPWMain from "components/FindAccount/FindPW/FindPWMain";
-import { useDispatch } from "react-redux";
-import {
-    set_codes,
-    set_result_code,
-    set_country_bank,
-} from "redux/actions/codesAction";
-import { set_ip_info } from "redux/actions/ipInfoAction";
 import MobileTest from "components/MobileTest";
 import MobileTestSuccess from "components/MobileTestSuccess";
+
+import Router from "./Router";
 
 function App() {
     useEffect(() => {
@@ -111,15 +114,14 @@ function App() {
     return (
         <>
             <div className="wrap">
-                <Routes>
-                    {/* /link를 입력하면 LinkPage 오픈 */}
+                <Router />;
+                {/* <Routes>
                     <Route path={routerPath.main_url} element={<Main />} />
                     <Route
                         path={routerPath.myPage_url}
                         element={<MyPageMain />}
                     />
 
-                    {/* 회원가임 */}
                     <Route
                         path={routerPath.signup_url}
                         element={<SignUpMain />}
@@ -137,41 +139,25 @@ function App() {
                         element={<PrivacyMain />}
                     />
 
-                    {/* 아이디 찾기 */}
                     <Route
                         path={routerPath.findId_url}
                         element={<FindIdMain />}
                     />
 
-                    {/* 비번 찾기 */}
                     <Route
                         path={routerPath.findPw_url}
                         element={<FindPWMain />}
                     />
 
-                    {/* 휴대폰인증 테스트 */}
                     <Route path={"/mobile_test"} element={<MobileTest />} />
 
-                    {/* 휴대폰인증 테스트 */}
                     <Route
                         path={"/cert/result"}
                         element={<MobileTestSuccess />}
                     />
 
-                    {/* /location으로 시작하는 url을 입력하면 LocationPage 오픈 */}
-                    {/* <Route path="/location/*" element={<LocationPage />} /> */}
-                    {/* 상대경로로도 등록 가능, parameter 추가는 :을 이용 */}
-                    {/* /param을 입력하면 ParamPage 오픈 */}
-                    {/* /param/{ value }을 입력해도 ParamPage 오픈 */}
-                    {/* <Route path="/param" element={<WrapperPage />}>
-                            <Route path="." element={<ParamPage />} />
-                            <Route path=":name" element={<ParamPage />} />
-                        </Route> */}
-                    {/* /redirect를 입력하면 RedirectPage 오픈 */}
-                    {/* <Route path="/redirect" element={<RedirectPage />} /> */}
-                    {/* 정의되지 않은 나머지 모든 url을 입력하면 NotFoundPage 오픈 */}
                     <Route path="*" element={<NotFoundPage />} />
-                </Routes>
+                </Routes> */}
             </div>
         </>
     );
