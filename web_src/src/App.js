@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 import { apiPath, routerPath } from "webPath";
 import { RestServer } from "common/js/Rest";
+import axios from "axios";
 
 import NotFoundPage from "NotFoundPage";
 import Main from "components/Main/Main";
@@ -19,19 +20,41 @@ import {
     set_result_code,
     set_country_bank,
 } from "redux/actions/codesAction";
+import { set_ip_info } from "redux/actions/ipInfoAction";
+import MobileTest from "components/MobileTest";
+import MobileTestSuccess from "components/MobileTestSuccess";
 
 function App() {
     useEffect(() => {
+        // localStorage.clear();
+
+        getIpInfo();
         getResultCode();
         getCodes();
         getCountryBank();
         setInterval(getResultCode, 3600000);
         setInterval(getCodes, 3600000);
 
-        localStorage.clear();
+        // localStorage.clear();
     }, []);
 
     const dispatch = useDispatch();
+
+    // IP
+    const getIpInfo = () => {
+        let ip;
+
+        axios
+            .get("https://geolocation-db.com/json/")
+            .then((res) => {
+                ip = res.data.IPv4;
+                dispatch(set_ip_info(ip));
+            })
+            .catch((error) => {
+                ip = "";
+                dispatch(set_ip_info(ip));
+            });
+    };
 
     // result code
     const getResultCode = () => {
@@ -126,15 +149,24 @@ function App() {
                         element={<FindPWMain />}
                     />
 
+                    {/* 휴대폰인증 테스트 */}
+                    <Route path={"/mobile_test"} element={<MobileTest />} />
+
+                    {/* 휴대폰인증 테스트 */}
+                    <Route
+                        path={"/cert/result/:params"}
+                        element={<MobileTestSuccess />}
+                    />
+
                     {/* /location으로 시작하는 url을 입력하면 LocationPage 오픈 */}
                     {/* <Route path="/location/*" element={<LocationPage />} /> */}
                     {/* 상대경로로도 등록 가능, parameter 추가는 :을 이용 */}
                     {/* /param을 입력하면 ParamPage 오픈 */}
                     {/* /param/{ value }을 입력해도 ParamPage 오픈 */}
                     {/* <Route path="/param" element={<WrapperPage />}>
-        <Route path="." element={<ParamPage />} />
-        <Route path=":name" element={<ParamPage />} />
-      </Route> */}
+                            <Route path="." element={<ParamPage />} />
+                            <Route path=":name" element={<ParamPage />} />
+                        </Route> */}
                     {/* /redirect를 입력하면 RedirectPage 오픈 */}
                     {/* <Route path="/redirect" element={<RedirectPage />} /> */}
                     {/* 정의되지 않은 나머지 모든 url을 입력하면 NotFoundPage 오픈 */}
