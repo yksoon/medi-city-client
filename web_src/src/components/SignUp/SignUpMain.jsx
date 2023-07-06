@@ -13,8 +13,16 @@ import MobileComponent from "./signupComponents/MobileComponent";
 import LicenseComponent from "./signupComponents/LicenseComponent";
 import DepartmentComponent from "./signupComponents/DepartmentComponent";
 import TermsComponent from "./signupComponents/TermsComponent";
+import { useSelector } from "react-redux";
 
 function SignUpMain() {
+    // const codes = useSelector((state) => state.codes.codes);
+    // const resultCodes = useSelector((state) => state.codes.resultCode);
+    // const countryBank = useSelector((state) => state.codes.countryBank);
+
+    // console.log(codes);
+    // console.log(resultCodes);
+    // console.log(countryBank);
     const signupRefs = {
         accountType: useRef(null),
         inputID: useRef(null),

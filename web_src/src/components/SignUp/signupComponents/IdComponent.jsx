@@ -1,19 +1,13 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import { apiPath } from "webPath";
-import { Instance } from "common/js/Instance";
 import { RestServer } from "common/js/Rest";
 
-// const user_chk_url = apiPath.api_user_check;
-
 const IdComponent = forwardRef((props, ref) => {
-    // const accountType = useRef();
-    // const inputID = useRef();
-
     const { accountType, inputID } = ref;
     const idStatus = props.idStatus;
 
     // 0000 = 성공
-    // 9997 = 중복
+    // 1000 = 중복
     // 400 = 형식 안맞음
     const [idchkCode, setIdchkCode] = useState("0");
 
@@ -25,45 +19,31 @@ const IdComponent = forwardRef((props, ref) => {
     });
 
     const idDuplicateCheck = (e) => {
-        // console.log(inputID.current.value);
-
-        // console.log(accountType.current.value);
-
-        // Instance.post(user_chk_url, {
-        //     user_type: `${accountType.current.value}`,
-        //     user_id: `${inputID.current.value}`,
-        // })
-        //     .then(function (response) {
-        //         // response
-        //         let res = response;
-        //         // console.log(ret);
-        //         // console.log(ret.response);
-
-        //         if (res.headers.result_code === "0000") {
-        //             setIdchkCode("0000");
-        //             idStatus(true);
-        //         } else {
-        //             setIdchkCode("9997");
-        //             idStatus(false);
-        //         }
-        //     })
-        //     .catch(function (error) {
-        //         // 오류발생시 실행
-        //         console.log(error);
-        //         setIdchkCode("400");
-        //         idStatus(false);
-        //     });
-
         const user_chk_url = apiPath.api_user_check;
         let data = {
-            user_type: `${accountType.current.value}`,
+            signup_type: `${accountType.current.value}`,
             user_id: `${inputID.current.value}`,
         };
 
-        let res = RestServer("post", user_chk_url, data);
+        RestServer("post", user_chk_url, data)
+            .then((response) => {
+                let res = response;
 
-        console.log(res);
-        // RestServer("post", user_chk_url, data)
+                // console.log(res);
+
+                if (res.headers.result_code === "0000") {
+                    setIdchkCode("0000");
+                    idStatus(true);
+                } else if (res.headers.result_code === "1000") {
+                    setIdchkCode("1000");
+                    idStatus(false);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                setIdchkCode("400");
+                idStatus(false);
+            });
     };
 
     return (
@@ -89,7 +69,7 @@ const IdComponent = forwardRef((props, ref) => {
                     <p className="mark red" id="mark_id">
                         아이디는 이메일 형식으로 입력하세요
                     </p>
-                ) : idchkCode === "9997" ? (
+                ) : idchkCode === "1000" ? (
                     <p className="mark red" id="mark_id">
                         이미 사용중인 아이디입니다
                     </p>
