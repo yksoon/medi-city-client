@@ -43,7 +43,8 @@ const MobileTestSuccess = () => {
                     dispatch(set_cert_info(JSON.stringify(resData)));
                     localStorage.removeItem("certification_idx");
 
-                    window.opener.documnet.form_result.oh_test.value = resData;
+                    window.opener.documnet.getElementById("oh_test").value =
+                        resData;
 
                     alert("인증 완료");
                     // closeWindow();
