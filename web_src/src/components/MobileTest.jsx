@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { set_cert_info } from "redux/actions/certAction";
 
 let certInfo;
+let popup;
 const MobileTest = () => {
     const [popup, setPopup] = useState();
 
@@ -71,7 +72,7 @@ const MobileTest = () => {
     const sendForm = (form_url) => {
         let form = document.getElementById("form");
 
-        const popup = window.open(
+        popup = window.open(
             "",
             "auth",
             "width=200,height=200,resizeable,scrollbars"
@@ -110,14 +111,18 @@ const MobileTest = () => {
             setPopup(null);
         };
 
-        window.addEventListener("message", githubOAuthCodeListener, false);
+        window.addEventListener("beforeunload", githubOAuthCodeListener, false);
 
         return () => {
-            window.removeEventListener("message", githubOAuthCodeListener);
+            window.removeEventListener("beforeunload", githubOAuthCodeListener);
             popup?.close();
             setPopup(null);
         };
     }, [popup]);
+
+    popup.onbeforeunload = function () {
+        console.log("44444");
+    };
 
     return (
         <>
