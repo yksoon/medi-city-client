@@ -1,5 +1,6 @@
 import { RestServer } from "common/js/Rest";
 import React, { useRef } from "react";
+import { useSelector } from "react-redux";
 
 const MobileTest = () => {
     const form_url = useRef(null);
@@ -7,6 +8,8 @@ const MobileTest = () => {
     const integrity_value = useRef(null);
     const m = useRef(null);
     const token_version_id = useRef(null);
+
+    let certInfo = useSelector((state) => state.certInfo.certInfo);
 
     const confirmAuth = () => {
         if (window.confirm("인증번호를 발송하시겠습니까?")) {
@@ -100,6 +103,7 @@ const MobileTest = () => {
                     />
                 </form>
                 <button onClick={confirmAuth}>인증번호 발송</button>
+                <div>{certInfo ? certInfo : ""}</div>
             </div>
         </>
     );
