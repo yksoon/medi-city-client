@@ -44,11 +44,11 @@ const MobileTestSuccess = () => {
                     localStorage.removeItem("certification_idx");
 
                     alert("인증 완료");
-                    closeWindow();
+                    // closeWindow();
                 } else {
                     alert("에러");
                     localStorage.removeItem("certification_idx");
-                    closeWindow();
+                    // closeWindow();
                 }
             })
             .catch((error) => {
@@ -56,7 +56,7 @@ const MobileTestSuccess = () => {
                 console.log(error);
                 localStorage.removeItem("certification_idx");
                 alert("에러");
-                closeWindow();
+                // closeWindow();
             });
     };
 
