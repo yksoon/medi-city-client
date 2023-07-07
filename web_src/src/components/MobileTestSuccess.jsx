@@ -18,7 +18,6 @@ const MobileTestSuccess = () => {
     const closeWindow = () => {
         window.opener = null;
         window.open("", "_self");
-        window.opener.parent.location.reload();
         window.close();
     };
 
@@ -46,10 +45,12 @@ const MobileTestSuccess = () => {
 
                     // alert("인증 완료");
                     closeWindow();
+                    window.location.reload();
                 } else {
                     // alert("에러");
                     localStorage.removeItem("certification_idx");
                     closeWindow();
+                    window.location.reload();
                 }
             })
             .catch((error) => {
@@ -58,6 +59,7 @@ const MobileTestSuccess = () => {
                 localStorage.removeItem("certification_idx");
                 alert("에러");
                 closeWindow();
+                window.location.reload();
             });
     };
 
