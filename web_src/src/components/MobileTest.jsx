@@ -110,9 +110,9 @@ const MobileTest = () => {
                         ref={integrity_value}
                     />
                 </form>
-                <form name="form_result" id="form_result" ref={form_url}>
-                    <input type="text" id="oh_test" name="oh_test" />
-                </form>
+
+                <input type="text" id="oh_test" name="oh_test" />
+
                 <button onClick={confirmAuth}>인증번호 발송</button>
                 <div>{certInfo ? certInfo : ""}</div>
                 {console.log(certInfo)}
