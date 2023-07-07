@@ -71,9 +71,15 @@ const MobileTest = () => {
     const sendForm = (form_url) => {
         let form = document.getElementById("form");
 
-        window.open("", "auth", "width=200,height=200,resizeable,scrollbars");
+        const popup = window.open(
+            "",
+            "auth",
+            "width=200,height=200,resizeable,scrollbars"
+        );
 
         setPopup(popup);
+
+        console.log("popup", popup);
 
         form.action = form_url;
         form.mothod = "POST";
@@ -83,13 +89,17 @@ const MobileTest = () => {
     };
 
     useEffect(() => {
+        console.log("11111");
         if (!popup) {
+            console.log("22222");
             return;
         }
 
         const githubOAuthCodeListener = (e) => {
+            console.log("333");
             // 동일한 Origin 의 이벤트만 처리하도록 제한
             if (e.origin !== window.location.origin) {
+                console.log("444");
                 return;
             }
             const { code } = e.data;
