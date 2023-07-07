@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
-// import storage from "redux-persist/lib/storage";
+import storage from "redux-persist/lib/storage";
 import storageSession from "redux-persist/lib/storage/session";
 
 import codes from "./reducers/codes";
@@ -11,14 +11,20 @@ import certInfo from "./reducers/cert";
 const persistConfig = {
     key: "root",
     storage: storageSession,
-    whitelist: ["userInfo", "certInfo"],
+    whitelist: ["userInfo"],
+};
+
+const productPersistConfig = {
+    key: "orderProduct",
+    storage,
+    whitelist: ["certInfo"],
 };
 
 const rootReducer = combineReducers({
     codes,
-    userInfo,
+    userInfo: persistReducer(persistConfig, userInfo),
     ipInfo,
-    certInfo,
+    certInfo: persistReducer(productPersistConfig, certInfo),
 });
 
-export default persistReducer(persistConfig, rootReducer);
+export default rootReducer;
