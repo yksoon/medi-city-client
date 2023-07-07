@@ -12,6 +12,7 @@ const MobileTest = ({ isOpenHandler, isOpen }) => {
     const integrity_value = useRef(null);
     const m = useRef(null);
     const token_version_id = useRef(null);
+    const [isInter, setIsInter] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -31,7 +32,18 @@ const MobileTest = ({ isOpenHandler, isOpen }) => {
         }
     };
 
+    useEffect(() => {
+        if (isInter) {
+            setInterval(() => {
+                console.log(certInfo);
+            }, 500);
+
+            return () => clearInterval(); // 컴포넌트가 마운트 해제될 때 간격을 지우기 위해 clearInterval 함수 반환
+        }
+    }, [isInter]);
+
     const sendAuth = () => {
+        setIsInter(true);
         const url =
             "http://dev-api.medi-city.co.kr:60000/account/v1/user/_cert";
 
@@ -87,32 +99,6 @@ const MobileTest = ({ isOpenHandler, isOpen }) => {
         form.target = "auth";
 
         form.submit();
-
-        popup.addEventListener("beforeunload", function (event) {
-            console.log("4444444444");
-            console.log(event);
-        });
-    };
-
-    // popup.addEventListener("beforeunload", () => {
-    //     console.log("44444");
-    // });
-
-    // popup.onbeforeunload = function () {
-    //     console.log("44444");
-    // };
-
-    const testOpenPopup = () => {
-        let pop = window.open(
-            "",
-            "auth",
-            "width=200,height=200,resizeable,scrollbars"
-        );
-
-        pop.addEventListener("beforeunload", function (event) {
-            console.log("닫혔다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
-            console.log(event);
-        });
     };
 
     return (
@@ -156,8 +142,7 @@ const MobileTest = ({ isOpenHandler, isOpen }) => {
                 />
 
                 <button onClick={confirmAuth}>인증번호 발송</button>
-                <button onClick={testOpenPopup}>테스트</button>
-                <div>{certInfo ? certInfo : ""}</div>
+                <div>나와라({certInfo})</div>
                 {console.log(certInfo)}
             </div>
         </>
