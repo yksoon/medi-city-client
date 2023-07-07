@@ -1,5 +1,5 @@
 // import { Route, Routes } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { apiPath, routerPath } from "webPath";
 import { RestServer } from "common/js/Rest";
@@ -40,6 +40,12 @@ function App() {
 
         // localStorage.clear();
     }, []);
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const isOpenHandler = (status) => {
+        setIsOpen(status);
+    };
 
     const dispatch = useDispatch();
 
@@ -114,7 +120,7 @@ function App() {
     return (
         <>
             <div className="wrap">
-                <Router />;
+                <Router isOpenHandler={isOpenHandler} isOpen={isOpen} />;
             </div>
         </>
     );
