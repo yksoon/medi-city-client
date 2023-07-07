@@ -5,6 +5,8 @@ import { set_cert_info } from "redux/actions/certAction";
 
 let certInfo;
 const MobileTest = () => {
+    const [popup, setPopup] = useState();
+
     const form_url = useRef(null);
     const enc_data = useRef(null);
     const integrity_value = useRef(null);
@@ -71,12 +73,41 @@ const MobileTest = () => {
 
         window.open("", "auth", "width=200,height=200,resizeable,scrollbars");
 
+        setPopup(popup);
+
         form.action = form_url;
         form.mothod = "POST";
         form.target = "auth";
 
         form.submit();
     };
+
+    useEffect(() => {
+        if (!popup) {
+            return;
+        }
+
+        const githubOAuthCodeListener = (e) => {
+            // 동일한 Origin 의 이벤트만 처리하도록 제한
+            if (e.origin !== window.location.origin) {
+                return;
+            }
+            const { code } = e.data;
+            if (code) {
+                console.log(`The popup URL has URL code param = ${code}`);
+            }
+            popup?.close();
+            setPopup(null);
+        };
+
+        window.addEventListener("message", githubOAuthCodeListener, false);
+
+        return () => {
+            window.removeEventListener("message", githubOAuthCodeListener);
+            popup?.close();
+            setPopup(null);
+        };
+    }, [popup]);
 
     return (
         <>
