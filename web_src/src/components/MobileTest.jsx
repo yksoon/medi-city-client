@@ -142,7 +142,6 @@ const MobileTest = ({ isOpenHandler, isOpen }) => {
                 />
 
                 <button onClick={confirmAuth}>인증번호 발송</button>
-                <div>나와라({JSON.parse(certInfo2)})</div>
                 {console.log(certInfo2)}
             </div>
         </>
