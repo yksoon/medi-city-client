@@ -5,8 +5,8 @@ import { set_cert_info } from "redux/actions/certAction";
 
 let certInfo;
 let popup;
-const MobileTest = () => {
-    const [isOpen, setIsOpen] = useState(false);
+
+const MobileTest = ({ isOpenHandler, isOpen }) => {
     const form_url = useRef(null);
     const enc_data = useRef(null);
     const integrity_value = useRef(null);
@@ -79,7 +79,7 @@ const MobileTest = () => {
             "width=200,height=200,resizeable,scrollbars"
         );
 
-        setIsOpen(true);
+        isOpenHandler(true);
         console.log("popup", popup);
 
         form.action = form_url;

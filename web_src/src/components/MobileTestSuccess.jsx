@@ -18,6 +18,7 @@ const MobileTestSuccess = () => {
     const closeWindow = () => {
         window.opener = null;
         window.open("", "_self");
+        window.opener.parent.location.reload();
         window.close();
     };
 
