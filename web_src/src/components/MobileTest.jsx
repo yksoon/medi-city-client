@@ -6,8 +6,7 @@ import { set_cert_info } from "redux/actions/certAction";
 let certInfo;
 let popup;
 const MobileTest = () => {
-    const [popup, setPopup] = useState();
-
+    const [isOpen, setIsOpen] = useState(false);
     const form_url = useRef(null);
     const enc_data = useRef(null);
     const integrity_value = useRef(null);
@@ -17,7 +16,9 @@ const MobileTest = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(set_cert_info(null));
+        if (!isOpen) {
+            dispatch(set_cert_info(null));
+        }
     }, []);
 
     certInfo = useSelector((state) => state.certInfo.certInfo);
@@ -78,8 +79,7 @@ const MobileTest = () => {
             "width=200,height=200,resizeable,scrollbars"
         );
 
-        setPopup(popup);
-
+        setIsOpen(true);
         console.log("popup", popup);
 
         form.action = form_url;
@@ -87,41 +87,32 @@ const MobileTest = () => {
         form.target = "auth";
 
         form.submit();
+
+        popup.addEventListener("beforeunload", function (event) {
+            console.log("4444444444");
+            console.log(event);
+        });
     };
 
-    useEffect(() => {
-        console.log("11111");
-        if (!popup) {
-            console.log("22222");
-            return;
-        }
+    // popup.addEventListener("beforeunload", () => {
+    //     console.log("44444");
+    // });
 
-        const githubOAuthCodeListener = (e) => {
-            console.log("333");
-            // 동일한 Origin 의 이벤트만 처리하도록 제한
-            if (e.origin !== window.location.origin) {
-                console.log("444");
-                return;
-            }
-            const { code } = e.data;
-            if (code) {
-                console.log(`The popup URL has URL code param = ${code}`);
-            }
-            popup?.close();
-            setPopup(null);
-        };
+    // popup.onbeforeunload = function () {
+    //     console.log("44444");
+    // };
 
-        window.addEventListener("beforeunload", githubOAuthCodeListener, false);
+    const testOpenPopup = () => {
+        let pop = window.open(
+            "",
+            "auth",
+            "width=200,height=200,resizeable,scrollbars"
+        );
 
-        return () => {
-            window.removeEventListener("beforeunload", githubOAuthCodeListener);
-            popup?.close();
-            setPopup(null);
-        };
-    }, [popup]);
-
-    popup.onbeforeunload = function () {
-        console.log("44444");
+        pop.addEventListener("beforeunload", function (event) {
+            console.log("닫혔다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
+            console.log(event);
+        });
     };
 
     return (
@@ -157,9 +148,15 @@ const MobileTest = () => {
                     />
                 </form>
 
-                <input type="text" id="oh_test" name="oh_test" />
+                <input
+                    type="text"
+                    id="oh_test"
+                    name="oh_test"
+                    value={certInfo}
+                />
 
                 <button onClick={confirmAuth}>인증번호 발송</button>
+                <button onClick={testOpenPopup}>테스트</button>
                 <div>{certInfo ? certInfo : ""}</div>
                 {console.log(certInfo)}
             </div>
