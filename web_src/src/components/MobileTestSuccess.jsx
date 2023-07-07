@@ -45,12 +45,14 @@ const MobileTestSuccess = () => {
 
                     // alert("인증 완료");
                     closeWindow();
-                    window.location.reload();
+                    window.location.href =
+                        "http://dev-web.medi-city.co.kr/mobile_test";
                 } else {
                     // alert("에러");
                     localStorage.removeItem("certification_idx");
                     closeWindow();
-                    window.location.reload();
+                    window.location.href =
+                        "http://dev-web.medi-city.co.kr/mobile_test";
                 }
             })
             .catch((error) => {
@@ -59,7 +61,8 @@ const MobileTestSuccess = () => {
                 localStorage.removeItem("certification_idx");
                 alert("에러");
                 closeWindow();
-                window.location.reload();
+                window.location.href =
+                    "http://dev-web.medi-city.co.kr/mobile_test";
             });
     };
 
