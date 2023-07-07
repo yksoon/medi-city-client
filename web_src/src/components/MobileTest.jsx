@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { set_cert_info } from "redux/actions/certAction";
 
-let certInfo;
+let certInfo2;
 let popup;
 
 const MobileTest = ({ isOpenHandler, isOpen }) => {
@@ -16,13 +16,13 @@ const MobileTest = ({ isOpenHandler, isOpen }) => {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (!isOpen) {
-            dispatch(set_cert_info(null));
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (!isOpen) {
+    //         dispatch(set_cert_info(null));
+    //     }
+    // }, []);
 
-    certInfo = useSelector((state) => state.certInfo.certInfo);
+    certInfo2 = useSelector((state) => state.certInfo.certInfo);
 
     const confirmAuth = () => {
         if (window.confirm("인증번호를 발송하시겠습니까?")) {
@@ -35,7 +35,7 @@ const MobileTest = ({ isOpenHandler, isOpen }) => {
     useEffect(() => {
         if (isInter) {
             setInterval(() => {
-                console.log(certInfo);
+                console.log(certInfo2);
             }, 500);
 
             return () => clearInterval(); // 컴포넌트가 마운트 해제될 때 간격을 지우기 위해 clearInterval 함수 반환
@@ -138,12 +138,12 @@ const MobileTest = ({ isOpenHandler, isOpen }) => {
                     type="text"
                     id="oh_test"
                     name="oh_test"
-                    value={certInfo}
+                    value={certInfo2}
                 />
 
                 <button onClick={confirmAuth}>인증번호 발송</button>
-                <div>나와라({certInfo})</div>
-                {console.log(certInfo)}
+                <div>나와라({JSON.parse(certInfo2)})</div>
+                {console.log(certInfo2)}
             </div>
         </>
     );
