@@ -11,7 +11,7 @@ import certInfo from "./reducers/cert";
 const persistConfig = {
     key: "root",
     storage: storageSession,
-    whitelist: ["userInfo"],
+    whitelist: ["userInfo", "certInfo"],
 };
 
 const rootReducer = combineReducers({
