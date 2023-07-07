@@ -43,10 +43,10 @@ const MobileTestSuccess = () => {
                     dispatch(set_cert_info(JSON.stringify(resData)));
                     localStorage.removeItem("certification_idx");
 
-                    alert("인증 완료");
+                    // alert("인증 완료");
                     // closeWindow();
                 } else {
-                    alert("에러");
+                    // alert("에러");
                     localStorage.removeItem("certification_idx");
                     // closeWindow();
                 }
