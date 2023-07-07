@@ -115,49 +115,6 @@ function App() {
         <>
             <div className="wrap">
                 <Router />;
-                {/* <Routes>
-                    <Route path={routerPath.main_url} element={<Main />} />
-                    <Route
-                        path={routerPath.myPage_url}
-                        element={<MyPageMain />}
-                    />
-
-                    <Route
-                        path={routerPath.signup_url}
-                        element={<SignUpMain />}
-                    />
-                    <Route
-                        path={routerPath.signup_ok_url}
-                        element={<SignUpOk />}
-                    />
-                    <Route
-                        path={routerPath.terms_url}
-                        element={<TermsMain />}
-                    />
-                    <Route
-                        path={routerPath.privacy_url}
-                        element={<PrivacyMain />}
-                    />
-
-                    <Route
-                        path={routerPath.findId_url}
-                        element={<FindIdMain />}
-                    />
-
-                    <Route
-                        path={routerPath.findPw_url}
-                        element={<FindPWMain />}
-                    />
-
-                    <Route path={"/mobile_test"} element={<MobileTest />} />
-
-                    <Route
-                        path={"/cert/result"}
-                        element={<MobileTestSuccess />}
-                    />
-
-                    <Route path="*" element={<NotFoundPage />} />
-                </Routes> */}
             </div>
         </>
     );
