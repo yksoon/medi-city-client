@@ -1,7 +1,9 @@
 import { RestServer } from "common/js/Rest";
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { set_cert_info } from "redux/actions/certAction";
 
+let certInfo;
 const MobileTest = () => {
     const form_url = useRef(null);
     const enc_data = useRef(null);
@@ -9,12 +11,13 @@ const MobileTest = () => {
     const m = useRef(null);
     const token_version_id = useRef(null);
 
-    const [cert, setCert] = useState({});
-    let certInfo = useSelector((state) => state.certInfo.certInfo);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        setCert(certInfo);
-    }, [certInfo]);
+        dispatch(set_cert_info(null));
+    }, []);
+
+    certInfo = useSelector((state) => state.certInfo.certInfo);
 
     const confirmAuth = () => {
         if (window.confirm("인증번호를 발송하시겠습니까?")) {
@@ -108,7 +111,8 @@ const MobileTest = () => {
                     />
                 </form>
                 <button onClick={confirmAuth}>인증번호 발송</button>
-                <div>{cert ? cert : ""}</div>
+                <div>{certInfo ? certInfo : ""}</div>
+                {console.log(certInfo)}
             </div>
         </>
     );
