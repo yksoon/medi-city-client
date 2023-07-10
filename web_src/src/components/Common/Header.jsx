@@ -199,7 +199,7 @@ function Header({ props }) {
                                             SIGN UP
                                         </Link>
                                     </div>
-                                    <Link to={"/mobile_test"}>!</Link>
+                                    {/* <Link to={"/mobile_test"}>!</Link> */}
                                     <Link
                                         to={routerPath.findId_url}
                                         className="font-12"

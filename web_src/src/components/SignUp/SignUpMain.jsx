@@ -52,15 +52,25 @@ function SignUpMain() {
     const [chkId, setChkId] = useState(false);
     const [chkPw, setChkPw] = useState(false);
     const [chkMobile, setChkMobile] = useState(false);
-    const [certification_idx, setCertification_idx] = useState(0);
+    const certInfo = useSelector((state) => state.certInfo.certInfo);
 
-    const changeCertIdx = (num) => {
-        setCertification_idx(num);
-    };
+    const certification_idx = localStorage.getItem("certification_idx");
+
     const sendSignupForm = () => {
         if (validation()) {
             alert("통과");
             console.log(signupRefs);
+
+            let birth_yyyy = certInfo.birth_date.slice(0, 4);
+            let birth_mm = certInfo.birth_date.slice(4, 6);
+            let birth_dd = certInfo.birth_date.slice(-2);
+            let gender;
+
+            if (certInfo.gender === "1") {
+                gender = "0";
+            } else if (certInfo.gender === "0") {
+                gender = "1";
+            }
 
             let data = {
                 user_id: signupRefs.inputID.current.value,
@@ -70,7 +80,7 @@ function SignUpMain() {
                 user_name_first_en: signupRefs.user_name_first_en.current.value,
                 user_name_last_en: signupRefs.user_name_last_en.current.value,
                 md_licenses_number: signupRefs.md_licenses_number.current.value,
-                auth_code: signupRefs.auth_code.current.value,
+                auth_code: certification_idx,
                 inter_phone_number: signupRefs.inter_phone_number.current.value,
                 mobile1: signupRefs.inputMobile1.current.value,
                 mobile2: signupRefs.inputMobile2.current.value,
@@ -84,6 +94,10 @@ function SignUpMain() {
                 sms_yn: signupRefs.marketing_sms.current.checked ? "Y" : "N",
                 email_yn: signupRefs.marketing_mail.current.checked ? "Y" : "N",
                 certification_idx: certification_idx,
+                birth_yyyy: birth_yyyy,
+                birth_mm: birth_mm,
+                birth_dd: birth_dd,
+                gender: gender,
             };
 
             let url = apiPath.api_user;
@@ -166,6 +180,16 @@ function SignUpMain() {
             return false;
         }
         if (
+            signupRefs.user_name_first_ko.current.value +
+                signupRefs.user_name_last_ko.current.value !==
+            certInfo.name
+        ) {
+            alert("성명이 일치하지 않습니다.");
+            signupRefs.user_name_first_ko.current.focus();
+
+            return false;
+        }
+        if (
             !signupRefs.termsChk.current.checked ||
             !signupRefs.privacyChk.current.checked
         ) {
@@ -199,7 +223,6 @@ function SignUpMain() {
                             <MobileComponent
                                 ref={signupRefs}
                                 mobileStatus={mobileStatus}
-                                changeCertIdx={changeCertIdx}
                             />
                         </div>
                         <div>

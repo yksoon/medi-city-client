@@ -18,6 +18,8 @@ const MobileComponent = forwardRef((props, ref) => {
         auth_code,
     } = ref;
 
+    const mobileStatus = props.mobileStatus;
+
     const dispatch = useDispatch();
 
     const form_url = useRef(null);
@@ -260,6 +262,7 @@ const MobileComponent = forwardRef((props, ref) => {
                     setUserData(resData);
 
                     dispatch(set_cert_info(resData));
+                    mobileStatus(true);
 
                     // 인증 확인 시 인터벌 해제
                     stopTimer();
