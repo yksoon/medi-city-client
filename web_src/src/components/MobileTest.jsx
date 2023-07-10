@@ -12,6 +12,7 @@ const MobileTest = () => {
     const integrity_value = useRef(null);
     const m = useRef(null);
     const token_version_id = useRef(null);
+    const [userData, setUserData] = useState({});
 
     //컴포넌트는 useState 훅을 사용하여 min, sec 두 개의 상태 변수 정의
     const [sec, setSec] = useState(300);
@@ -53,8 +54,8 @@ const MobileTest = () => {
 
     // setInterval()를 멈추기 위한 clearInterval() 호출
     const stopTimer = () => {
-        setSec(0);
         setTimerStatus(false);
+        clearInterval(timerId.current);
     };
 
     // 타이머 재시작
@@ -138,15 +139,15 @@ const MobileTest = () => {
         const url = apiPath.api_user_cert_result + `/${certification_idx}`;
 
         if (certification_idx) {
-            console.log("인증확인 요청중");
             RestServer("get", url, {})
                 .then((response) => {
-                    // console.log("authTest", response);
+                    console.log("response", response);
 
-                    // let resData = response.data.result_info;
-                    alert("오나전 성공일까?");
+                    let resData = response.data.result_info;
+                    setUserData(resData);
 
-                    console.log("ok======>", response);
+                    // 인증 확인 시 인터벌 해제
+                    stopTimer();
                 })
                 .catch((error) => {
                     // 오류발생시 실행
