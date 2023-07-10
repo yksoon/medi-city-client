@@ -137,8 +137,8 @@ const MobileTest = () => {
         const certification_idx = localStorage.getItem("certification_idx");
         const url = apiPath.api_user_cert_result + `/${certification_idx}`;
 
-        console.log("인증확인 요청중");
         if (certification_idx) {
+            console.log("인증확인 요청중");
             RestServer("get", url, {})
                 .then((response) => {
                     // console.log("authTest", response);
