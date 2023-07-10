@@ -124,6 +124,10 @@ const apiPath = {
         base_api_url + slash + account + slash + version + slash
     }users`,
 
+    api_user_check: `${
+        base_api_url + slash + account + slash + version + slash
+    }user/_check`,
+
     // 사용자 확인 POST
     api_user_licenses: `${
         base_api_url + slash + account + slash + version + slash
