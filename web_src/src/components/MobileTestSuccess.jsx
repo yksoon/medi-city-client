@@ -47,11 +47,11 @@ const MobileTestSuccess = () => {
 
                     console.log(certInfo2);
                     // alert("인증 완료");
-                    // closeWindow();
+                    closeWindow();
                 } else {
                     // alert("에러");
                     localStorage.removeItem("certification_idx");
-                    // closeWindow();
+                    closeWindow();
                 }
             })
             .catch((error) => {
