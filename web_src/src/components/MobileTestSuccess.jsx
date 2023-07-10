@@ -43,21 +43,21 @@ const MobileTestSuccess = () => {
 
                 if (result_code === "0000") {
                     dispatch(set_cert_info(JSON.stringify(resData)));
-                    localStorage.removeItem("certification_idx");
+                    // localStorage.removeItem("certification_idx");
 
                     console.log(certInfo2);
                     // alert("인증 완료");
                     closeWindow();
                 } else {
                     // alert("에러");
-                    localStorage.removeItem("certification_idx");
+                    // localStorage.removeItem("certification_idx");
                     closeWindow();
                 }
             })
             .catch((error) => {
                 // 오류발생시 실행
                 console.log(error);
-                localStorage.removeItem("certification_idx");
+                // localStorage.removeItem("certification_idx");
                 alert("에러");
                 // closeWindow();
             });
