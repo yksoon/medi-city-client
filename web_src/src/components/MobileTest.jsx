@@ -14,7 +14,7 @@ const MobileTest = () => {
     const token_version_id = useRef(null);
 
     //컴포넌트는 useState 훅을 사용하여 min, sec 두 개의 상태 변수 정의
-    const [sec, setSec] = useState(60);
+    const [sec, setSec] = useState(300);
     const timerId = useRef(null); // 간격 타이머의 Id 저장
     const [timerStatus, setTimerStatus] = useState(false);
 
@@ -59,7 +59,7 @@ const MobileTest = () => {
 
     // 타이머 재시작
     const restartTimer = () => {
-        setSec(60);
+        setSec(300);
         setTimerStatus(true);
     };
 
@@ -138,13 +138,14 @@ const MobileTest = () => {
         const url = apiPath.api_user_cert_result + `/${certification_idx}`;
 
         if (certification_idx) {
-            RestServer("get", url)
+            RestServer("get", url, {})
                 .then((response) => {
                     // console.log("authTest", response);
 
                     // let resData = response.data.result_info;
+                    alert("오나전 성공일까?");
 
-                    console.log(response);
+                    console.log("ok======>", response);
                 })
                 .catch((error) => {
                     // 오류발생시 실행
