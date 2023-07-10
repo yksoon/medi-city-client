@@ -41,12 +41,6 @@ function App() {
         // localStorage.clear();
     }, []);
 
-    const [isOpen, setIsOpen] = useState(false);
-
-    const isOpenHandler = (status) => {
-        setIsOpen(status);
-    };
-
     const dispatch = useDispatch();
 
     // IP
@@ -120,7 +114,7 @@ function App() {
     return (
         <>
             <div className="wrap">
-                <Router isOpenHandler={isOpenHandler} isOpen={isOpen} />;
+                <Router />;
             </div>
         </>
     );

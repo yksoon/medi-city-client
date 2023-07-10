@@ -21,7 +21,7 @@ import FindPWMain from "components/FindAccount/FindPW/FindPWMain";
 import MobileTest from "components/MobileTest";
 import MobileTestSuccess from "components/MobileTestSuccess";
 
-const Router = ({ isOpenHandler, isOpen }) => {
+const Router = () => {
     return (
         <Routes>
             {/* /link를 입력하면 LinkPage 오픈 */}
@@ -41,12 +41,7 @@ const Router = ({ isOpenHandler, isOpen }) => {
             <Route path={routerPath.findPw_url} element={<FindPWMain />} />
 
             {/* 휴대폰인증 테스트 */}
-            <Route
-                path={"/mobile_test"}
-                element={
-                    <MobileTest isOpenHandler={isOpenHandler} isOpen={isOpen} />
-                }
-            />
+            <Route path={"/mobile_test"} element={<MobileTest />} />
 
             {/* 휴대폰인증 테스트 */}
             <Route path={"/cert/result"} element={<MobileTestSuccess />} />
