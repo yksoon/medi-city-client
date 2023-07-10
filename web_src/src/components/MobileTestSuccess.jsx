@@ -1,18 +1,13 @@
 import { CircularProgress } from "@mui/material";
 import { RestServer } from "common/js/Rest";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { set_cert_info } from "redux/actions/certAction";
 
 let certInfo2;
 const MobileTestSuccess = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const queryList = [...searchParams];
 
-    const dispatch = useDispatch();
-
-    certInfo2 = useSelector((state) => state.certInfo.certInfo);
     useEffect(() => {
         certChk();
     }, []);
@@ -42,16 +37,14 @@ const MobileTestSuccess = () => {
                 console.log(resData);
 
                 if (result_code === "0000") {
-                    dispatch(set_cert_info(JSON.stringify(resData)));
-                    // localStorage.removeItem("certification_idx");
+                    // dispatch(set_cert_info(JSON.stringify(resData)));
 
                     console.log(certInfo2);
-                    // alert("인증 완료");
                     closeWindow();
                 } else {
-                    // alert("에러");
+                    alert("에러");
                     // localStorage.removeItem("certification_idx");
-                    closeWindow();
+                    // closeWindow();
                 }
             })
             .catch((error) => {
