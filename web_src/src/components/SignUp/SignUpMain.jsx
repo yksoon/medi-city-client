@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import { Instance } from "common/js/Instance";
 
@@ -14,6 +14,7 @@ import LicenseComponent from "./signupComponents/LicenseComponent";
 import DepartmentComponent from "./signupComponents/DepartmentComponent";
 import TermsComponent from "./signupComponents/TermsComponent";
 import { useSelector } from "react-redux";
+import { RestServer } from "common/js/Rest";
 
 function SignUpMain() {
     // const codes = useSelector((state) => state.codes.codes);
@@ -23,6 +24,9 @@ function SignUpMain() {
     // console.log(codes);
     // console.log(resultCodes);
     // console.log(countryBank);
+
+    const navigate = useNavigate();
+
     const signupRefs = {
         accountType: useRef(null),
         inputID: useRef(null),
@@ -98,17 +102,21 @@ function SignUpMain() {
                 birth_mm: birth_mm,
                 birth_dd: birth_dd,
                 gender: gender,
+                user_ci: certInfo.ci,
+                user_di: certInfo.di,
             };
 
             let url = apiPath.api_user;
-            Instance.post(url, data)
-                .then(function (response) {
+
+            RestServer("post", url, data)
+                .then((response) => {
                     // response
                     let res = response;
-
                     console.log(res);
+
+                    navigate(routerPath.signup_ok_url);
                 })
-                .catch(function (error) {
+                .catch((error) => {
                     // 오류발생시 실행
                     console.log(error);
                     console.log(error.response.headers.result_message_ko);
