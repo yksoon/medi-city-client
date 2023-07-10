@@ -1,9 +1,10 @@
 import React, { useRef, forwardRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import { Instance } from "common/js/Instance";
+import { CircularProgress } from "@mui/material";
 import { RestServer } from "common/js/Rest";
-import { CommonAlert } from "common/js/Common";
 import { apiPath } from "webPath";
+import { useDispatch } from "react-redux";
+import { set_cert_info } from "redux/actions/certAction";
 
 // 인증 idx
 let certNumIdxFromServer;
@@ -16,23 +17,22 @@ const MobileComponent = forwardRef((props, ref) => {
         inter_phone_number,
         auth_code,
     } = ref;
-    // const certInput = useRef();
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [modalTitle, setModalTitle] = useState("");
-    const [modalContent, setModalContent] = useState([]);
+    const dispatch = useDispatch();
 
-    const changeCertIdx = props.changeCertIdx;
+    const form_url = useRef(null);
+    const enc_data = useRef(null);
+    const integrity_value = useRef(null);
+    const m = useRef(null);
+    const token_version_id = useRef(null);
+    const [userData, setUserData] = useState({});
 
-    //컴포넌트는 useState 훅을 사용하여 min, sec 두 개의 상태 변수 정의
-    const [min, setMin] = useState(3);
-    const [sec, setSec] = useState(0);
-    const time = useRef(180); // useRef hook time 변수 생성, 초 단위로 5분
+    const [sec, setSec] = useState(300);
     const timerId = useRef(null); // 간격 타이머의 Id 저장
-    const timerSpan = useRef(null);
-    const [timerStatus, setTimerStatus] = useState(false);
+    const [timerStatus, setTimerStatus] = useState(false); // 타이머 상태
 
-    const mobileStatus = props.mobileStatus;
+    const [isLoading, setIsLoading] = useState(false);
+    const [certStatus, setCertStatus] = useState(false);
 
     // 타이머 시작
     // - 의존성 배열이 비어있으므로 한 번만 실행됨
@@ -42,10 +42,10 @@ const MobileComponent = forwardRef((props, ref) => {
     useEffect(() => {
         if (timerStatus) {
             timerId.current = setInterval(() => {
-                setMin(parseInt(time.current / 60));
-                setSec(time.current % 60);
-                time.current -= 1; // 남은 시간을 추적하기 위해 1씩 감소
-            }, 1000);
+                setSec((sec) => sec - 5);
+
+                chkCert();
+            }, 5000);
 
             return () => clearInterval(timerId.current); // 컴포넌트가 마운트 해제될 때 간격을 지우기 위해 clearInterval 함수 반환
         } else {
@@ -56,43 +56,38 @@ const MobileComponent = forwardRef((props, ref) => {
     // 시간이 0에 도달했을 때 확인
     // sec 상태 변수가 변경될 때마다 실행
     useEffect(() => {
-        if (time.current <= 0) {
+        console.log(sec);
+        if (sec <= 0) {
             console.log("time out");
             clearInterval(timerId.current); // 간격지우고 콘솔에 메시지 기록
 
-            // 타임 아웃을 처리하기 위해 이벤트를 dispatch
             stopTimer();
+
+            alert("시간초과. 인증을 다시 진행해주세요.");
         }
     }, [sec]);
 
+    // useEffect(() => {
+    //     const mobileAll = "01050907526";
+    //     const mobile1 = mobileAll.slice(0, 3);
+    //     const mobile2 = mobileAll.slice(3, 7);
+    //     const mobile3 = mobileAll.slice(-4);
+
+    //     console.log(mobile1);
+    //     console.log(mobile2);
+    //     console.log(mobile3);
+    // }, []);
+
     // setInterval()를 멈추기 위한 clearInterval() 호출
     const stopTimer = () => {
-        setMin(0);
-        setSec(0);
-        timerSpan.current.style.setProperty("display", "none");
-        // clearInterval(timerId.current);
         setTimerStatus(false);
+        clearInterval(timerId.current);
     };
 
     // 타이머 재시작
     const restartTimer = () => {
-        setMin(3);
-        setSec(0);
-        time.current = 180;
-        // clearInterval(timerId.current);
+        setSec(300);
         setTimerStatus(true);
-    };
-
-    const handleModalOpen = (title, content) => {
-        setModalTitle(title);
-        setModalContent(content);
-        setIsOpen(true);
-    };
-
-    const handleModalClose = () => {
-        setIsOpen(false);
-        setModalTitle("");
-        setModalContent([]);
     };
 
     // 04. 휴대폰 인증
@@ -106,6 +101,7 @@ const MobileComponent = forwardRef((props, ref) => {
         switch (checkNum) {
             case 1:
                 // 인증번호 발송
+                phoneDisplay("phone_check_after_btn", "block");
                 sendCert();
                 break;
             case 2:
@@ -117,40 +113,8 @@ const MobileComponent = forwardRef((props, ref) => {
                 sendCert();
                 break;
 
-            case 4:
-                // 번호 재입력
-                stopTimer();
-                phoneAction(false, "hold");
-                phoneDisplay("phone_check_before", "block");
-                phoneDisplay("phone_check_after", "none");
-                phoneDisplay("phone_check_after_btn", "none");
-                phoneMark("휴대폰 인증을 진행해주세요", null, "green");
-                break;
-
             default:
                 break;
-        }
-
-        // last_msg = before_msg + div_msg + after_msg;
-        // if (checkNum != 4 && clickAction) {
-        //     alert(last_msg);
-        // }
-    }
-
-    function phoneAction(readOnlyYn, cssName) {
-        let phone_num = "phone_num";
-        let phone_num_name = "";
-        // let result = true;
-        for (let i = 1; i <= 3; i++) {
-            phone_num_name = phone_num + i;
-            document.getElementById(phone_num_name).readOnly = readOnlyYn;
-            if (readOnlyYn) {
-                document.getElementById(phone_num_name).classList.add(cssName);
-            } else {
-                document
-                    .getElementById(phone_num_name)
-                    .classList.remove(cssName);
-            }
         }
     }
 
@@ -158,17 +122,38 @@ const MobileComponent = forwardRef((props, ref) => {
         document.getElementById(idName).style.display = displayType;
     }
 
-    function phoneMark(innterTextChange, addClass, removeClass) {
-        document.getElementById("mark_tel").innerText = innterTextChange;
+    // function phoneAction(readOnlyYn, cssName) {
+    //     let phone_num = "phone_num";
+    //     let phone_num_name = "";
+    //     // let result = true;
+    //     for (let i = 1; i <= 3; i++) {
+    //         phone_num_name = phone_num + i;
+    //         document.getElementById(phone_num_name).readOnly = readOnlyYn;
+    //         if (readOnlyYn) {
+    //             document.getElementById(phone_num_name).classList.add(cssName);
+    //         } else {
+    //             document
+    //                 .getElementById(phone_num_name)
+    //                 .classList.remove(cssName);
+    //         }
+    //     }
+    // }
 
-        if (addClass != null) {
-            document.getElementById("mark_tel").classList.add(addClass);
-        }
+    // function phoneDisplay(idName, displayType) {
+    //     document.getElementById(idName).style.display = displayType;
+    // }
 
-        if (removeClass != null) {
-            document.getElementById("mark_tel").classList.remove(removeClass);
-        }
-    }
+    // function phoneMark(innterTextChange, addClass, removeClass) {
+    //     document.getElementById("mark_tel").innerText = innterTextChange;
+
+    //     if (addClass != null) {
+    //         document.getElementById("mark_tel").classList.add(addClass);
+    //     }
+
+    //     if (removeClass != null) {
+    //         document.getElementById("mark_tel").classList.remove(removeClass);
+    //     }
+    // }
 
     // 휴대전화 숫자만
     const onlyNum = (e) => {
@@ -203,126 +188,125 @@ const MobileComponent = forwardRef((props, ref) => {
 
     // 인증번호 발송
     const sendCert = () => {
-        if (
-            !inputMobile1.current.value ||
-            !inputMobile2.current.value ||
-            !inputMobile3.current.value
-        ) {
-            handleModalOpen("알림", "전화번호를 입력해주세요");
-            // alert("전화번호를 입력 해주세요");
-            inputMobile2.current.focus();
-            return;
-        } else {
-            socketMkCert(
-                inter_phone_number.current.value, //TODO : 추후 공통 코드로 받을것.
-                inputMobile1.current.value,
-                inputMobile2.current.value,
-                inputMobile3.current.value
-            );
-        }
-    };
+        setIsLoading(true);
 
-    // 인증번호 발송 통신
-    const socketMkCert = (inter_phone_number, mobile1, mobile2, mobile3) => {
-        let mk_cert_url = apiPath.api_user_cert;
+        const url = apiPath.api_user_cert;
 
         let data = {
-            inter_phone_number: inter_phone_number,
-            mobile1: mobile1,
-            mobile2: mobile2,
-            mobile3: mobile3,
-        };
-        RestServer("post", mk_cert_url, data)
-            .then(function (response) {
-                // response
-                let res = response;
-
-                let msg = "인증번호를 발송 하였습니다";
-                alert(msg);
-
-                // 인증 idx
-                certNumIdxFromServer = String(
-                    res.data.result_info.certification_idx
-                );
-
-                changeCertIdx(res.data.result_info.certification_idx);
-                // console.log(res.response);
-
-                phoneDisplay("phone_check_before", "none");
-                phoneDisplay("phone_check_after", "block");
-                phoneDisplay("phone_check_after_btn", "block");
-                phoneAction(true, "hold");
-                phoneMark("인증번호를 입력해주세요", "red", null);
-
-                // 인증번호 타이머 3분 시작
-                // setTimerStatus(true);
-                restartTimer();
-            })
-            .catch(function (error) {
-                // 오류발생시 실행
-                console.log(error);
-                alert("오류가 발생했습니다. 다시 시도해주세요.");
-            });
-    };
-
-    // 인증번호 확인
-    const chkCert = () => {
-        let certInputValue = auth_code.current.value;
-
-        if (!certInputValue) {
-            alert("인증번호를 입력해주세요");
-            auth_code.current.focus();
-        } else {
-            socketChkCert(certNumIdxFromServer, certInputValue);
-        }
-    };
-
-    // 인증번호 확인 통신
-    const socketChkCert = (certNumIdxFromServer, certInputValue) => {
-        let api_user_cert_chk = apiPath.api_user_cert_chk;
-
-        let data = {
-            certification_idx: certNumIdxFromServer,
-            auth_code: certInputValue,
             certification_tool: "000",
             certification_type: "000",
         };
 
-        RestServer("put", api_user_cert_chk, data)
-            .then(function (response) {
-                // response
-                let res = response.data.result_info;
+        RestServer("post", url, data)
+            .then((response) => {
+                // console.log("authTest", response);
 
-                console.log(res);
+                let resData = response.data.result_info;
 
-                if (res) {
-                    document.getElementById("phoneCheck").classList.add("hold");
-                    document
-                        .getElementById("phoneCheck")
-                        .removeAttribute("onclick");
-                    document
-                        .getElementById("phone_d_num")
-                        .classList.add("hold");
-                    document.getElementById("phone_d_num").readOnly = true;
-                    phoneMark("인증이 완료되었습니다.", "green", "red");
+                localStorage.setItem(
+                    "certification_idx",
+                    resData.certification_idx
+                );
 
-                    // 인증 완료후 상태 변경
-                    mobileStatus(true);
-
-                    // 타이머 종료
-                    stopTimer(false);
-
-                    phoneDisplay("phone_check_after_btn", "none");
-                } else {
-                    alert("인증번호를 확인 해주세요");
-                }
-                // console.log(ret.response);
+                insertFormData(resData);
             })
-            .catch(function (error) {
+            .catch((error) => {
                 // 오류발생시 실행
                 console.log(error);
-                alert("오류가 발생했습니다. 다시 시도해주세요.");
             });
+    };
+
+    const insertFormData = (resData) => {
+        console.log(resData);
+
+        token_version_id.current.value = resData.token_version_id;
+        enc_data.current.value = resData.enc_data;
+        integrity_value.current.value = resData.integrity_value;
+        m.current.value = resData.m;
+
+        sendForm(resData.form_url);
+    };
+
+    const sendForm = (form_url) => {
+        let form = document.getElementById("form");
+
+        // 5초마다 타이머 시작
+        setTimerStatus(true);
+
+        let popup = window.open(
+            "",
+            "auth",
+            "width=200,height=200,resizeable,scrollbars"
+        );
+
+        form.action = form_url;
+        form.mothod = "POST";
+        form.target = "auth";
+
+        form.submit();
+    };
+
+    // 인증번호 확인
+    const chkCert = () => {
+        const certification_idx = localStorage.getItem("certification_idx");
+        const url = apiPath.api_user_cert_result + `/${certification_idx}`;
+
+        if (certification_idx) {
+            RestServer("get", url, {})
+                .then((response) => {
+                    console.log("response", response);
+
+                    let resData = response.data.result_info;
+                    setUserData(resData);
+
+                    dispatch(set_cert_info(resData));
+
+                    // 인증 확인 시 인터벌 해제
+                    stopTimer();
+                    setIsLoading(false);
+                    setCertStatus(true);
+
+                    // 인증 완료 후 로직
+                    certComplete();
+                })
+                .catch((error) => {
+                    // 오류발생시 실행
+                    console.log(error);
+                });
+        }
+    };
+
+    const certComplete = () => {
+        // {
+        //     "result_code": "0000",
+        //     "request_no": "000000000000000000000000000206",
+        //     "enc_time": "20230710161222",
+        //     "site_code": "Q0I1OTM=",
+        //     "response_no": "MCB59320230710161205WrHS",
+        //     "auth_type": "M",
+        //     "name": "용광순",
+        //     "utf8_name": "%EC%9A%A9%EA%B4%91%EC%88%9C",
+        //     "gender": "1",
+        //     "national_info": "0",
+        //     "birth_date": "19901108",
+        //     "mobile_co": null,
+        //     "mobile_no": null,
+        //     "ci": null,
+        //     "di": "MC0GCCqGSIb3DQIJAyEAFCkcy8A6zbBvA+XLEvyzjuvTlSl44WFuenYgwIbP67o=",
+        //     "business_no": null,
+        //     "receive_data": null
+        // }
+
+        // const mobileAll = userData.mobile_no;
+        const mobileAll = "01050907526";
+
+        const mobile1 = mobileAll.slice(0, 3);
+        const mobile2 = mobileAll.slice(3, 7);
+        const mobile3 = mobileAll.slice(-4);
+
+        inputMobile1.current.value = mobile1;
+        inputMobile2.current.value = mobile2;
+        inputMobile3.current.value = mobile3;
     };
 
     return (
@@ -340,14 +324,6 @@ const MobileComponent = forwardRef((props, ref) => {
                             }}
                         >
                             인증번호가 오지 않았나요?
-                        </Link>
-                        <Link
-                            className="font-12"
-                            onClick={(e) => {
-                                phoneCheck(4);
-                            }}
-                        >
-                            휴대전화 재입력
                         </Link>
                     </div>
                 </div>
@@ -371,75 +347,96 @@ const MobileComponent = forwardRef((props, ref) => {
                         />
                         <input
                             type="tel"
-                            className="input w140"
+                            className="input w140 hold"
                             id="phone_num2"
                             ref={inputMobile2}
                             onKeyUp={(e) => {
                                 onlyNum(e);
                             }}
+                            readOnly
                         />
                         <input
                             type="tel"
-                            className="input w140"
+                            className="input w140 hold"
                             id="phone_num3"
                             ref={inputMobile3}
                             onKeyUp={(e) => {
                                 onlyNum(e);
                             }}
+                            readOnly
                         />
                     </div>
                 </div>
             </div>
-            <div id="phone_check_before">
-                <Link
-                    className="subbtn on m0"
-                    onClick={(e) => {
-                        phoneCheck(1);
-                    }}
-                >
-                    인증 번호
-                </Link>
-            </div>
-            <div id="phone_check_after">
-                <h5>
-                    인증번호 <span className="red">*</span>
-                    <span id="mobileCount" ref={timerSpan}>{`${
-                        "0" + String(min)
-                    } : ${
-                        String(sec).length === 2
-                            ? String(sec)
-                            : "0" + String(sec)
-                    }`}</span>
-                </h5>
-
-                <div className="flex">
-                    <input
-                        type="text"
-                        className="input w180"
-                        id="phone_d_num"
-                        ref={auth_code}
-                    />
-                    <Link
-                        className="subbtn on"
-                        id="phoneCheck"
-                        onClick={(e) => {
-                            phoneCheck(2);
-                        }}
-                    >
-                        인증 확인
+            {certStatus ? (
+                <div id="phone_check_before">
+                    <div className="flex">
+                        <Link
+                            className="subbtn hold m0"
+                            id="phoneCheck"
+                            style={{ cursor: "auto" }}
+                        >
+                            인증 완료
+                        </Link>
+                    </div>
+                </div>
+            ) : isLoading ? (
+                <div id="phone_check_before">
+                    <Link className="subbtn on m0">
+                        <CircularProgress
+                            color="inherit"
+                            style={{
+                                padding: "10px",
+                            }}
+                        />
                     </Link>
                 </div>
-            </div>
-            <p className="mark" id="mark_tel">
-                휴대폰 인증을 진행해주세요.
-            </p>
-            <CommonAlert
-                isOpen={isOpen}
-                handleModalClose={handleModalClose}
-                btn={true}
-                content={modalContent}
-                title={modalTitle}
-            />
+            ) : (
+                <div id="phone_check_before">
+                    <Link
+                        className="subbtn on m0"
+                        onClick={(e) => {
+                            phoneCheck(1);
+                        }}
+                    >
+                        인증 번호
+                    </Link>
+                </div>
+            )}
+
+            {certStatus ? (
+                <p className="mark green" id="mark_tel">
+                    휴대폰 인증을 완료했습니다.
+                </p>
+            ) : (
+                <p className="mark" id="mark_tel">
+                    휴대폰 인증을 진행해주세요.
+                </p>
+            )}
+
+            {/* formData */}
+            <form name="form" id="form" ref={form_url}>
+                <input type="hidden" id="m" name="m" value="" ref={m} />
+                <input
+                    type="hidden"
+                    id="token_version_id"
+                    name="token_version_id"
+                    value=""
+                    ref={token_version_id}
+                />
+                <input
+                    type="hidden"
+                    id="enc_data"
+                    name="enc_data"
+                    ref={enc_data}
+                />
+                <input
+                    type="hidden"
+                    id="integrity_value"
+                    name="integrity_value"
+                    ref={integrity_value}
+                />
+            </form>
         </>
     );
 });

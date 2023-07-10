@@ -14,17 +14,11 @@ const persistConfig = {
     whitelist: ["userInfo"],
 };
 
-const productPersistConfig = {
-    key: "orderProduct",
-    storage,
-    whitelist: ["certInfo"],
-};
-
 const rootReducer = combineReducers({
     codes,
     userInfo: persistReducer(persistConfig, userInfo),
     ipInfo,
-    certInfo: persistReducer(productPersistConfig, certInfo),
+    certInfo,
 });
 
 export default rootReducer;
