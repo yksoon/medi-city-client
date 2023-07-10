@@ -62,18 +62,23 @@ function SignUpMain() {
 
     const sendSignupForm = () => {
         if (validation()) {
-            alert("통과");
+            // alert("통과");
             console.log(signupRefs);
 
             let birth_yyyy = certInfo.birth_date.slice(0, 4);
             let birth_mm = certInfo.birth_date.slice(4, 6);
             let birth_dd = certInfo.birth_date.slice(-2);
             let gender;
+            let certification_tool;
 
             if (certInfo.gender === "1") {
                 gender = "0";
             } else if (certInfo.gender === "0") {
                 gender = "1";
+            }
+
+            if (certInfo.auth_type === "M") {
+                certification_tool = "000";
             }
 
             let data = {
@@ -104,6 +109,8 @@ function SignUpMain() {
                 gender: gender,
                 user_ci: certInfo.ci,
                 user_di: certInfo.di,
+                certification_tool: certification_tool,
+                certification_type: "000",
             };
 
             let url = apiPath.api_user;
