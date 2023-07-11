@@ -3,31 +3,27 @@ import { Link } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import { RestServer } from "common/js/Rest";
 import { apiPath } from "webPath";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { set_cert_info } from "redux/actions/certAction";
+import { ResultCode } from "common/js/ResultCode";
 
 // 인증 idx
 let certNumIdxFromServer;
 
 const MobileComponent = forwardRef((props, ref) => {
-    const {
-        inputMobile1,
-        inputMobile2,
-        inputMobile3,
-        inter_phone_number,
-        auth_code,
-    } = ref;
+    const { inputMobile1, inputMobile2, inputMobile3, inter_phone_number } =
+        ref;
 
     const mobileStatus = props.mobileStatus;
 
     const dispatch = useDispatch();
 
+    // 인증정보
     const form_url = useRef(null);
     const enc_data = useRef(null);
     const integrity_value = useRef(null);
     const m = useRef(null);
     const token_version_id = useRef(null);
-    const [userData, setUserData] = useState({});
 
     const [sec, setSec] = useState(300);
     const timerId = useRef(null); // 간격 타이머의 Id 저장
@@ -69,17 +65,6 @@ const MobileComponent = forwardRef((props, ref) => {
         }
     }, [sec]);
 
-    // useEffect(() => {
-    //     const mobileAll = "01050907526";
-    //     const mobile1 = mobileAll.slice(0, 3);
-    //     const mobile2 = mobileAll.slice(3, 7);
-    //     const mobile3 = mobileAll.slice(-4);
-
-    //     console.log(mobile1);
-    //     console.log(mobile2);
-    //     console.log(mobile3);
-    // }, []);
-
     // setInterval()를 멈추기 위한 clearInterval() 호출
     const stopTimer = () => {
         setTimerStatus(false);
@@ -107,10 +92,6 @@ const MobileComponent = forwardRef((props, ref) => {
                 sendCert();
                 break;
             case 2:
-                // 인증 확인
-                chkCert();
-                break;
-            case 3:
                 // 재발송
                 sendCert();
                 break;
@@ -123,39 +104,6 @@ const MobileComponent = forwardRef((props, ref) => {
     function phoneDisplay(idName, displayType) {
         document.getElementById(idName).style.display = displayType;
     }
-
-    // function phoneAction(readOnlyYn, cssName) {
-    //     let phone_num = "phone_num";
-    //     let phone_num_name = "";
-    //     // let result = true;
-    //     for (let i = 1; i <= 3; i++) {
-    //         phone_num_name = phone_num + i;
-    //         document.getElementById(phone_num_name).readOnly = readOnlyYn;
-    //         if (readOnlyYn) {
-    //             document.getElementById(phone_num_name).classList.add(cssName);
-    //         } else {
-    //             document
-    //                 .getElementById(phone_num_name)
-    //                 .classList.remove(cssName);
-    //         }
-    //     }
-    // }
-
-    // function phoneDisplay(idName, displayType) {
-    //     document.getElementById(idName).style.display = displayType;
-    // }
-
-    // function phoneMark(innterTextChange, addClass, removeClass) {
-    //     document.getElementById("mark_tel").innerText = innterTextChange;
-
-    //     if (addClass != null) {
-    //         document.getElementById("mark_tel").classList.add(addClass);
-    //     }
-
-    //     if (removeClass != null) {
-    //         document.getElementById("mark_tel").classList.remove(removeClass);
-    //     }
-    // }
 
     // 휴대전화 숫자만
     const onlyNum = (e) => {
@@ -215,6 +163,15 @@ const MobileComponent = forwardRef((props, ref) => {
             .catch((error) => {
                 // 오류발생시 실행
                 console.log(error);
+
+                let err = error.response.headers.result_code;
+                for (let i = 0; i < ResultCode.length; i++) {
+                    if (ResultCode[i].result_code === err) {
+                        let msg = ResultCode[i].result_message_ko;
+                        console.log(msg);
+                        alert(msg);
+                    }
+                }
             });
     };
 
@@ -259,22 +216,35 @@ const MobileComponent = forwardRef((props, ref) => {
                     console.log("response", response);
 
                     let resData = response.data.result_info;
-                    setUserData(resData);
+                    let result_code = response.headers.result_code;
 
-                    dispatch(set_cert_info(resData));
-                    mobileStatus(true);
+                    if (result_code === "0000") {
+                        dispatch(set_cert_info(resData));
+                        mobileStatus(true);
 
-                    // 인증 확인 시 인터벌 해제
-                    stopTimer();
-                    setIsLoading(false);
-                    setCertStatus(true);
+                        // 인증 확인 시 인터벌 해제
+                        stopTimer();
+                        setIsLoading(false);
+                        setCertStatus(true);
 
-                    // 인증 완료 후 로직
-                    certComplete();
+                        // 인증 완료 후 로직
+                        certComplete();
+                    } else {
+                        alert("에러");
+                    }
                 })
                 .catch((error) => {
                     // 오류발생시 실행
                     console.log(error);
+
+                    let err = error.response.headers.result_code;
+                    for (let i = 0; i < ResultCode.length; i++) {
+                        if (ResultCode[i].result_code === err) {
+                            let msg = ResultCode[i].result_message_ko;
+                            console.log(msg);
+                            alert(msg);
+                        }
+                    }
                 });
         }
     };
@@ -323,7 +293,7 @@ const MobileComponent = forwardRef((props, ref) => {
                         <Link
                             className="font-12 mr10 ml10"
                             onClick={(e) => {
-                                phoneCheck(3);
+                                phoneCheck(2);
                             }}
                         >
                             인증번호가 오지 않았나요?
