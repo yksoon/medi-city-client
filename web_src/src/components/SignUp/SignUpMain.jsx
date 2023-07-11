@@ -1,7 +1,9 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
-import { Instance } from "common/js/Instance";
+import { useDispatch, useSelector } from "react-redux";
+import { RestServer } from "common/js/Rest";
+import { set_cert_info } from "redux/actions/certAction";
 
 import Header from "components/Common/Header";
 import Footer from "components/Common/Footer";
@@ -13,8 +15,7 @@ import MobileComponent from "./signupComponents/MobileComponent";
 import LicenseComponent from "./signupComponents/LicenseComponent";
 import DepartmentComponent from "./signupComponents/DepartmentComponent";
 import TermsComponent from "./signupComponents/TermsComponent";
-import { useSelector } from "react-redux";
-import { RestServer } from "common/js/Rest";
+import { ResultCode } from "common/js/ResultCode";
 
 function SignUpMain() {
     // const codes = useSelector((state) => state.codes.codes);
@@ -26,6 +27,7 @@ function SignUpMain() {
     // console.log(countryBank);
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const signupRefs = {
         accountType: useRef(null),
@@ -48,7 +50,6 @@ function SignUpMain() {
         marketingChk: useRef(null),
         marketing_sms: useRef(null),
         marketing_mail: useRef(null),
-        auth_code: useRef(null),
     };
     // const inputID = useRef(null);
 
@@ -71,14 +72,33 @@ function SignUpMain() {
             let gender;
             let certification_tool;
 
+            // nice = 0: 여자, 1: 남자
             if (certInfo.gender === "1") {
                 gender = "0";
             } else if (certInfo.gender === "0") {
                 gender = "1";
             }
 
+            // auth_type
+            // M	휴대폰인증
+            // C	카드본인확인
+            // X	공동인증서
+            // F	금융인증서
+            // S	PASS인증서
+
+            // 인증 도구 = 000 : 휴대폰, 100 : 인증서, 200 : 이메일, 900 : 기타등등
             if (certInfo.auth_type === "M") {
                 certification_tool = "000";
+            } else if (
+                certInfo.auth_type === "X" ||
+                certInfo.auth_type === "F"
+            ) {
+                certification_tool = "100";
+            } else if (
+                certInfo.auth_type === "C" ||
+                certInfo.auth_type === "S"
+            ) {
+                certification_tool = "900";
             }
 
             let data = {
@@ -121,38 +141,31 @@ function SignUpMain() {
                     let res = response;
                     console.log(res);
 
-                    navigate(routerPath.signup_ok_url);
+                    let result_code = response.headers.result_code;
+
+                    if (result_code === "0000") {
+                        localStorage.removeItem("certification_idx");
+                        dispatch(set_cert_info(null));
+
+                        navigate(routerPath.signup_ok_url);
+                    } else {
+                        alert("에러");
+                    }
                 })
                 .catch((error) => {
                     // 오류발생시 실행
                     console.log(error);
-                    console.log(error.response.headers.result_message_ko);
-                    alert(error.response.headers.result_message_ko);
+                    let err = error.response.headers.result_code;
+                    for (let i = 0; i < ResultCode.length; i++) {
+                        if (ResultCode[i].result_code === err) {
+                            let msg = ResultCode[i].result_message_ko;
+                            console.log(msg);
+                            alert(msg);
+                        }
+                    }
                 });
         }
-        // console.log(signupRefs.inputID.current.value);
-        // console.log(signupRefs.inputPW.current.value);
-        // console.log(signupRefs.user_name_first_ko.current.value);
-
-        // console.log(signupRefs.marketing_sms.current.checked);
-        // console.log("chkId", chkId);
-        // console.log("chkPw", chkPw);
     };
-
-    // ref 여러개 전달
-    // https://velog.io/@youngcheon/forwardRef%EC%97%90-%EC%97%AC%EB%9F%AC%EA%B0%9C%EC%9D%98-Ref-%EC%A0%84%EB%8B%AC%ED%95%98%EA%B8%B0
-    //     부모 컴포넌트
-    // const refs = {
-    //     localVideoRef: useRef(null),
-    //     socketRef: useRef(null),
-    //     pcRef: useRef(null),
-    //     remoteVideoRef: useRef(null),
-    //   };
-    // 자식 컴포넌트
-    // const Socket = forwardRef((props, ref) => {
-    //   const { localVideoRef, socketRef, pcRef, remoteVideoRef } = ref;
-    //   ...
-    // };
 
     const idStatus = (status) => {
         setChkId(status);

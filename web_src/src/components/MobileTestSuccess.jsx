@@ -1,12 +1,15 @@
 import { CircularProgress } from "@mui/material";
 import { RestServer } from "common/js/Rest";
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
-let certInfo2;
+let resultCode;
 const MobileTestSuccess = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const queryList = [...searchParams];
+
+    resultCode = useSelector((state) => state.codes.resultCode);
 
     useEffect(() => {
         certChk();
@@ -37,22 +40,26 @@ const MobileTestSuccess = () => {
                 console.log(resData);
 
                 if (result_code === "0000") {
-                    // dispatch(set_cert_info(JSON.stringify(resData)));
-
-                    console.log(certInfo2);
                     closeWindow();
                 } else {
                     alert("에러");
-                    // localStorage.removeItem("certification_idx");
-                    // closeWindow();
+                    closeWindow();
                 }
             })
             .catch((error) => {
                 // 오류발생시 실행
                 console.log(error);
                 // localStorage.removeItem("certification_idx");
-                alert("에러");
-                // closeWindow();
+                let err = error.response.headers.result_code;
+                // console.log(err);
+
+                for (let i = 0; i < resultCode.length; i++) {
+                    if (resultCode[i].result_code === err) {
+                        let msg = resultCode[i].result_message_ko;
+                        console.log(msg);
+                        alert(msg);
+                    }
+                }
             });
     };
 
