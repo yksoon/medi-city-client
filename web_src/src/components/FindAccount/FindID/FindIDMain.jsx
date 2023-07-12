@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import { CircularProgress } from "@mui/material";
+import { CommonConsole } from "common/js/Common";
 
 let resultCode;
 function FindIDMain() {
@@ -90,7 +91,8 @@ function FindIDMain() {
             .then(function (response) {
                 // response
 
-                console.log(response);
+                CommonConsole("log", response);
+
                 let result_info;
 
                 let result_code = response.headers.result_code;
@@ -98,7 +100,7 @@ function FindIDMain() {
                 if (result_code === "0000") {
                     result_info = response.data.result_info;
 
-                    console.log(result_info);
+                    CommonConsole("log", result_info);
 
                     setFindList(result_info);
                     setIsLoading(false);
@@ -107,18 +109,10 @@ function FindIDMain() {
             })
             .catch(function (error) {
                 // 오류발생시 실행
-                console.log(error);
+                CommonConsole("log", error);
+                CommonConsole("decLog", error.response);
 
-                let err = error.response.headers.result_code;
-                // console.log(err);
-
-                for (let i = 0; i < resultCode.length; i++) {
-                    if (resultCode[i].result_code === err) {
-                        let msg = resultCode[i].result_message_ko;
-                        console.log(msg);
-                        alert(msg);
-                    }
-                }
+                CommonConsole("alert", error.response);
 
                 setIsLoading(false);
             });
@@ -187,6 +181,16 @@ function FindIDMain() {
                                 </div>
                             </div>
                         </div>
+                        <div className="find mb15">
+                            <div className="flex">
+                                <Link
+                                    to={routerPath.findPw_url}
+                                    className="font-12"
+                                >
+                                    비밀번호가 기억나지 않으신가요?
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                     <div className="btn_box">
                         {isLoading ? (
@@ -226,10 +230,10 @@ function FindIDMain() {
                                     }}
                                     key={`user_id_${index}`}
                                 >
-                                    <h3 style={{ marginRight: "70px" }}>
+                                    <h4 style={{ marginRight: "70px" }}>
                                         {item.user_id}
-                                    </h3>
-                                    <h3>{item.reg_dttm.split(" ")[0]}</h3>
+                                    </h4>
+                                    <h4>{item.reg_dttm.split(" ")[0]}</h4>
                                 </div>
                             ))
                         ) : (

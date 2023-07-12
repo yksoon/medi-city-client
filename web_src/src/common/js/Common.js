@@ -41,4 +41,35 @@ const CommonAlert = ({ isOpen, title, content, btn, handleModalClose }) => {
         </>
     );
 };
-export { CommonAlert };
+
+const CommonConsole = (type, response) => {
+    let result_message_ko;
+    let result_message_en;
+    let result_code;
+    let message;
+
+    result_message_ko = response.headers.result_message_ko;
+    result_message_en = response.headers.result_message_en;
+    result_code = response.headers.result_code;
+    message = response.headers.message;
+
+    switch (type) {
+        case "log":
+            return console.log(response);
+
+        case "decLog":
+            return console.log(
+                decodeURI(result_message_ko),
+                decodeURI(result_message_en),
+                decodeURI(result_code),
+                decodeURI(message)
+            );
+
+        case "alert":
+            return alert(decodeURI(result_message_ko));
+
+        default:
+            break;
+    }
+};
+export { CommonAlert, CommonConsole };

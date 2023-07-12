@@ -1,6 +1,7 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import { apiPath } from "webPath";
 import { RestServer } from "common/js/Rest";
+import { CommonConsole } from "common/js/Common";
 
 const IdComponent = forwardRef((props, ref) => {
     const { accountType, inputID } = ref;
@@ -29,8 +30,6 @@ const IdComponent = forwardRef((props, ref) => {
             .then((response) => {
                 let res = response;
 
-                // console.log(res);
-
                 if (res.headers.result_code === "0000") {
                     setIdchkCode("0000");
                     idStatus(true);
@@ -40,7 +39,9 @@ const IdComponent = forwardRef((props, ref) => {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                CommonConsole("log", error);
+                CommonConsole("decLog", error.response);
+
                 setIdchkCode("400");
                 idStatus(false);
             });

@@ -46,8 +46,6 @@ const TermsComponent = forwardRef((props, ref) => {
     };
 
     const handleChk = (e) => {
-        // console.log(e.target.id);
-
         switch (e.target.id) {
             case "agree_term":
                 setTerms(e.target.checked);

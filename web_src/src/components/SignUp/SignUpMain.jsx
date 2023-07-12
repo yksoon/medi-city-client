@@ -16,16 +16,9 @@ import LicenseComponent from "./signupComponents/LicenseComponent";
 import DepartmentComponent from "./signupComponents/DepartmentComponent";
 import TermsComponent from "./signupComponents/TermsComponent";
 import { ResultCode } from "common/js/ResultCode";
+import { CommonConsole } from "common/js/Common";
 
 function SignUpMain() {
-    // const codes = useSelector((state) => state.codes.codes);
-    // const resultCodes = useSelector((state) => state.codes.resultCode);
-    // const countryBank = useSelector((state) => state.codes.countryBank);
-
-    // console.log(codes);
-    // console.log(resultCodes);
-    // console.log(countryBank);
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -51,7 +44,6 @@ function SignUpMain() {
         marketing_sms: useRef(null),
         marketing_mail: useRef(null),
     };
-    // const inputID = useRef(null);
 
     // 사용 가능한 아이디 확인
     const [chkId, setChkId] = useState(false);
@@ -63,8 +55,7 @@ function SignUpMain() {
 
     const sendSignupForm = () => {
         if (validation()) {
-            // alert("통과");
-            console.log(signupRefs);
+            // CommonConsole("log", signupRefs)
 
             let birth_yyyy = certInfo.birth_date.slice(0, 4);
             let birth_mm = certInfo.birth_date.slice(4, 6);
@@ -138,8 +129,6 @@ function SignUpMain() {
             RestServer("post", url, data)
                 .then((response) => {
                     // response
-                    let res = response;
-                    console.log(res);
 
                     let result_code = response.headers.result_code;
 
@@ -149,20 +138,14 @@ function SignUpMain() {
 
                         navigate(routerPath.signup_ok_url);
                     } else {
-                        alert("에러");
+                        CommonConsole("alert", response);
                     }
                 })
                 .catch((error) => {
                     // 오류발생시 실행
-                    console.log(error);
-                    let err = error.response.headers.result_code;
-                    for (let i = 0; i < ResultCode.length; i++) {
-                        if (ResultCode[i].result_code === err) {
-                            let msg = ResultCode[i].result_message_ko;
-                            console.log(msg);
-                            alert(msg);
-                        }
-                    }
+                    CommonConsole("log", error);
+                    CommonConsole("decLog", error.response);
+                    CommonConsole("alert", error.response);
                 });
         }
     };

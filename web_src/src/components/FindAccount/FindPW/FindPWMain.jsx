@@ -7,9 +7,9 @@ import { apiPath, routerPath } from "webPath";
 import ResetPW from "./ResetPW";
 import ResetPWComplete from "./ResetPWComplete";
 import { CircularProgress } from "@mui/material";
-import { ResultCode } from "common/js/ResultCode";
 import { useDispatch } from "react-redux";
 import { set_cert_info } from "redux/actions/certAction";
+import { CommonConsole } from "common/js/Common";
 
 function FindPWMain() {
     const [isFind, setIsFind] = useState("1");
@@ -33,10 +33,6 @@ function FindPWMain() {
     const inputMobile1 = useRef(null);
     const inputMobile2 = useRef(null);
     const inputMobile3 = useRef(null);
-
-    const certSection = useRef(null);
-    const cert_num = useRef(null);
-    const certBtn = useRef(null);
 
     const [sec, setSec] = useState(300);
     const timerId = useRef(null); // 간격 타이머의 Id 저장
@@ -66,9 +62,8 @@ function FindPWMain() {
     // 시간이 0에 도달했을 때 확인
     // sec 상태 변수가 변경될 때마다 실행
     useEffect(() => {
-        console.log(sec);
         if (sec <= 0) {
-            console.log("time out");
+            CommonConsole("log", "time out");
             clearInterval(timerId.current); // 간격지우고 콘솔에 메시지 기록
 
             stopTimer();
@@ -92,17 +87,14 @@ function FindPWMain() {
     const handleInput = (ref, e) => {
         switch (ref) {
             case "userID":
-                // console.log(e.currentTarget.value);
                 setUserID(e.currentTarget.value);
                 break;
 
             case "firstName":
-                // console.log(e.currentTarget.value);
                 setFirstName(e.currentTarget.value);
                 break;
 
             case "lastName":
-                // console.log(e.currentTarget.value);
                 setLastName(e.currentTarget.value);
                 break;
 
@@ -122,11 +114,9 @@ function FindPWMain() {
             inputFirstName.current.focus();
             return;
         } else {
-            // console.log("asdas");
             setIsLoading(true);
 
             const url = apiPath.api_user_cert;
-            // const url = apiPath.api_user_find_pw;
 
             let data = {
                 certification_tool: "000",
@@ -136,8 +126,6 @@ function FindPWMain() {
 
             RestServer("post", url, data)
                 .then((response) => {
-                    // console.log("authTest", response);
-
                     let resData = response.data.result_info;
 
                     localStorage.setItem(
@@ -149,22 +137,13 @@ function FindPWMain() {
                 })
                 .catch((error) => {
                     // 오류발생시 실행
-                    console.log(error);
-                    let err = error.response.headers.result_code;
-                    for (let i = 0; i < ResultCode.length; i++) {
-                        if (ResultCode[i].result_code === err) {
-                            let msg = ResultCode[i].result_message_ko;
-                            console.log(msg);
-                            alert(msg);
-                        }
-                    }
+                    CommonConsole("log", error);
+                    CommonConsole("alert", error.response);
                 });
         }
     };
 
     const insertFormData = (resData) => {
-        console.log(resData);
-
         token_version_id.current.value = resData.token_version_id;
         enc_data.current.value = resData.enc_data;
         integrity_value.current.value = resData.integrity_value;
@@ -200,7 +179,7 @@ function FindPWMain() {
         if (certification_idx) {
             RestServer("get", url, {})
                 .then((response) => {
-                    console.log("response", response);
+                    CommonConsole("log", response);
 
                     let resData = response.data.result_info;
                     let result_code = response.headers.result_code;
@@ -220,16 +199,9 @@ function FindPWMain() {
                 })
                 .catch((error) => {
                     // 오류발생시 실행
-                    console.log(error);
-
-                    let err = error.response.headers.result_code;
-                    for (let i = 0; i < ResultCode.length; i++) {
-                        if (ResultCode[i].result_code === err) {
-                            let msg = ResultCode[i].result_message_ko;
-                            console.log(msg);
-                            alert(msg);
-                        }
-                    }
+                    CommonConsole("log", error);
+                    CommonConsole("decLog", error.response);
+                    CommonConsole("alert", error.response);
                 });
         }
     };
@@ -285,13 +257,6 @@ function FindPWMain() {
                                     className="flex"
                                     style={{ justifyContent: "flex-start" }}
                                 >
-                                    {/* <select
-                                name=""
-                                id="phone"
-                                className="w100 mr10"
-                            >
-                                <option value="">+82</option>
-                            </select> */}
                                     <div id="phone_num" className="m0">
                                         <input
                                             type="tel"
@@ -369,7 +334,7 @@ function FindPWMain() {
                             비밀번호 찾기
                         </Link> */}
                         <Link
-                            to={routerPath.main_url}
+                            to={routerPath.findId_url}
                             className="mainbtn btn02"
                         >
                             뒤로가기

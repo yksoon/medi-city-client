@@ -71,7 +71,7 @@ function App() {
             })
             .catch((error) => {
                 // 오류발생시 실행
-                console.log(error);
+                console.log(decodeURI(error));
             });
     };
 
@@ -88,7 +88,7 @@ function App() {
             })
             .catch((error) => {
                 // 오류발생시 실행
-                console.log(error);
+                console.log(decodeURI(error));
             });
     };
 
@@ -107,7 +107,7 @@ function App() {
             })
             .catch((error) => {
                 // 오류발생시 실행
-                console.log(error);
+                console.log(decodeURI(error));
             });
     };
 

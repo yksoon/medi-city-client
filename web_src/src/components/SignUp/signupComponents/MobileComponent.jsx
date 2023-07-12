@@ -6,6 +6,7 @@ import { apiPath } from "webPath";
 import { useDispatch, useSelector } from "react-redux";
 import { set_cert_info } from "redux/actions/certAction";
 import { ResultCode } from "common/js/ResultCode";
+import { CommonConsole } from "common/js/Common";
 
 // 인증 idx
 let certNumIdxFromServer;
@@ -54,9 +55,8 @@ const MobileComponent = forwardRef((props, ref) => {
     // 시간이 0에 도달했을 때 확인
     // sec 상태 변수가 변경될 때마다 실행
     useEffect(() => {
-        console.log(sec);
         if (sec <= 0) {
-            console.log("time out");
+            CommonConsole("log", "time out");
             clearInterval(timerId.current); // 간격지우고 콘솔에 메시지 기록
 
             stopTimer();
@@ -149,8 +149,6 @@ const MobileComponent = forwardRef((props, ref) => {
 
         RestServer("post", url, data)
             .then((response) => {
-                // console.log("authTest", response);
-
                 let resData = response.data.result_info;
 
                 localStorage.setItem(
@@ -162,22 +160,13 @@ const MobileComponent = forwardRef((props, ref) => {
             })
             .catch((error) => {
                 // 오류발생시 실행
-                console.log(error);
-
-                let err = error.response.headers.result_code;
-                for (let i = 0; i < ResultCode.length; i++) {
-                    if (ResultCode[i].result_code === err) {
-                        let msg = ResultCode[i].result_message_ko;
-                        console.log(msg);
-                        alert(msg);
-                    }
-                }
+                CommonConsole("log", error);
+                CommonConsole("decLog", error.response);
+                CommonConsole("alert", error.response);
             });
     };
 
     const insertFormData = (resData) => {
-        console.log(resData);
-
         token_version_id.current.value = resData.token_version_id;
         enc_data.current.value = resData.enc_data;
         integrity_value.current.value = resData.integrity_value;
@@ -213,7 +202,7 @@ const MobileComponent = forwardRef((props, ref) => {
         if (certification_idx) {
             RestServer("get", url, {})
                 .then((response) => {
-                    console.log("response", response);
+                    CommonConsole("log", response);
 
                     let resData = response.data.result_info;
                     let result_code = response.headers.result_code;
@@ -235,16 +224,10 @@ const MobileComponent = forwardRef((props, ref) => {
                 })
                 .catch((error) => {
                     // 오류발생시 실행
-                    console.log(error);
 
-                    let err = error.response.headers.result_code;
-                    for (let i = 0; i < ResultCode.length; i++) {
-                        if (ResultCode[i].result_code === err) {
-                            let msg = ResultCode[i].result_message_ko;
-                            console.log(msg);
-                            alert(msg);
-                        }
-                    }
+                    CommonConsole("log", error);
+                    CommonConsole("decLog", error.response);
+                    CommonConsole("alert", error.response);
                 });
         }
     };
