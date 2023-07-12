@@ -9,6 +9,7 @@ import "common/css/header.css";
 import Login from "common/js/Login";
 import { useSelector, useDispatch } from "react-redux";
 import { set_user_info } from "redux/actions/userInfoAction";
+import { CommonConsole } from "common/js/Common";
 // import Login from "common/js/Login";
 
 let resultCode;
@@ -38,8 +39,6 @@ function Header({ props }) {
             inputId.current.focus();
         }
     }, []);
-
-    // console.log(JSON.parse(localStorage.getItem("result_code")));
 
     const menu_show = () => {
         const nav = document.getElementById("menu");
@@ -114,16 +113,9 @@ function Header({ props }) {
             })
             .catch(function (error) {
                 // 오류발생시 실행
-                console.log(error);
-
-                let err = error.response.headers.result_code;
-                // console.log(err);
-
-                for (let i = 0; i < resultCode.length; i++) {
-                    if (resultCode[i].result_code === err) {
-                        console.log(resultCode[i].result_message_ko);
-                    }
-                }
+                CommonConsole("log", error);
+                CommonConsole("decLog", error.response);
+                CommonConsole("alert", error.response);
 
                 // localStorage.removeItem("userInfo");
                 dispatch(set_user_info(null));

@@ -15,7 +15,6 @@ const PwComponent = forwardRef((props, ref) => {
         let pw = e.target.value;
 
         setPatternChk(pwPattern.test(pw));
-        // console.log(pwPattern.test(pw));
     };
 
     const chkPW = () => {

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
 import Header from "components/Common/Header";
 import Footer from "components/Common/Footer";
+import { routerPath } from "webPath";
 
 function SignUpOk() {
     return (
@@ -20,12 +21,12 @@ function SignUpOk() {
                             감사합니다.
                         </p>
                         <div className="btn_box">
-                            <a href="/" class="backbtn">
+                            <Link href={routerPath.main_url} class="backbtn">
                                 메인화면 바로가기{" "}
                                 <span>
                                     <img src="/img/common/arrow.png" alt="" />
                                 </span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

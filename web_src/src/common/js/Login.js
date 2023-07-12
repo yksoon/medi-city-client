@@ -2,6 +2,7 @@ import { routerPath } from "webPath";
 import { RestServer } from "./Rest";
 import { useDispatch } from "react-redux";
 import { set_user_info } from "redux/actions/userInfoAction";
+import { CommonConsole } from "./Common";
 // import { Instance } from "./Instance";
 
 export default function Login(url, data, handleLoding, resultCode, dispatch) {
@@ -36,8 +37,10 @@ export default function Login(url, data, handleLoding, resultCode, dispatch) {
 
                 window.location.replace(routerPath.main_url);
             } else if (result_code === "1003") {
-                console.log(response);
-                alert("사용자가 없습니다.");
+                CommonConsole("log", response);
+
+                CommonConsole("decLog", response);
+                CommonConsole("alert", response);
 
                 // setIsLoading(false);
                 handleLoding(false);
@@ -45,18 +48,8 @@ export default function Login(url, data, handleLoding, resultCode, dispatch) {
         })
         .catch(function (error) {
             // 오류발생시 실행
-            console.log(error);
-
-            let err = error.response.headers.result_code;
-            // console.log(err);
-
-            for (let i = 0; i < resultCode.length; i++) {
-                if (resultCode[i].result_code === err) {
-                    let msg = resultCode[i].result_message_ko;
-                    console.log(msg);
-                    alert(msg);
-                }
-            }
+            CommonConsole("decLog", error.response);
+            CommonConsole("alert", error.response);
 
             handleLoding(false);
         });

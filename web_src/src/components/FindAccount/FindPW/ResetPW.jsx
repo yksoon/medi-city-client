@@ -33,14 +33,16 @@ function ResetPW({ userID, changeIsFind }) {
 
         if (!patternChk) {
             alert("비밀번호는 6-16자리로 입력해주세요");
+            setIsLoading(false);
+            return;
         } else {
+            setIsLoading(false);
             if (password === passwordChk) {
                 // todo 비번 변경 로직
 
                 restChangePw();
             } else {
                 alert("비밀번호를 확인해주세요.");
-                setIsLoading(false);
             }
         }
     };
@@ -69,7 +71,7 @@ function ResetPW({ userID, changeIsFind }) {
             })
             .catch(function (error) {
                 // 오류발생시 실행
-                console.log(error);
+                console.log(decodeURI(error));
                 alert("오류가 발생했습니다. 다시 시도해주세요.");
             });
     };
@@ -80,7 +82,7 @@ function ResetPW({ userID, changeIsFind }) {
                 <h3 className="title">비밀번호 재설정</h3>
                 <div className="find pwfind">
                     <div>
-                        <h5>비밀번호</h5>
+                        <h5>새로운 비밀번호</h5>
                         <div>
                             <input
                                 type="password"
@@ -90,7 +92,7 @@ function ResetPW({ userID, changeIsFind }) {
                         </div>
                     </div>
                     <div>
-                        <h5>비밀번호 확인</h5>
+                        <h5>새로운 비밀번호 확인</h5>
                         <div>
                             <input
                                 type="password"
