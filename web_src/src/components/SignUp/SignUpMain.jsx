@@ -15,7 +15,6 @@ import MobileComponent from "./signupComponents/MobileComponent";
 import LicenseComponent from "./signupComponents/LicenseComponent";
 import DepartmentComponent from "./signupComponents/DepartmentComponent";
 import TermsComponent from "./signupComponents/TermsComponent";
-import { ResultCode } from "common/js/ResultCode";
 import { CommonConsole } from "common/js/Common";
 
 function SignUpMain() {

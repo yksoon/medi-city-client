@@ -1,6 +1,13 @@
 import React, { useState, useRef, forwardRef } from "react";
 import { pwPattern } from "common/js/Pattern";
 
+// TODO
+// 비밀번호 입력 이후
+// ! 비밀번호를 한번 더 입력해주세요
+
+// 1. 비밀번호 두개가 맞게 입력된 경우
+// ! 비밀번호가 일치합니다 » 초록색
+// input 내용 다 지워도 문구 초기화 안됨
 const PwComponent = forwardRef((props, ref) => {
     const [pwChk, setPwChk] = useState("normal");
     const [patternChk, setPatternChk] = useState(false);
