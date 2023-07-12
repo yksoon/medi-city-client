@@ -1,5 +1,5 @@
 import { CommonAlert } from "common/js/Common";
-import React, { useState, forwardRef } from "react";
+import React, { useState, forwardRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { termsContent, privacyContent } from "common/js/terms";
 
@@ -23,6 +23,10 @@ const TermsComponent = forwardRef((props, ref) => {
     } = ref;
     // const chkRef = useRef([]);
 
+    useEffect(() => {
+        //
+    }, []);
+
     const handleModalOpen = () => {
         setIsOpen(true);
     };
@@ -42,6 +46,12 @@ const TermsComponent = forwardRef((props, ref) => {
     const privacyOpen = () => {
         setModalTitle("개인정보처리방침");
         setModalContent(privacyContent);
+        handleModalOpen();
+    };
+
+    const marketingOpen = () => {
+        setModalTitle("마케팅 수신 동의");
+        setModalContent(termsContent);
         handleModalOpen();
     };
 
@@ -209,9 +219,14 @@ const TermsComponent = forwardRef((props, ref) => {
                     <div>
                         <h6>
                             마케팅 수신 동의 (선택){" "}
-                            <a href="privacy.html" className="font-12">
+                            <Link
+                                className="font-12"
+                                onClick={(e) => {
+                                    marketingOpen();
+                                }}
+                            >
                                 전문보기
-                            </a>
+                            </Link>
                         </h6>
                         <div className="flex marketing">
                             <div>
