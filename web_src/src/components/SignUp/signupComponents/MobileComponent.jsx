@@ -339,12 +339,14 @@ const MobileComponent = forwardRef((props, ref) => {
             ) : isLoading ? (
                 <div id="phone_check_before">
                     <Link className="subbtn on m0">
-                        <CircularProgress
-                            color="inherit"
-                            style={{
-                                padding: "10px",
-                            }}
-                        />
+                        <div className="">
+                            <CircularProgress
+                                color="inherit"
+                                style={{
+                                    padding: "10px",
+                                }}
+                            />
+                        </div>
                     </Link>
                 </div>
             ) : (
@@ -356,6 +358,14 @@ const MobileComponent = forwardRef((props, ref) => {
                         }}
                     >
                         인증 번호
+                        <div className="spinner">
+                            <CircularProgress
+                                color="inherit"
+                                style={{
+                                    padding: "10px",
+                                }}
+                            />
+                        </div>
                     </Link>
                 </div>
             )}
