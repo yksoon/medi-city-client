@@ -38,8 +38,6 @@ function ResetPW({ userID, changeIsFind }) {
         } else {
             setIsLoading(false);
             if (password === passwordChk) {
-                // todo 비번 변경 로직
-
                 restChangePw();
             } else {
                 alert("비밀번호를 확인해주세요.");

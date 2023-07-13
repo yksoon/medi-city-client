@@ -110,9 +110,9 @@ function FindIDMain() {
             .catch(function (error) {
                 // 오류발생시 실행
                 CommonConsole("log", error);
-                CommonConsole("decLog", error.response);
+                CommonConsole("decLog", error);
 
-                CommonConsole("alert", error.response);
+                CommonConsole("alertMsg", error);
 
                 setIsLoading(false);
             });

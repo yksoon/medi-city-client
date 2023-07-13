@@ -137,14 +137,14 @@ function SignUpMain() {
 
                         navigate(routerPath.signup_ok_url);
                     } else {
-                        CommonConsole("alert", response);
+                        CommonConsole("alertMsg", response);
                     }
                 })
                 .catch((error) => {
                     // 오류발생시 실행
                     CommonConsole("log", error);
-                    CommonConsole("decLog", error.response);
-                    CommonConsole("alert", error.response);
+                    CommonConsole("decLog", error);
+                    CommonConsole("alertMsg", error);
                 });
         }
     };
@@ -172,12 +172,6 @@ function SignUpMain() {
 
             return false;
         }
-        if (!chkMobile) {
-            alert("휴대폰 인증을 완료해주세요");
-            signupRefs.inputMobile2.current.focus();
-
-            return false;
-        }
         if (
             signupRefs.user_name_first_ko.current.value === "" ||
             signupRefs.user_name_last_ko.current.value === "" ||
@@ -186,6 +180,12 @@ function SignUpMain() {
         ) {
             alert("성명을 입력해주세요");
             signupRefs.user_name_first_ko.current.focus();
+
+            return false;
+        }
+        if (!chkMobile) {
+            alert("휴대폰 인증을 완료해주세요");
+            signupRefs.inputMobile2.current.focus();
 
             return false;
         }

@@ -161,8 +161,8 @@ const MobileComponent = forwardRef((props, ref) => {
             .catch((error) => {
                 // 오류발생시 실행
                 CommonConsole("log", error);
-                CommonConsole("decLog", error.response);
-                CommonConsole("alert", error.response);
+                CommonConsole("decLog", error);
+                CommonConsole("alertMsg", error);
             });
     };
 
@@ -226,8 +226,8 @@ const MobileComponent = forwardRef((props, ref) => {
                     // 오류발생시 실행
 
                     CommonConsole("log", error);
-                    CommonConsole("decLog", error.response);
-                    CommonConsole("alert", error.response);
+                    CommonConsole("decLog", error);
+                    // CommonConsole("alertMsg", error);
                 });
         }
     };
@@ -336,19 +336,6 @@ const MobileComponent = forwardRef((props, ref) => {
                         </Link>
                     </div>
                 </div>
-            ) : isLoading ? (
-                <div id="phone_check_before">
-                    <Link className="subbtn on m0">
-                        <div className="">
-                            <CircularProgress
-                                color="inherit"
-                                style={{
-                                    padding: "10px",
-                                }}
-                            />
-                        </div>
-                    </Link>
-                </div>
             ) : (
                 <div id="phone_check_before">
                     <Link
@@ -358,14 +345,6 @@ const MobileComponent = forwardRef((props, ref) => {
                         }}
                     >
                         인증 번호
-                        <div className="spinner">
-                            <CircularProgress
-                                color="inherit"
-                                style={{
-                                    padding: "10px",
-                                }}
-                            />
-                        </div>
                     </Link>
                 </div>
             )}
@@ -378,6 +357,13 @@ const MobileComponent = forwardRef((props, ref) => {
                 <p className="mark" id="mark_tel">
                     휴대폰 인증을 진행해주세요.
                 </p>
+            )}
+            {isLoading ? (
+                <div className="spinner">
+                    <CircularProgress />
+                </div>
+            ) : (
+                <></>
             )}
 
             {/* formData */}

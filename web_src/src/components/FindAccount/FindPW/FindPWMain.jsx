@@ -138,7 +138,7 @@ function FindPWMain() {
                 .catch((error) => {
                     // 오류발생시 실행
                     CommonConsole("log", error);
-                    CommonConsole("alert", error.response);
+                    CommonConsole("alertMsg", error);
                 });
         }
     };
@@ -200,8 +200,8 @@ function FindPWMain() {
                 .catch((error) => {
                     // 오류발생시 실행
                     CommonConsole("log", error);
-                    CommonConsole("decLog", error.response);
-                    CommonConsole("alert", error.response);
+                    CommonConsole("decLog", error);
+                    CommonConsole("alertMsg", error);
                 });
         }
     };

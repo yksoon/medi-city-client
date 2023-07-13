@@ -114,8 +114,8 @@ function Header({ props }) {
             .catch(function (error) {
                 // 오류발생시 실행
                 CommonConsole("log", error);
-                CommonConsole("decLog", error.response);
-                CommonConsole("alert", error.response);
+                CommonConsole("decLog", error);
+                CommonConsole("alertMsg", error);
 
                 // localStorage.removeItem("userInfo");
                 dispatch(set_user_info(null));
