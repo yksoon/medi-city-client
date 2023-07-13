@@ -102,33 +102,35 @@ function SignUpMain() {
             let mobile_agency;
             switch (certInfo.mobile_co) {
                 case "1":
-                    mobile_agency = "000 ";
+                    mobile_agency = "000";
                     break;
 
                 case "2":
-                    mobile_agency = "100 ";
+                    mobile_agency = "100";
                     break;
 
                 case "3":
-                    mobile_agency = "200 ";
+                    mobile_agency = "200";
                     break;
 
                 case "5":
-                    mobile_agency = "300 ";
+                    mobile_agency = "300";
                     break;
 
                 case "6":
-                    mobile_agency = "400 ";
+                    mobile_agency = "400";
                     break;
 
                 case "7":
-                    mobile_agency = "500 ";
+                    mobile_agency = "500";
                     break;
 
                 default:
-                    mobile_agency = "900 ";
+                    mobile_agency = "900";
                     break;
             }
+
+            // TODO 하드코딩 하지 말자
 
             let data = {
                 user_id: signupRefs.inputID.current.value,
@@ -201,6 +203,10 @@ function SignUpMain() {
         let termsIdx = String(terms) + String(privacy) + String(marketing);
         let arr = [...termsIdx];
         let terms_idx = arr.join();
+
+        if (terms_idx.slice(-1) === ",") {
+            terms_idx = terms_idx.slice(0, -1);
+        }
 
         return terms_idx;
     };
