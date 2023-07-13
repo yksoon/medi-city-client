@@ -267,6 +267,7 @@ const MobileComponent = forwardRef((props, ref) => {
         inputMobile1.current.value = mobile1;
         inputMobile2.current.value = mobile2;
         inputMobile3.current.value = mobile3;
+        //asda
     };
 
     return (
