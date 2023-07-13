@@ -19,6 +19,7 @@ const MobileComponent = forwardRef((props, ref) => {
 
     const dispatch = useDispatch();
 
+    const spinner = useRef(null);
     // 인증정보
     const form_url = useRef(null);
     const enc_data = useRef(null);
@@ -217,7 +218,7 @@ const MobileComponent = forwardRef((props, ref) => {
                         setCertStatus(true);
 
                         // 인증 완료 후 로직
-                        certComplete();
+                        certComplete(resData);
                     } else {
                         alert("에러");
                     }
@@ -228,11 +229,14 @@ const MobileComponent = forwardRef((props, ref) => {
                     CommonConsole("log", error);
                     CommonConsole("decLog", error);
                     // CommonConsole("alertMsg", error);
+
+                    let spnin = spinner.current.childNodes[0];
+                    spnin.classList.add("error");
                 });
         }
     };
 
-    const certComplete = () => {
+    const certComplete = (resData) => {
         // {
         //     "result_code": "0000",
         //     "request_no": "000000000000000000000000000206",
@@ -253,8 +257,8 @@ const MobileComponent = forwardRef((props, ref) => {
         //     "receive_data": null
         // }
 
-        // const mobileAll = userData.mobile_no;
-        const mobileAll = "01050907526";
+        const mobileAll = resData.mobile_no;
+        // const mobileAll = "01050907526";
 
         const mobile1 = mobileAll.slice(0, 3);
         const mobile2 = mobileAll.slice(3, 7);
@@ -358,12 +362,10 @@ const MobileComponent = forwardRef((props, ref) => {
                     휴대폰 인증을 진행해주세요.
                 </p>
             )}
-            {isLoading ? (
-                <div className="spinner">
+            {isLoading && (
+                <div className="spinner" ref={spinner}>
                     <CircularProgress />
                 </div>
-            ) : (
-                <></>
             )}
 
             {/* formData */}

@@ -1,9 +1,16 @@
 import { CommonAlert, CommonConsole } from "common/js/Common";
-import React, { useState, forwardRef, useEffect } from "react";
+import React, { useState, forwardRef, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { termsContent, privacyContent } from "common/js/terms";
+import { RestServer } from "common/js/Rest";
+import { apiPath } from "webPath";
+import { CircularProgress } from "@mui/material";
 
 const TermsComponent = forwardRef((props, ref) => {
+    const termChkMain = props.termChkMain;
+    const privacyChkMain = props.privacyChkMain;
+    const marketingChkMain = props.marketingChkMain;
+
     const [isOpen, setIsOpen] = useState(false);
     const [modalTitle, setModalTitle] = useState("");
     const [modalContent, setModalContent] = useState([]);
@@ -17,6 +24,17 @@ const TermsComponent = forwardRef((props, ref) => {
     const [isTermsOpened, setIsTermsOpened] = useState(false);
     const [isPrivacyOpened, setIsPrivacyOpened] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(false);
+    const spinner = useRef(null);
+
+    const [termItem, setTermItem] = useState({});
+    const [privacyItem, setPrivacyItem] = useState({});
+    const [marketingItem, setMarketingItem] = useState({});
+
+    // let termItem = {};
+    // let privacyItem = {};
+    // let marketingItem = {};
+
     const {
         termsChk,
         privacyChk,
@@ -27,8 +45,78 @@ const TermsComponent = forwardRef((props, ref) => {
     // const chkRef = useRef([]);
 
     useEffect(() => {
-        //
+        initTerms();
     }, []);
+
+    const initTerms = () => {
+        setIsLoading(true);
+
+        const url = apiPath.api_terms_list;
+        const data = {
+            page_num: 1,
+            page_size: 3,
+        };
+        RestServer("post", url, data)
+            .then((response) => {
+                // CommonConsole("log", response);
+
+                let termsContent = [];
+
+                if (response.headers.result_code === "0000") {
+                    termsContent = [...response.data.result_info];
+
+                    for (let i = 0; i < termsContent.length; i++) {
+                        let typeCd = termsContent[i].terms_type_cd;
+                        let title = termsContent[i].terms_type;
+                        let content = termsContent[i].conditions;
+                        let terms_idx = termsContent[i].terms_idx;
+
+                        switch (typeCd) {
+                            case "100":
+                                let arr1 = {};
+                                arr1["title"] = title;
+                                arr1["content"] = content;
+                                arr1["terms_idx"] = terms_idx;
+                                setTermItem(arr1);
+                                break;
+
+                            case "000":
+                                let arr2 = {};
+                                arr2["title"] = title;
+                                arr2["content"] = content;
+                                arr2["terms_idx"] = terms_idx;
+                                setPrivacyItem(arr2);
+                                break;
+
+                            case "400":
+                                let arr3 = {};
+                                arr3["title"] = termsContent[i].terms_type;
+                                arr3["content"] = content;
+                                arr3["terms_idx"] = terms_idx;
+                                setMarketingItem(arr3);
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                    setIsLoading(false);
+                } else {
+                    let spnin = spinner.current.childNodes[0];
+                    spnin.classList.add("error");
+                }
+            })
+            .catch((error) => {
+                // 오류발생시 실행
+
+                CommonConsole("log", error);
+                CommonConsole("decLog", error);
+                // CommonConsole("alertMsg", error);
+
+                let spnin = spinner.current.childNodes[0];
+                spnin.classList.add("error");
+            });
+    };
 
     const handleModalOpen = () => {
         setIsOpen(true);
@@ -41,23 +129,36 @@ const TermsComponent = forwardRef((props, ref) => {
     };
 
     const termsOpen = () => {
-        setModalTitle("이용약관");
-        setModalContent(termsContent);
+        // setModalTitle("이용약관");
+        // setModalContent(termsContent);
         setIsTermsOpened(true);
-        handleModalOpen();
+        if (termItem) {
+            setModalTitle(termItem.title);
+            setModalContent(termItem.content);
+            handleModalOpen();
+        }
     };
 
     const privacyOpen = () => {
-        setModalTitle("개인정보처리방침");
-        setModalContent(privacyContent);
+        // setModalTitle("개인정보처리방침");
+        // setModalContent(privacyContent);
+
         setIsPrivacyOpened(true);
-        handleModalOpen();
+        if (privacyItem) {
+            setModalTitle(privacyItem.title);
+            setModalContent(privacyItem.content);
+            handleModalOpen();
+        }
     };
 
     const marketingOpen = () => {
-        setModalTitle("마케팅 수신 동의");
-        setModalContent(termsContent);
-        handleModalOpen();
+        // setModalTitle("마케팅 수신 동의");
+        // setModalContent(termsContent);
+        if (marketingItem) {
+            setModalTitle(marketingItem.title);
+            setModalContent(marketingItem.content);
+            handleModalOpen();
+        }
     };
 
     const handleChk = (e) => {
@@ -68,6 +169,11 @@ const TermsComponent = forwardRef((props, ref) => {
                     return false;
                 } else {
                     setTerms(e.target.checked);
+                    if (e.target.checked) {
+                        termChkMain(termItem.terms_idx);
+                    } else {
+                        termChkMain("");
+                    }
                 }
                 break;
 
@@ -77,6 +183,11 @@ const TermsComponent = forwardRef((props, ref) => {
                     return false;
                 } else {
                     setPrivacy(e.target.checked);
+                    if (e.target.checked) {
+                        privacyChkMain(privacyItem.terms_idx);
+                    } else {
+                        privacyChkMain("");
+                    }
                 }
                 break;
 
@@ -84,16 +195,39 @@ const TermsComponent = forwardRef((props, ref) => {
                 setMarketing(e.target.checked);
                 setSms(e.target.checked);
                 setMail(e.target.checked);
+                if (e.target.checked) {
+                    marketingChkMain(marketingItem.terms_idx);
+                } else {
+                    marketingChkMain("");
+                }
                 break;
 
             case "marketing_sms":
                 setMarketing(e.target.checked);
                 setSms(e.target.checked);
+                if (!e.target.checked) {
+                    if (!mail) {
+                        marketingChkMain("");
+                    } else {
+                        marketingChkMain(marketingItem.terms_idx);
+                    }
+                } else {
+                    marketingChkMain(marketingItem.terms_idx);
+                }
                 break;
 
             case "marketing_mail":
                 setMarketing(e.target.checked);
                 setMail(e.target.checked);
+                if (!e.target.checked) {
+                    if (!sms) {
+                        marketingChkMain("");
+                    } else {
+                        marketingChkMain(marketingItem.terms_idx);
+                    }
+                } else {
+                    marketingChkMain(marketingItem.terms_idx);
+                }
                 break;
 
             case "agree_all":
@@ -380,6 +514,11 @@ const TermsComponent = forwardRef((props, ref) => {
                 content={modalContent}
                 title={modalTitle}
             />
+            {isLoading && (
+                <div className="spinner" ref={spinner}>
+                    <CircularProgress />
+                </div>
+            )}
         </>
     );
 });

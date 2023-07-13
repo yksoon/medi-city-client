@@ -7,10 +7,8 @@ import { apiPath, routerPath } from "webPath";
 import { CircularProgress } from "@mui/material";
 import { CommonConsole } from "common/js/Common";
 
-let resultCode;
 function FindIDMain() {
     const [finded, setFinded] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [mobile1, setMobile1] = useState("");
@@ -22,9 +20,11 @@ function FindIDMain() {
     const inputMobile2 = useRef(null);
     const inputMobile3 = useRef(null);
 
+    const [isLoading, setIsLoading] = useState(false);
+    const spinner = useRef(null);
+
     useEffect(() => {
         setFinded(false);
-        resultCode = JSON.parse(localStorage.getItem("result_code"));
     }, []);
 
     const handleInput = (ref, e) => {
@@ -112,9 +112,12 @@ function FindIDMain() {
                 CommonConsole("log", error);
                 CommonConsole("decLog", error);
 
-                CommonConsole("alertMsg", error);
+                // CommonConsole("alertMsg", error);
 
-                setIsLoading(false);
+                let spnin = spinner.current.childNodes[0];
+                spnin.classList.add("error");
+
+                // setIsLoading(false);
             });
     };
 
@@ -193,18 +196,9 @@ function FindIDMain() {
                         </div>
                     </div>
                     <div className="btn_box">
-                        {isLoading ? (
-                            <Link className="mainbtn btn01">
-                                <CircularProgress color="inherit" />
-                            </Link>
-                        ) : (
-                            <Link
-                                className="mainbtn btn01"
-                                onClick={sendFindId}
-                            >
-                                아이디 찾기
-                            </Link>
-                        )}
+                        <Link className="mainbtn btn01" onClick={sendFindId}>
+                            아이디 찾기
+                        </Link>
                         <Link
                             to={routerPath.main_url}
                             className="mainbtn btn02"
@@ -251,6 +245,11 @@ function FindIDMain() {
                             </Link>
                         </div>
                     </div>
+                    {isLoading && (
+                        <div className="spinner" ref={spinner}>
+                            <CircularProgress />
+                        </div>
+                    )}
                 </div>
             )}
             <Footer />

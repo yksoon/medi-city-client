@@ -147,6 +147,11 @@ const apiPath = {
     api_user_reset_pw: `${
         base_api_url + slash + account + slash + version + slash
     }user/find/_pwd`,
+
+    // 약관 목록 POST
+    api_terms_list: `${
+        base_api_url + slash + account + slash + version + slash
+    }_policies`,
 };
 
 export { routerPath, apiPath };

@@ -21,7 +21,7 @@ function SignUpOk() {
                             감사합니다.
                         </p>
                         <div className="btn_box">
-                            <Link href={routerPath.main_url} class="backbtn">
+                            <Link to={routerPath.main_url} class="backbtn">
                                 메인화면 바로가기{" "}
                                 <span>
                                     <img src="/img/common/arrow.png" alt="" />

@@ -16,10 +16,14 @@ import LicenseComponent from "./signupComponents/LicenseComponent";
 import DepartmentComponent from "./signupComponents/DepartmentComponent";
 import TermsComponent from "./signupComponents/TermsComponent";
 import { CommonConsole } from "common/js/Common";
+import { CircularProgress } from "@mui/material";
 
 function SignUpMain() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const [isLoading, setIsLoading] = useState(false);
+    const spinner = useRef(null);
 
     const signupRefs = {
         accountType: useRef(null),
@@ -48,6 +52,9 @@ function SignUpMain() {
     const [chkId, setChkId] = useState(false);
     const [chkPw, setChkPw] = useState(false);
     const [chkMobile, setChkMobile] = useState(false);
+    const [terms, setTerms] = useState("");
+    const [privacy, setPrivacy] = useState("");
+    const [marketing, setMarketing] = useState("");
     const certInfo = useSelector((state) => state.certInfo.certInfo);
 
     const certification_idx = localStorage.getItem("certification_idx");
@@ -55,6 +62,7 @@ function SignUpMain() {
     const sendSignupForm = () => {
         if (validation()) {
             // CommonConsole("log", signupRefs)
+            setIsLoading(true);
 
             let birth_yyyy = certInfo.birth_date.slice(0, 4);
             let birth_mm = certInfo.birth_date.slice(4, 6);
@@ -91,6 +99,37 @@ function SignUpMain() {
                 certification_tool = "900";
             }
 
+            let mobile_agency;
+            switch (certInfo.mobile_co) {
+                case "1":
+                    mobile_agency = "000 ";
+                    break;
+
+                case "2":
+                    mobile_agency = "100 ";
+                    break;
+
+                case "3":
+                    mobile_agency = "200 ";
+                    break;
+
+                case "5":
+                    mobile_agency = "300 ";
+                    break;
+
+                case "6":
+                    mobile_agency = "400 ";
+                    break;
+
+                case "7":
+                    mobile_agency = "500 ";
+                    break;
+
+                default:
+                    mobile_agency = "900 ";
+                    break;
+            }
+
             let data = {
                 user_id: signupRefs.inputID.current.value,
                 user_pwd: signupRefs.inputPW.current.value,
@@ -121,6 +160,8 @@ function SignUpMain() {
                 user_di: certInfo.di,
                 certification_tool: certification_tool,
                 certification_type: "000",
+                terms_idx: terms_idx_func(),
+                mobile_agency: mobile_agency,
             };
 
             let url = apiPath.api_user;
@@ -139,14 +180,27 @@ function SignUpMain() {
                     } else {
                         CommonConsole("alertMsg", response);
                     }
+
+                    setIsLoading(false);
                 })
                 .catch((error) => {
                     // 오류발생시 실행
                     CommonConsole("log", error);
                     CommonConsole("decLog", error);
-                    CommonConsole("alertMsg", error);
+                    // CommonConsole("alertMsg", error);
+
+                    let spnin = spinner.current.childNodes[0];
+                    spnin.classList.add("error");
                 });
         }
+    };
+
+    const terms_idx_func = () => {
+        let termsIdx = String(terms) + String(privacy) + String(marketing);
+        let arr = [...termsIdx];
+        let terms_idx = arr.join();
+
+        return terms_idx;
     };
 
     const idStatus = (status) => {
@@ -157,6 +211,16 @@ function SignUpMain() {
     };
     const mobileStatus = (status) => {
         setChkMobile(status);
+    };
+
+    const termChkMain = (status) => {
+        setTerms(status);
+    };
+    const privacyChkMain = (status) => {
+        setPrivacy(status);
+    };
+    const marketingChkMain = (status) => {
+        setMarketing(status);
     };
 
     const validation = () => {
@@ -245,7 +309,13 @@ function SignUpMain() {
                         </div>
                         <div className="term_wrap">
                             {/* 약관 영역 */}
-                            <TermsComponent ref={signupRefs} />
+                            <TermsComponent
+                                ref={signupRefs}
+                                termChkMain={termChkMain}
+                                privacyChkMain={privacyChkMain}
+                                marketingChkMain={marketingChkMain}
+                                // props = {[termChk, privacyChk, marketingChk]}
+                            />
                             <div className="btn_box">
                                 <Link
                                     className="mainbtn btn01"
@@ -260,6 +330,12 @@ function SignUpMain() {
                         </div>
                     </div>
                 </div>
+
+                {isLoading && (
+                    <div className="spinner" ref={spinner}>
+                        <CircularProgress />
+                    </div>
+                )}
             </div>
             <Footer />
         </>
