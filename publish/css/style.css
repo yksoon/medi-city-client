@@ -97,6 +97,9 @@ h3.title {font-size: 38px;font-weight: 700;}
 .modal_wrap {display:none;position:fixed;top:0;left:0;width:100%;height:100vh;overflow:hidden;background: rgba(255,255,255,0.6);z-index:999;}
 .modal_wrap .modal {position:absolute;top:50%;left:50%;transform:translate(-50%, -50%); border-radius: 50px;box-shadow: 5px 5px 15px rgba(0,0,0,0.1);background:#fff;padding:50px;max-height:840px;overflow-y:scroll;z-index:999;}
 .modal_wrap .modal .modal_close {position:absolute;top:60px;right:50px;cursor:pointer;}
+.modal_wrap .modal{ -ms-overflow-style: none; } .modal_wrap .modal::-webkit-scrollbar{ display:none; }
+.noti_modal {width:600px;max-height:800px;}
+.block {display:block;}
 /* 모달 //E */
 
 header{position:relative;width:100%;top:0;left:0;height:112px;z-index: 30;background:#fff;}
@@ -238,7 +241,15 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 
 /* 확인페이지 */
 .ok {padding:60px 0 0;text-align:center;}
+.ok_page {padding:60px 0 0;text-align:center;}
 .ok h3 {font-size: 32px;font-weight: 700;margin: 32px 0 15px;}
+.ok_page h3 {font-size: 32px;font-weight: 700;margin: 32px 0 15px;}
+
+/* 404 */
+.error_page {padding:120px 0 0;text-align:center;height:100vh;background:#f2f2f2;}
+.error_page > img {width:180px;}
+.error_page a.backbtn {background:#fff;}
+.error_page h3 {font-size: 32px;font-weight: 700;margin: 32px 0 15px;}
 
 /* 아이디,비밀번호찾기 */
 .find .flex {justify-content: center;}
