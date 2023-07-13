@@ -191,6 +191,8 @@ function SignUpMain() {
 
                     let spnin = spinner.current.childNodes[0];
                     spnin.classList.add("error");
+
+                    CommonConsole("alert", "잠시 후에 다시 시도해주세요.");
                 });
         }
     };
