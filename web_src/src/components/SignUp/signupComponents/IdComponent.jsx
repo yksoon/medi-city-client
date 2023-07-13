@@ -12,13 +12,6 @@ const IdComponent = forwardRef((props, ref) => {
     // 400 = 형식 안맞음
     const [idchkCode, setIdchkCode] = useState("0");
 
-    useEffect(() => {
-        if (inputID.current) {
-            // 할당한 DOM 요소가 불러지면 (마운트 되면)
-            inputID.current.focus(); // focus 할당!
-        }
-    });
-
     const idDuplicateCheck = (e) => {
         const user_chk_url = apiPath.api_user_check;
         let data = {
@@ -40,7 +33,7 @@ const IdComponent = forwardRef((props, ref) => {
             })
             .catch((error) => {
                 CommonConsole("log", error);
-                CommonConsole("decLog", error.response);
+                CommonConsole("decLog", error);
 
                 setIdchkCode("400");
                 idStatus(false);

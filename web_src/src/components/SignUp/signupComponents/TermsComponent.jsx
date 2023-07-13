@@ -1,5 +1,5 @@
-import { CommonAlert } from "common/js/Common";
-import React, { useState, forwardRef } from "react";
+import { CommonAlert, CommonConsole } from "common/js/Common";
+import React, { useState, forwardRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { termsContent, privacyContent } from "common/js/terms";
 
@@ -14,6 +14,9 @@ const TermsComponent = forwardRef((props, ref) => {
     const [sms, setSms] = useState(false);
     const [mail, setMail] = useState(false);
 
+    const [isTermsOpened, setIsTermsOpened] = useState(false);
+    const [isPrivacyOpened, setIsPrivacyOpened] = useState(false);
+
     const {
         termsChk,
         privacyChk,
@@ -22,6 +25,10 @@ const TermsComponent = forwardRef((props, ref) => {
         marketing_mail,
     } = ref;
     // const chkRef = useRef([]);
+
+    useEffect(() => {
+        //
+    }, []);
 
     const handleModalOpen = () => {
         setIsOpen(true);
@@ -36,23 +43,41 @@ const TermsComponent = forwardRef((props, ref) => {
     const termsOpen = () => {
         setModalTitle("이용약관");
         setModalContent(termsContent);
+        setIsTermsOpened(true);
         handleModalOpen();
     };
 
     const privacyOpen = () => {
         setModalTitle("개인정보처리방침");
         setModalContent(privacyContent);
+        setIsPrivacyOpened(true);
+        handleModalOpen();
+    };
+
+    const marketingOpen = () => {
+        setModalTitle("마케팅 수신 동의");
+        setModalContent(termsContent);
         handleModalOpen();
     };
 
     const handleChk = (e) => {
         switch (e.target.id) {
             case "agree_term":
-                setTerms(e.target.checked);
+                if (!isTermsOpened) {
+                    CommonConsole("alert", "이용약관을 확인해주세요");
+                    return false;
+                } else {
+                    setTerms(e.target.checked);
+                }
                 break;
 
             case "agree_privacy":
-                setPrivacy(e.target.checked);
+                if (!isPrivacyOpened) {
+                    CommonConsole("alert", "개인정보처리방침을 확인해주세요");
+                    return false;
+                } else {
+                    setPrivacy(e.target.checked);
+                }
                 break;
 
             case "agree_marketing":
@@ -72,20 +97,28 @@ const TermsComponent = forwardRef((props, ref) => {
                 break;
 
             case "agree_all":
-                if (e.target.checked) {
-                    setTerms(true);
-                    setPrivacy(true);
-                    setMarketing(true);
-                    setSms(true);
-                    setMail(true);
+                if (!isTermsOpened || !isPrivacyOpened) {
+                    CommonConsole(
+                        "alert",
+                        "이용약관, 개인정보처리방침을 확인해주세요"
+                    );
+                    e.target.checked = false;
+                    return false;
                 } else {
-                    setTerms(false);
-                    setPrivacy(false);
-                    setMarketing(false);
-                    setSms(false);
-                    setMail(false);
+                    if (e.target.checked) {
+                        setTerms(true);
+                        setPrivacy(true);
+                        setMarketing(true);
+                        setSms(true);
+                        setMail(true);
+                    } else {
+                        setTerms(false);
+                        setPrivacy(false);
+                        setMarketing(false);
+                        setSms(false);
+                        setMail(false);
+                    }
                 }
-
                 break;
 
             default:
@@ -209,9 +242,14 @@ const TermsComponent = forwardRef((props, ref) => {
                     <div>
                         <h6>
                             마케팅 수신 동의 (선택){" "}
-                            <a href="privacy.html" className="font-12">
+                            <Link
+                                className="font-12"
+                                onClick={(e) => {
+                                    marketingOpen();
+                                }}
+                            >
                                 전문보기
-                            </a>
+                            </Link>
                         </h6>
                         <div className="flex marketing">
                             <div>
