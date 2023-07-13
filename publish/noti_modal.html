@@ -44,8 +44,13 @@
     <div class="modal_wrap block">
         <div class="modal noti_modal">
             <!-- modal content //S -->
-            <div class="">
-                <span><img src="img/common/error.png" alt=""></span>
+            <div>
+                <span class="noti_icon"><img src="img/common/noti.png" alt=""></span>
+                <h3>짧은 강조 텍스트는 이곳에 넣어주세요</h3>
+                <p>두줄 이상의 긴 텍스트 및 설명은<br>이곳에 텍스트를 넣어주세요</p>
+            </div>
+            <div class="btn_box">
+                <a href="javascript:void(0);" class="backbtn"onclick="modal_close();">확인 <span><img src="img/common/arrow.png" alt=""></span></a>
             </div>
             <!-- modal content //E -->
         </div>
@@ -66,3 +71,5 @@
     .then(res => res.text())
     .then(data => footer.innerHTML = data);
 </script>
+
+<script type="text/javascript" language="javascript" src="js/sign.js"></script>
