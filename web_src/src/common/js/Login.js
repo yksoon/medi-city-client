@@ -40,7 +40,7 @@ export default function Login(url, data, handleLoding, resultCode, dispatch) {
                 CommonConsole("log", response);
 
                 CommonConsole("decLog", response);
-                CommonConsole("alert", response);
+                CommonConsole("alertMsg", response);
 
                 // setIsLoading(false);
                 handleLoding(false);
@@ -48,8 +48,8 @@ export default function Login(url, data, handleLoding, resultCode, dispatch) {
         })
         .catch(function (error) {
             // 오류발생시 실행
-            CommonConsole("decLog", error.response);
-            CommonConsole("alert", error.response);
+            CommonConsole("decLog", error);
+            CommonConsole("alertMsg", error);
 
             handleLoding(false);
         });
