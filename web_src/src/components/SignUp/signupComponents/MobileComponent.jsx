@@ -209,6 +209,7 @@ const MobileComponent = forwardRef((props, ref) => {
                     let result_code = response.headers.result_code;
 
                     if (result_code === "0000") {
+                        console.log("1111>>>>>>>>>>>>", resData);
                         dispatch(set_cert_info(resData));
                         mobileStatus(true);
 
@@ -237,6 +238,7 @@ const MobileComponent = forwardRef((props, ref) => {
     };
 
     const certComplete = (resData) => {
+        console.log("22222>>>>>>>>>>>>", resData);
         // {
         //     "result_code": "0000",
         //     "request_no": "000000000000000000000000000206",
@@ -258,7 +260,8 @@ const MobileComponent = forwardRef((props, ref) => {
         // }
 
         const mobileAll = resData.mobile_no;
-        // const mobileAll = "01050907526";
+
+        console.log("33333>>>>>>>>>>>>", mobileAll);
 
         const mobile1 = mobileAll.slice(0, 3);
         const mobile2 = mobileAll.slice(3, 7);
@@ -267,7 +270,6 @@ const MobileComponent = forwardRef((props, ref) => {
         inputMobile1.current.value = mobile1;
         inputMobile2.current.value = mobile2;
         inputMobile3.current.value = mobile3;
-        //asda
     };
 
     return (
