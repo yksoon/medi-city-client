@@ -1,4 +1,4 @@
-import { CommonAlert, CommonConsole } from "common/js/Common";
+import { CommonModal, CommonConsole, CommonSpinner } from "common/js/Common";
 import React, { useState, forwardRef, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { termsContent, privacyContent } from "common/js/terms";
@@ -25,7 +25,10 @@ const TermsComponent = forwardRef((props, ref) => {
     const [isPrivacyOpened, setIsPrivacyOpened] = useState(false);
 
     const [isLoading, setIsLoading] = useState(false);
-    const spinner = useRef(null);
+    const [spinnerOption, setSpinnerOption] = useState({
+        error: "",
+        alert: "",
+    });
 
     const [termItem, setTermItem] = useState({});
     const [privacyItem, setPrivacyItem] = useState({});
@@ -102,8 +105,9 @@ const TermsComponent = forwardRef((props, ref) => {
                     }
                     setIsLoading(false);
                 } else {
-                    let spnin = spinner.current.childNodes[0];
-                    spnin.classList.add("error");
+                    setSpinnerOption({
+                        error: "Y",
+                    });
                 }
             })
             .catch((error) => {
@@ -113,8 +117,9 @@ const TermsComponent = forwardRef((props, ref) => {
                 CommonConsole("decLog", error);
                 // CommonConsole("alertMsg", error);
 
-                let spnin = spinner.current.childNodes[0];
-                spnin.classList.add("error");
+                setSpinnerOption({
+                    error: "Y",
+                });
             });
     };
 
@@ -508,17 +513,13 @@ const TermsComponent = forwardRef((props, ref) => {
                     </label>
                 </div>
             </div>
-            <CommonAlert
+            <CommonModal
                 isOpen={isOpen}
                 handleModalClose={handleModalClose}
                 content={modalContent}
                 title={modalTitle}
             />
-            {isLoading && (
-                <div className="spinner" ref={spinner}>
-                    <CircularProgress />
-                </div>
-            )}
+            {isLoading && <CommonSpinner option={spinnerOption} />}
         </>
     );
 });

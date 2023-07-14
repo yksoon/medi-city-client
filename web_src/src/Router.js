@@ -46,7 +46,7 @@ const Router = () => {
             {/* 휴대폰인증 테스트 */}
             <Route path={"/cert/result"} element={<MobileTestSuccess />} />
 
-            <Route path="*" element={NotFoundPage} />
+            <Route path="*" element={<NotFoundPage />} />
         </Routes>
     );
 };

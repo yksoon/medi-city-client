@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import { CircularProgress } from "@mui/material";
-import { CommonConsole } from "common/js/Common";
+import { CommonConsole, CommonSpinner } from "common/js/Common";
 
 function FindIDMain() {
     const [finded, setFinded] = useState(false);
@@ -16,12 +16,17 @@ function FindIDMain() {
     const [mobile3, setMobile3] = useState("");
     const [findList, setFindList] = useState([]);
 
+    const inputFirstName = useRef(null);
+    const inputLastName = useRef(null);
     const inputMobile1 = useRef(null);
     const inputMobile2 = useRef(null);
     const inputMobile3 = useRef(null);
 
     const [isLoading, setIsLoading] = useState(false);
-    const spinner = useRef(null);
+    const [spinnerOption, setSpinnerOption] = useState({
+        error: "",
+        alert: "",
+    });
 
     useEffect(() => {
         setFinded(false);
@@ -75,8 +80,23 @@ function FindIDMain() {
         }
     };
 
+    const findIdClick = () => {
+        if (!firstName || !lastName) {
+            CommonConsole("alert", "성명을 입력해 주세요");
+            inputFirstName.current.focus();
+            return;
+        }
+        if (!mobile1 || !mobile2 || !mobile3) {
+            CommonConsole("alert", "전화번호를 입력해 주세요");
+            inputMobile1.current.focus();
+            return;
+        }
+
+        sendFindId();
+    };
     const sendFindId = () => {
         setIsLoading(true);
+
         let url = apiPath.api_user_find_id;
         let data = {
             user_name_first_ko: firstName,
@@ -105,6 +125,12 @@ function FindIDMain() {
                     setFindList(result_info);
                     setIsLoading(false);
                     setFinded(true);
+                } else {
+                    setSpinnerOption({
+                        error: "Y",
+                        alert: response.headers.result_message_ko,
+                    });
+                    setIsLoading(false);
                 }
             })
             .catch(function (error) {
@@ -114,10 +140,9 @@ function FindIDMain() {
 
                 // CommonConsole("alertMsg", error);
 
-                let spnin = spinner.current.childNodes[0];
-                spnin.classList.add("error");
-
-                // setIsLoading(false);
+                setSpinnerOption({
+                    error: "Y",
+                });
             });
     };
 
@@ -137,6 +162,7 @@ function FindIDMain() {
                                         type="name"
                                         className="input w180"
                                         placeholder="성"
+                                        ref={inputFirstName}
                                         onChange={(e) =>
                                             handleInput("firstName", e)
                                         }
@@ -145,6 +171,7 @@ function FindIDMain() {
                                         type="name"
                                         className="input w180"
                                         placeholder="이름"
+                                        ref={inputLastName}
                                         onChange={(e) =>
                                             handleInput("lastName", e)
                                         }
@@ -196,7 +223,7 @@ function FindIDMain() {
                         </div>
                     </div>
                     <div className="btn_box">
-                        <Link className="mainbtn btn01" onClick={sendFindId}>
+                        <Link className="mainbtn btn01" onClick={findIdClick}>
                             아이디 찾기
                         </Link>
                         <Link
@@ -245,13 +272,9 @@ function FindIDMain() {
                             </Link>
                         </div>
                     </div>
-                    {isLoading && (
-                        <div className="spinner" ref={spinner}>
-                            <CircularProgress />
-                        </div>
-                    )}
                 </div>
             )}
+            {isLoading && <CommonSpinner option={spinnerOption} />}
             <Footer />
         </>
     );

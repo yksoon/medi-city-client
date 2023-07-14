@@ -12,7 +12,7 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import App from "./App";
 
-import "common/css/Common.css";
+import "common/css/default.css";
 import "common/css/style.css";
 
 const persistor = persistStore(store);

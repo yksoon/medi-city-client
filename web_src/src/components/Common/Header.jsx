@@ -9,7 +9,7 @@ import "common/css/header.css";
 import Login from "common/js/Login";
 import { useSelector, useDispatch } from "react-redux";
 import { set_user_info } from "redux/actions/userInfoAction";
-import { CommonConsole } from "common/js/Common";
+import { CommonAlert, CommonConsole, CommonSpinner } from "common/js/Common";
 // import Login from "common/js/Login";
 
 let resultCode;
@@ -18,6 +18,16 @@ function Header({ props }) {
     const [userPwd, setUserPwd] = useState("");
 
     const [isSignOut, setIsSignOut] = useState(false);
+
+    // const [alertTitle, setAlertTitle] = useState("");
+    // const [alertContent, setAlertContent] = useState("");
+    // const [isAlertOpen, setIsAlertOpen] = useState(false);
+
+    const [alertOption, setAlertOption] = useState({
+        isAlertOpen: false,
+        alertTitle: "",
+        alertContent: "",
+    });
 
     const inputId = useRef(null);
     const inputPw = useRef(null);
@@ -61,14 +71,35 @@ function Header({ props }) {
         setUserPwd(event.currentTarget.value);
     };
 
+    // const handleAlert = (status) => {
+    //     setIsAlertOpen(status);
+    // };
+
+    const handleAlertClose = () => {
+        console.log(alertOption);
+        setAlertOption({
+            isAlertOpen: false,
+            alertTitle: "",
+            alertContent: "",
+        });
+    };
+
     const signIn = () => {
         if (!userId) {
-            CommonConsole("alert", "아이디를 입력해주세요");
+            setAlertOption({
+                isAlertOpen: true,
+                alertTitle: "아이디를 입력해주세요",
+            });
+
             inputId.current.focus();
             return false;
         }
         if (!userPwd) {
-            CommonConsole("alert", "비밀번호를 입력해주세요");
+            setAlertOption({
+                isAlertOpen: true,
+                alertTitle: "비밀번호를 입력해주세요",
+            });
+
             inputPw.current.focus();
             return false;
         }
@@ -92,6 +123,7 @@ function Header({ props }) {
 
     const signout = () => {
         setIsSignOut(true);
+        setIsLoading(true);
 
         const url = apiPath.api_signout;
         let data = {};
@@ -109,12 +141,16 @@ function Header({ props }) {
                     setUserPwd("");
 
                     setIsSignOut(false);
+                    setIsLoading(false);
 
                     window.location.replace(routerPath.main_url);
                 }
             })
             .catch(function (error) {
                 // 오류발생시 실행
+                let spnin = spinner.current.childNodes[0];
+                spnin.classList.add("error");
+
                 CommonConsole("log", error);
                 CommonConsole("decLog", error);
                 CommonConsole("alertMsg", error);
@@ -396,6 +432,13 @@ function Header({ props }) {
                         <CircularProgress />
                     </div>
                 )}
+                <CommonAlert
+                    // isAlertOpen={isAlertOpen}
+                    // content={alertContent}
+                    // title={alertTitle}
+                    handleAlertClose={handleAlertClose}
+                    option={alertOption}
+                />
             </header>
         </>
     );

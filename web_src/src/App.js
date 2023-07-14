@@ -114,7 +114,7 @@ function App() {
     return (
         <>
             <div className="wrap">
-                <Router />;
+                <Router />
             </div>
         </>
     );
