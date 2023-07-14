@@ -2,10 +2,18 @@ import { routerPath } from "webPath";
 import { RestServer } from "./Rest";
 import { useDispatch } from "react-redux";
 import { set_user_info } from "redux/actions/userInfoAction";
-import { CommonConsole } from "./Common";
-// import { Instance } from "./Instance";
+import { CommonAlert, CommonConsole } from "./Common";
+import { useState } from "react";
 
-export default function Login(url, data, handleLoding, resultCode, dispatch) {
+export default function Login(
+    url,
+    data,
+    handleLoding,
+    resultCode,
+    dispatch,
+    handleAlert,
+    handleAlertClose
+) {
     RestServer("post", url, data)
         .then(function (response) {
             // response
@@ -40,7 +48,9 @@ export default function Login(url, data, handleLoding, resultCode, dispatch) {
                 CommonConsole("log", response);
 
                 CommonConsole("decLog", response);
-                CommonConsole("alertMsg", response);
+                // CommonConsole("alertMsg", response);
+
+                handleAlert(true, response.headers.result_message_ko);
 
                 // setIsLoading(false);
                 handleLoding(false);
@@ -49,7 +59,9 @@ export default function Login(url, data, handleLoding, resultCode, dispatch) {
         .catch(function (error) {
             // 오류발생시 실행
             CommonConsole("decLog", error);
-            CommonConsole("alertMsg", error);
+            // CommonConsole("alertMsg", error);
+
+            handleAlert(true, error.response.headers.result_message_ko);
 
             handleLoding(false);
         });

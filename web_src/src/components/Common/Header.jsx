@@ -19,10 +19,6 @@ function Header({ props }) {
 
     const [isSignOut, setIsSignOut] = useState(false);
 
-    // const [alertTitle, setAlertTitle] = useState("");
-    // const [alertContent, setAlertContent] = useState("");
-    // const [isAlertOpen, setIsAlertOpen] = useState(false);
-
     const [alertOption, setAlertOption] = useState({
         isAlertOpen: false,
         alertTitle: "",
@@ -33,7 +29,10 @@ function Header({ props }) {
     const inputPw = useRef(null);
 
     const [isLoading, setIsLoading] = useState(false);
-    const spinner = useRef(null);
+    const [spinnerOption, setSpinnerOption] = useState({
+        error: "",
+        alert: "",
+    });
 
     const dispatch = useDispatch();
     // let loginInfo;
@@ -71,12 +70,15 @@ function Header({ props }) {
         setUserPwd(event.currentTarget.value);
     };
 
-    // const handleAlert = (status) => {
-    //     setIsAlertOpen(status);
-    // };
+    const handleAlert = (status, title, content) => {
+        setAlertOption({
+            isAlertOpen: status,
+            alertTitle: title ? title : "",
+            alertContent: content ? content : "",
+        });
+    };
 
     const handleAlertClose = () => {
-        console.log(alertOption);
         setAlertOption({
             isAlertOpen: false,
             alertTitle: "",
@@ -118,7 +120,15 @@ function Header({ props }) {
             setIsLoading(status);
         };
 
-        Login(url, data, handleLoding, resultCode, dispatch);
+        Login(
+            url,
+            data,
+            handleLoding,
+            resultCode,
+            dispatch,
+            handleAlert,
+            handleAlertClose
+        );
     };
 
     const signout = () => {
@@ -148,12 +158,14 @@ function Header({ props }) {
             })
             .catch(function (error) {
                 // 오류발생시 실행
-                let spnin = spinner.current.childNodes[0];
-                spnin.classList.add("error");
-
                 CommonConsole("log", error);
                 CommonConsole("decLog", error);
-                CommonConsole("alertMsg", error);
+                // CommonConsole("alertMsg", error);
+
+                setSpinnerOption({
+                    error: "Y",
+                    alert: error.response.headers.result_message_ko,
+                });
 
                 // localStorage.removeItem("userInfo");
                 dispatch(set_user_info(null));
@@ -427,16 +439,10 @@ function Header({ props }) {
                         </Link>
                     </div>
                 </div>
-                {isLoading && (
-                    <div className="spinner" ref={spinner}>
-                        <CircularProgress />
-                    </div>
-                )}
+                {isLoading && <CommonSpinner option={spinnerOption} />}
                 <CommonAlert
-                    // isAlertOpen={isAlertOpen}
-                    // content={alertContent}
-                    // title={alertTitle}
                     handleAlertClose={handleAlertClose}
+                    // handleAlert={handleAlert}
                     option={alertOption}
                 />
             </header>

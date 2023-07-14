@@ -50,23 +50,33 @@ const CommonAlert = (props) => {
     let content = option.alertContent;
 
     const handleAlertClose = props.handleAlertClose;
+    // const handleAlert = props.handleAlert;
 
     return (
         <>
             <Modal
                 open={isAlertOpen}
                 onClose={handleAlertClose}
+                // onClose={handleAlert(false)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <div className="modal_wrap block">
-                    <div className="modal noti_modal">
+                    <div className="modal noti_modal ">
                         <div>
                             <span className="noti_icon">
-                                <img src="/img/common/noti.png" alt="" />
+                                <img src="img/common/alert.png" alt="" />
                             </span>
-                            <h3>{title}</h3>
-                            <p>{content}</p>
+                            <h3>
+                                {title
+                                    ? decodeURI(title).replace("%20", " ")
+                                    : ""}
+                            </h3>
+                            <p>
+                                {content
+                                    ? decodeURI(title).replace("%20", " ")
+                                    : ""}
+                            </p>
                         </div>
                         <div className="btn_box">
                             <Link
@@ -75,7 +85,7 @@ const CommonAlert = (props) => {
                             >
                                 확인{" "}
                                 <span>
-                                    <img src="/img/common/arrow.png" alt="" />
+                                    <img src="img/common/arrow.png" alt="" />
                                 </span>
                             </Link>
                         </div>
