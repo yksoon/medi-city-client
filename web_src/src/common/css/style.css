@@ -236,6 +236,7 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .form .mark::before {display:inline-block;content:"!";width:27px;height:27px;background:#A6A6A6;color:#fff;text-align:center;font-weight:600;border-radius: 50%;line-height:27px;margin:0 10px 0 0;}
 .form .mark.red::before {background: #de1414;}
 .form .mark.green::before {background:#05b10b;}
+.form .mark.pw_find_mark {margin:0;}
 
 .sign > div > div {margin: 0 0 40px;}
 .sign .flex > div {margin:0 0 0 20px;}
