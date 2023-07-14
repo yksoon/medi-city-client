@@ -168,6 +168,8 @@ function SignUpMain() {
 
             let url = apiPath.api_user;
 
+            console.log(data);
+
             RestServer("post", url, data)
                 .then((response) => {
                     // response

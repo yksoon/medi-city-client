@@ -17,8 +17,10 @@ function FindPWMain() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
 
-    const [isLoading, setIsLoading] = useState(false);
     const [certStatus, setCertStatus] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(false);
+    const spinner = useRef(null);
 
     // 인증정보
     const form_url = useRef(null);
@@ -198,10 +200,15 @@ function FindPWMain() {
                     }
                 })
                 .catch((error) => {
+                    let spnin = spinner.current.childNodes[0];
+                    spnin.classList.add("error");
+
                     // 오류발생시 실행
                     CommonConsole("log", error);
                     CommonConsole("decLog", error);
-                    CommonConsole("alertMsg", error);
+                    // CommonConsole("alertMsg", error);
+
+                    // setIsLoading(false);
                 });
         }
     };
@@ -297,20 +304,6 @@ function FindPWMain() {
                                             </Link>
                                         </div>
                                     </div>
-                                ) : isLoading ? (
-                                    <div
-                                        id="phone_check_before"
-                                        style={{ marginTop: 10 }}
-                                    >
-                                        <Link className="subbtn on m0">
-                                            <CircularProgress
-                                                color="inherit"
-                                                style={{
-                                                    padding: "10px",
-                                                }}
-                                            />
-                                        </Link>
-                                    </div>
                                 ) : (
                                     <div
                                         id="phone_check_before"
@@ -349,6 +342,11 @@ function FindPWMain() {
                 <></>
             )}
 
+            {isLoading && (
+                <div className="spinner" ref={spinner}>
+                    <CircularProgress />
+                </div>
+            )}
             {/* formData */}
             <form name="form" id="form" ref={form_url}>
                 <input type="hidden" id="m" name="m" value="" ref={m} />
