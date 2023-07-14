@@ -16,12 +16,14 @@ let resultCode;
 function Header({ props }) {
     const [userId, setUserId] = useState("");
     const [userPwd, setUserPwd] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
 
     const [isSignOut, setIsSignOut] = useState(false);
 
     const inputId = useRef(null);
     const inputPw = useRef(null);
+
+    const [isLoading, setIsLoading] = useState(false);
+    const spinner = useRef(null);
 
     const dispatch = useDispatch();
     // let loginInfo;
@@ -61,12 +63,12 @@ function Header({ props }) {
 
     const signIn = () => {
         if (!userId) {
-            alert("아이디를 입력해주세요");
+            CommonConsole("alert", "아이디를 입력해주세요");
             inputId.current.focus();
             return false;
         }
         if (!userPwd) {
-            alert("비밀번호를 입력해주세요");
+            CommonConsole("alert", "비밀번호를 입력해주세요");
             inputPw.current.focus();
             return false;
         }
@@ -161,28 +163,14 @@ function Header({ props }) {
                                             onKeyDown={handleOnKeyPress} // Enter 입력 이벤트 함수
                                             ref={inputPw}
                                         />
-                                        {isLoading ? (
-                                            <Link
-                                                className="login"
-                                                id="header_login"
-                                                // onClick={signIn}
-                                            >
-                                                <CircularProgress
-                                                    color="inherit"
-                                                    style={{
-                                                        padding: "10px",
-                                                    }}
-                                                />
-                                            </Link>
-                                        ) : (
-                                            <Link
-                                                className="login"
-                                                id="header_login"
-                                                onClick={signIn}
-                                            >
-                                                LOGIN
-                                            </Link>
-                                        )}
+
+                                        <Link
+                                            className="login"
+                                            id="header_login"
+                                            onClick={signIn}
+                                        >
+                                            LOGIN
+                                        </Link>
 
                                         <Link
                                             to={routerPath.signup_url}
@@ -403,6 +391,11 @@ function Header({ props }) {
                         </Link>
                     </div>
                 </div>
+                {isLoading && (
+                    <div className="spinner" ref={spinner}>
+                        <CircularProgress />
+                    </div>
+                )}
             </header>
         </>
     );
