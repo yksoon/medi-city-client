@@ -5,6 +5,8 @@ import { termsContent, privacyContent } from "common/js/terms";
 import { RestServer } from "common/js/Rest";
 import { apiPath } from "webPath";
 import { CircularProgress } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { set_alert, set_spinner } from "redux/actions/commonAction";
 
 const TermsComponent = forwardRef((props, ref) => {
     const termChkMain = props.termChkMain;
@@ -24,15 +26,11 @@ const TermsComponent = forwardRef((props, ref) => {
     const [isTermsOpened, setIsTermsOpened] = useState(false);
     const [isPrivacyOpened, setIsPrivacyOpened] = useState(false);
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [spinnerOption, setSpinnerOption] = useState({
-        error: "",
-        alert: "",
-    });
-
     const [termItem, setTermItem] = useState({});
     const [privacyItem, setPrivacyItem] = useState({});
     const [marketingItem, setMarketingItem] = useState({});
+
+    const dispatch = useDispatch();
 
     // let termItem = {};
     // let privacyItem = {};
@@ -52,7 +50,12 @@ const TermsComponent = forwardRef((props, ref) => {
     }, []);
 
     const initTerms = () => {
-        setIsLoading(true);
+        // setIsLoading(true);
+        dispatch(
+            set_spinner({
+                isLoading: true,
+            })
+        );
 
         const url = apiPath.api_terms_list;
         const data = {
@@ -103,11 +106,25 @@ const TermsComponent = forwardRef((props, ref) => {
                                 break;
                         }
                     }
-                    setIsLoading(false);
+                    dispatch(
+                        set_spinner({
+                            isLoading: false,
+                        })
+                    );
                 } else {
-                    setSpinnerOption({
-                        error: "Y",
-                    });
+                    dispatch(
+                        set_spinner({
+                            isLoading: true,
+                            error: "Y",
+                        })
+                    );
+
+                    dispatch(
+                        set_alert({
+                            isAlertOpen: true,
+                            title: "잠시 후 다시 시도해주세요",
+                        })
+                    );
                 }
             })
             .catch((error) => {
@@ -117,9 +134,19 @@ const TermsComponent = forwardRef((props, ref) => {
                 CommonConsole("decLog", error);
                 // CommonConsole("alertMsg", error);
 
-                setSpinnerOption({
-                    error: "Y",
-                });
+                dispatch(
+                    set_spinner({
+                        isLoading: true,
+                        error: "Y",
+                    })
+                );
+
+                dispatch(
+                    set_alert({
+                        isAlertOpen: true,
+                        title: "잠시 후 다시 시도해주세요",
+                    })
+                );
             });
     };
 
@@ -519,7 +546,6 @@ const TermsComponent = forwardRef((props, ref) => {
                 content={modalContent}
                 title={modalTitle}
             />
-            {isLoading && <CommonSpinner option={spinnerOption} />}
         </>
     );
 });

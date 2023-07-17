@@ -16,16 +16,11 @@ import LicenseComponent from "./signupComponents/LicenseComponent";
 import DepartmentComponent from "./signupComponents/DepartmentComponent";
 import TermsComponent from "./signupComponents/TermsComponent";
 import { CommonConsole, CommonSpinner } from "common/js/Common";
+import { set_alert, set_spinner } from "redux/actions/commonAction";
 
 function SignUpMain() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    const [isLoading, setIsLoading] = useState(false);
-    const [spinnerOption, setSpinnerOption] = useState({
-        error: "",
-        alert: "",
-    });
 
     const signupRefs = {
         accountType: useRef(null),
@@ -63,8 +58,11 @@ function SignUpMain() {
 
     const sendSignupForm = () => {
         if (validation()) {
-            // CommonConsole("log", signupRefs)
-            setIsLoading(true);
+            dispatch(
+                set_spinner({
+                    isLoading: true,
+                })
+            );
 
             let birth_yyyy = certInfo.birth_date.slice(0, 4);
             let birth_mm = certInfo.birth_date.slice(4, 6);
@@ -186,17 +184,33 @@ function SignUpMain() {
                         localStorage.removeItem("certification_idx");
                         dispatch(set_cert_info(null));
 
+                        // Spinner
+                        dispatch(
+                            set_spinner({
+                                isLoading: false,
+                            })
+                        );
+
                         navigate(routerPath.signup_ok_url);
                     } else {
-                        CommonConsole("alertMsg", response);
-                        setSpinnerOption({
-                            error: "Y",
-                            alert: response.headers.result_message_ko,
-                        });
-                        setIsLoading(false);
-                    }
+                        CommonConsole("log", response);
 
-                    setIsLoading(false);
+                        // alert
+                        dispatch(
+                            set_alert({
+                                isAlertOpen: true,
+                                alertTitle: response.headers.result_message_ko,
+                                alertContent: "",
+                            })
+                        );
+
+                        // Spinner
+                        dispatch(
+                            set_spinner({
+                                isLoading: false,
+                            })
+                        );
+                    }
                 })
                 .catch((error) => {
                     // 오류발생시 실행
@@ -204,11 +218,21 @@ function SignUpMain() {
                     CommonConsole("decLog", error);
                     // CommonConsole("alertMsg", error);
 
-                    setSpinnerOption({
-                        error: "Y",
-                        alert: "잠시 후에 다시 시도해주세요.",
-                    });
-                    setIsLoading(false);
+                    // alert
+                    dispatch(
+                        set_alert({
+                            isAlertOpen: true,
+                            alertTitle: "잠시 후에 다시 시도해주세요.",
+                            alertContent: "",
+                        })
+                    );
+
+                    // Spinner
+                    dispatch(
+                        set_spinner({
+                            isLoading: false,
+                        })
+                    );
                 });
         }
     };
@@ -247,13 +271,25 @@ function SignUpMain() {
 
     const validation = () => {
         if (!chkId) {
-            alert("아이디를 확인해주세요");
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "아이디를 확인해주세요",
+                    alertContent: "",
+                })
+            );
             signupRefs.inputID.current.focus();
 
             return false;
         }
         if (!chkPw) {
-            alert("비밀번호를 확인해주세요");
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "비밀번호를 확인해주세요",
+                    alertContent: "",
+                })
+            );
             signupRefs.inputPW.current.focus();
 
             return false;
@@ -264,13 +300,25 @@ function SignUpMain() {
             signupRefs.user_name_first_en.current.value === "" ||
             signupRefs.user_name_last_en.current.value === ""
         ) {
-            alert("성명을 입력해주세요");
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "성명을 입력해주세요",
+                    alertContent: "",
+                })
+            );
             signupRefs.user_name_first_ko.current.focus();
 
             return false;
         }
         if (!chkMobile) {
-            alert("휴대폰 인증을 완료해주세요");
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "휴대폰 인증을 완료해주세요",
+                    alertContent: "",
+                })
+            );
             signupRefs.inputMobile2.current.focus();
 
             return false;
@@ -280,7 +328,13 @@ function SignUpMain() {
                 signupRefs.user_name_last_ko.current.value !==
             certInfo.name
         ) {
-            alert("성명이 일치하지 않습니다.");
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "성명이 일치하지 않습니다.",
+                    alertContent: "",
+                })
+            );
             signupRefs.user_name_first_ko.current.focus();
 
             return false;
@@ -289,7 +343,13 @@ function SignUpMain() {
             !signupRefs.termsChk.current.checked ||
             !signupRefs.privacyChk.current.checked
         ) {
-            alert("약관에 동의해주세요");
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "약관에 동의해주세요",
+                    alertContent: "",
+                })
+            );
             signupRefs.termsChk.current.focus();
 
             return false;
@@ -352,8 +412,6 @@ function SignUpMain() {
                         </div>
                     </div>
                 </div>
-
-                {isLoading && <CommonSpinner option={spinnerOption} />}
             </div>
             <Footer />
         </>

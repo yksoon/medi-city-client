@@ -5,7 +5,7 @@ import { apiPath, routerPath } from "webPath";
 import { RestServer } from "common/js/Rest";
 import axios from "axios";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     set_codes,
     set_result_code,
@@ -13,19 +13,9 @@ import {
 } from "redux/actions/codesAction";
 import { set_ip_info } from "redux/actions/ipInfoAction";
 
-import NotFoundPage from "NotFoundPage";
-import Main from "components/Main/Main";
-import MyPageMain from "components/MyPage/MyPage/MyPageMain";
-import SignUpMain from "components/SignUp/SignUpMain";
-import SignUpOk from "components/SignUp/SignUpOk";
-import TermsMain from "components/TermPrivacy/TermMain";
-import PrivacyMain from "components/TermPrivacy/PrivacyMain";
-import FindIdMain from "components/FindAccount/FindID/FindIDMain";
-import FindPWMain from "components/FindAccount/FindPW/FindPWMain";
-import MobileTest from "components/MobileTest";
-import MobileTestSuccess from "components/MobileTestSuccess";
-
 import Router from "./Router";
+import { CommonAlert, CommonSpinner } from "common/js/Common";
+import { set_alert } from "redux/actions/commonAction";
 
 function App() {
     useEffect(() => {
@@ -42,6 +32,22 @@ function App() {
     }, []);
 
     const dispatch = useDispatch();
+
+    // Alert
+    let alertOption = useSelector((state) => state.common.alert);
+
+    const handleAlertClose = () => {
+        let alertOption = {
+            isAlertOpen: false,
+            alertTitle: "",
+            alertContent: "",
+        };
+
+        dispatch(set_alert(alertOption));
+    };
+
+    // Spinner
+    let spinnerOption = useSelector((state) => state.common.spinner);
 
     // IP
     const getIpInfo = () => {
@@ -115,6 +121,11 @@ function App() {
         <>
             <div className="wrap">
                 <Router />
+                <CommonAlert
+                    handleAlertClose={handleAlertClose}
+                    option={alertOption}
+                />
+                <CommonSpinner option={spinnerOption} />
             </div>
         </>
     );

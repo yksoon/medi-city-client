@@ -5,6 +5,8 @@ import { CircularProgress } from "@mui/material";
 import { RestServer } from "common/js/Rest";
 import { apiPath } from "webPath";
 import { CommonConsole } from "common/js/Common";
+import { useDispatch } from "react-redux";
+import { set_alert, set_spinner } from "redux/actions/commonAction";
 
 function ResetPW({ userID, changeIsFind }) {
     let user_id = userID;
@@ -14,8 +16,7 @@ function ResetPW({ userID, changeIsFind }) {
     const [inputPW1, setInputPW1] = useState("");
     const [inputPW2, setInputPW2] = useState("");
 
-    const [isLoading, setIsLoading] = useState(false);
-    const spinner = useRef(null);
+    const dispatch = useDispatch();
 
     // 1 : 비번 서로 X, 패턴 X
     // 2 : 비번 서로 X, 패턴 O
@@ -105,13 +106,32 @@ function ResetPW({ userID, changeIsFind }) {
     };
 
     const changePW = () => {
-        setIsLoading(true);
+        // Spinner
+        dispatch(
+            set_spinner({
+                isLoading: true,
+            })
+        );
 
-        CommonConsole("log", pwStatus);
+        // CommonConsole("log", pwStatus);
 
         if (!pwStatus) {
-            CommonConsole("alert", "비밀번호를 확인 해주세요");
-            setIsLoading(false);
+            // alert
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "비밀번호를 확인 해주세요",
+                    alertContent: "",
+                })
+            );
+
+            // Spinner
+            dispatch(
+                set_spinner({
+                    isLoading: false,
+                })
+            );
+
             return;
         } else {
             restChangePw();
@@ -134,31 +154,51 @@ function ResetPW({ userID, changeIsFind }) {
                 CommonConsole("log", response);
 
                 if (res.headers.result_code === "0000") {
-                    setIsLoading(false);
-                    changeIsFind("3");
-                } else {
-                    let spnin = spinner.current.childNodes[0];
-                    spnin.classList.add("error");
-                    CommonConsole(
-                        "alert",
-                        "오류가 발생했습니다. 다시 시도해주세요."
+                    // Spinner
+                    dispatch(
+                        set_spinner({
+                            isLoading: false,
+                        })
                     );
 
-                    // setIsLoading(false);
+                    changeIsFind("3");
+                } else {
+                    // alert
+                    dispatch(
+                        set_alert({
+                            isAlertOpen: true,
+                            alertTitle: "오류가 발생했습니다",
+                            alertContent: "다시 시도해주세요",
+                        })
+                    );
+
+                    // Spinner
+                    dispatch(
+                        set_spinner({
+                            isLoading: false,
+                        })
+                    );
                 }
             })
             .catch(function (error) {
                 // 오류발생시 실행
                 CommonConsole("log", error);
 
-                let spnin = spinner.current.childNodes[0];
-                spnin.classList.add("error");
-
-                CommonConsole(
-                    "alert",
-                    "오류가 발생했습니다. 다시 시도해주세요."
+                // alert
+                dispatch(
+                    set_alert({
+                        isAlertOpen: true,
+                        alertTitle: "오류가 발생했습니다",
+                        alertContent: "다시 시도해주세요",
+                    })
                 );
-                // setIsLoading(false);
+
+                // Spinner
+                dispatch(
+                    set_spinner({
+                        isLoading: false,
+                    })
+                );
             });
     };
 
@@ -213,11 +253,6 @@ function ResetPW({ userID, changeIsFind }) {
                     확인
                 </Link>
             </div>
-            {isLoading && (
-                <div className="spinner" ref={spinner}>
-                    <CircularProgress />
-                </div>
-            )}
         </div>
     );
 }
