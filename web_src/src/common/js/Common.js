@@ -50,7 +50,6 @@ const CommonAlert = (props) => {
     let content = option.alertContent;
 
     const handleAlertClose = props.handleAlertClose;
-    // const handleAlert = props.handleAlert;
 
     return (
         <>
@@ -74,7 +73,7 @@ const CommonAlert = (props) => {
                             </h3>
                             <p>
                                 {content
-                                    ? decodeURI(title).replace("%20", " ")
+                                    ? decodeURI(content).replace("%20", " ")
                                     : ""}
                             </p>
                         </div>
@@ -148,6 +147,7 @@ const CommonSpinner = (props) => {
     const spinner = useRef();
 
     console.log(props);
+    const isLoading = props.option.isLoading;
     const alertMsg = props.option.alert ? props.option.alert : "";
     const error = props.option.error ? props.option.error : "";
 
@@ -164,9 +164,11 @@ const CommonSpinner = (props) => {
 
     return (
         <>
-            <div className="spinner" ref={spinner}>
-                <CircularProgress />
-            </div>
+            {isLoading && (
+                <div className="spinner" ref={spinner}>
+                    <CircularProgress />
+                </div>
+            )}
         </>
     );
 };

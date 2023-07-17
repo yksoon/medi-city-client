@@ -10,6 +10,7 @@ import { CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { set_cert_info } from "redux/actions/certAction";
 import { CommonConsole } from "common/js/Common";
+import { set_alert, set_spinner } from "redux/actions/commonAction";
 
 function FindPWMain() {
     const [isFind, setIsFind] = useState("1");
@@ -18,9 +19,6 @@ function FindPWMain() {
     const [lastName, setLastName] = useState("");
 
     const [certStatus, setCertStatus] = useState(false);
-
-    const [isLoading, setIsLoading] = useState(false);
-    const spinner = useRef(null);
 
     // 인증정보
     const form_url = useRef(null);
@@ -70,7 +68,14 @@ function FindPWMain() {
 
             stopTimer();
 
-            alert("시간초과. 인증을 다시 진행해주세요.");
+            // alert
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "시간초과",
+                    alertContent: "인증을 다시 진행해주세요",
+                })
+            );
         }
     }, [sec]);
 
@@ -108,15 +113,35 @@ function FindPWMain() {
     // 인증번호 발송
     const sendCert = () => {
         if (!userID) {
-            alert("아이디를 입력해주세요");
+            // alert
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "아이디를 입력해주세요",
+                    alertContent: "",
+                })
+            );
             inputUserID.current.focus();
             return;
         } else if (!firstName || !lastName) {
-            alert("성명을 입력해주세요");
+            // alert
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "성명을 입력해주세요",
+                    alertContent: "",
+                })
+            );
+
             inputFirstName.current.focus();
             return;
         } else {
-            setIsLoading(true);
+            // Spinner
+            dispatch(
+                set_spinner({
+                    isLoading: true,
+                })
+            );
 
             const url = apiPath.api_user_cert;
 
@@ -140,7 +165,15 @@ function FindPWMain() {
                 .catch((error) => {
                     // 오류발생시 실행
                     CommonConsole("log", error);
-                    CommonConsole("alertMsg", error);
+
+                    // alert
+                    dispatch(
+                        set_alert({
+                            isAlertOpen: true,
+                            alertTitle: "잠시 후 다시 시도해주세요",
+                            alertContent: "",
+                        })
+                    );
                 });
         }
     };
@@ -189,26 +222,43 @@ function FindPWMain() {
                     if (result_code === "0000") {
                         // 인증 확인 시 인터벌 해제
                         stopTimer();
-                        setIsLoading(false);
+
+                        // Spinner
+                        dispatch(
+                            set_spinner({
+                                isLoading: false,
+                            })
+                        );
+
                         setCertStatus(true);
 
                         dispatch(set_cert_info(null));
                         // 인증 완료 후 로직
                         setIsFind("2");
                     } else {
-                        alert("에러");
+                        // alert
+                        dispatch(
+                            set_alert({
+                                isAlertOpen: true,
+                                alertTitle: "잠시 후 다시 시도해주세요",
+                                alertContent: "",
+                            })
+                        );
                     }
                 })
                 .catch((error) => {
-                    let spnin = spinner.current.childNodes[0];
-                    spnin.classList.add("error");
-
                     // 오류발생시 실행
                     CommonConsole("log", error);
                     CommonConsole("decLog", error);
                     // CommonConsole("alertMsg", error);
 
-                    // setIsLoading(false);
+                    // Spinner
+                    dispatch(
+                        set_spinner({
+                            isLoading: true,
+                            error: "Y",
+                        })
+                    );
                 });
         }
     };
@@ -342,11 +392,6 @@ function FindPWMain() {
                 <></>
             )}
 
-            {isLoading && (
-                <div className="spinner" ref={spinner}>
-                    <CircularProgress />
-                </div>
-            )}
             {/* formData */}
             <form name="form" id="form" ref={form_url}>
                 <input type="hidden" id="m" name="m" value="" ref={m} />

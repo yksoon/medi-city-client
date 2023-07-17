@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import { CircularProgress } from "@mui/material";
 import { CommonConsole, CommonSpinner } from "common/js/Common";
+import { useDispatch } from "react-redux";
+import { set_alert, set_spinner } from "redux/actions/commonAction";
 
 function FindIDMain() {
     const [finded, setFinded] = useState(false);
@@ -22,11 +24,7 @@ function FindIDMain() {
     const inputMobile2 = useRef(null);
     const inputMobile3 = useRef(null);
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [spinnerOption, setSpinnerOption] = useState({
-        error: "",
-        alert: "",
-    });
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setFinded(false);
@@ -82,12 +80,26 @@ function FindIDMain() {
 
     const findIdClick = () => {
         if (!firstName || !lastName) {
-            CommonConsole("alert", "성명을 입력해 주세요");
+            // alert
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "성명을 입력해 주세요",
+                    alertContent: "",
+                })
+            );
             inputFirstName.current.focus();
             return;
         }
         if (!mobile1 || !mobile2 || !mobile3) {
-            CommonConsole("alert", "전화번호를 입력해 주세요");
+            // alert
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "전화번호를 입력해 주세요",
+                    alertContent: "",
+                })
+            );
             inputMobile1.current.focus();
             return;
         }
@@ -95,7 +107,12 @@ function FindIDMain() {
         sendFindId();
     };
     const sendFindId = () => {
-        setIsLoading(true);
+        // Spinner
+        dispatch(
+            set_spinner({
+                isLoading: true,
+            })
+        );
 
         let url = apiPath.api_user_find_id;
         let data = {
@@ -123,14 +140,31 @@ function FindIDMain() {
                     CommonConsole("log", result_info);
 
                     setFindList(result_info);
-                    setIsLoading(false);
+
+                    // Spinner
+                    dispatch(
+                        set_spinner({
+                            isLoading: false,
+                        })
+                    );
+
                     setFinded(true);
                 } else {
-                    setSpinnerOption({
-                        error: "Y",
-                        alert: response.headers.result_message_ko,
-                    });
-                    setIsLoading(false);
+                    // alert
+                    dispatch(
+                        set_alert({
+                            isAlertOpen: true,
+                            alertTitle: response.headers.result_message_ko,
+                            alertContent: "",
+                        })
+                    );
+
+                    // Spinner
+                    dispatch(
+                        set_spinner({
+                            isLoading: false,
+                        })
+                    );
                 }
             })
             .catch(function (error) {
@@ -140,9 +174,13 @@ function FindIDMain() {
 
                 // CommonConsole("alertMsg", error);
 
-                setSpinnerOption({
-                    error: "Y",
-                });
+                // Spinner
+                dispatch(
+                    set_spinner({
+                        isLoading: true,
+                        error: "Y",
+                    })
+                );
             });
     };
 
@@ -274,7 +312,6 @@ function FindIDMain() {
                     </div>
                 </div>
             )}
-            {isLoading && <CommonSpinner option={spinnerOption} />}
             <Footer />
         </>
     );

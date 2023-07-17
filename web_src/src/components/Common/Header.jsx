@@ -9,7 +9,8 @@ import "common/css/header.css";
 import Login from "common/js/Login";
 import { useSelector, useDispatch } from "react-redux";
 import { set_user_info } from "redux/actions/userInfoAction";
-import { CommonAlert, CommonConsole, CommonSpinner } from "common/js/Common";
+import { CommonConsole, CommonSpinner } from "common/js/Common";
+import { set_alert, set_spinner } from "redux/actions/commonAction";
 // import Login from "common/js/Login";
 
 let resultCode;
@@ -19,22 +20,11 @@ function Header({ props }) {
 
     const [isSignOut, setIsSignOut] = useState(false);
 
-    const [alertOption, setAlertOption] = useState({
-        isAlertOpen: false,
-        alertTitle: "",
-        alertContent: "",
-    });
-
     const inputId = useRef(null);
     const inputPw = useRef(null);
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [spinnerOption, setSpinnerOption] = useState({
-        error: "",
-        alert: "",
-    });
-
     const dispatch = useDispatch();
+
     // let loginInfo;
     // (() => {
     //     loginInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -70,43 +60,37 @@ function Header({ props }) {
         setUserPwd(event.currentTarget.value);
     };
 
-    const handleAlert = (status, title, content) => {
-        setAlertOption({
-            isAlertOpen: status,
-            alertTitle: title ? title : "",
-            alertContent: content ? content : "",
-        });
-    };
-
-    const handleAlertClose = () => {
-        setAlertOption({
-            isAlertOpen: false,
-            alertTitle: "",
-            alertContent: "",
-        });
-    };
-
     const signIn = () => {
         if (!userId) {
-            setAlertOption({
-                isAlertOpen: true,
-                alertTitle: "아이디를 입력해주세요",
-            });
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "아이디를 입력해주세요",
+                    alertContent: "",
+                })
+            );
 
             inputId.current.focus();
             return false;
         }
         if (!userPwd) {
-            setAlertOption({
-                isAlertOpen: true,
-                alertTitle: "비밀번호를 입력해주세요",
-            });
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "비밀번호를 입력해주세요",
+                    alertContent: "",
+                })
+            );
 
             inputPw.current.focus();
             return false;
         }
 
-        setIsLoading(true);
+        dispatch(
+            set_spinner({
+                isLoading: true,
+            })
+        );
 
         const url = apiPath.api_login;
 
@@ -116,24 +100,17 @@ function Header({ props }) {
             user_pwd: userPwd,
         };
 
-        const handleLoding = (status) => {
-            setIsLoading(status);
-        };
-
-        Login(
-            url,
-            data,
-            handleLoding,
-            resultCode,
-            dispatch,
-            handleAlert,
-            handleAlertClose
-        );
+        Login(url, data, resultCode, dispatch);
     };
 
     const signout = () => {
         setIsSignOut(true);
-        setIsLoading(true);
+
+        dispatch(
+            set_spinner({
+                isLoading: true,
+            })
+        );
 
         const url = apiPath.api_signout;
         let data = {};
@@ -151,7 +128,12 @@ function Header({ props }) {
                     setUserPwd("");
 
                     setIsSignOut(false);
-                    setIsLoading(false);
+
+                    dispatch(
+                        set_spinner({
+                            isLoading: false,
+                        })
+                    );
 
                     window.location.replace(routerPath.main_url);
                 }
@@ -162,10 +144,19 @@ function Header({ props }) {
                 CommonConsole("decLog", error);
                 // CommonConsole("alertMsg", error);
 
-                setSpinnerOption({
-                    error: "Y",
-                    alert: error.response.headers.result_message_ko,
-                });
+                // Spinner
+                dispatch(
+                    set_spinner({
+                        isLoading: false,
+                    })
+                );
+
+                dispatch(
+                    set_alert({
+                        isAlertOpen: true,
+                        title: error.response.headers.result_message_ko,
+                    })
+                );
 
                 // localStorage.removeItem("userInfo");
                 dispatch(set_user_info(null));
@@ -439,12 +430,6 @@ function Header({ props }) {
                         </Link>
                     </div>
                 </div>
-                {isLoading && <CommonSpinner option={spinnerOption} />}
-                <CommonAlert
-                    handleAlertClose={handleAlertClose}
-                    // handleAlert={handleAlert}
-                    option={alertOption}
-                />
             </header>
         </>
     );

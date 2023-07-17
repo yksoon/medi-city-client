@@ -7,6 +7,7 @@ import codes from "./reducers/codes";
 import userInfo from "./reducers/userInfo";
 import ipInfo from "./reducers/ipInfo";
 import certInfo from "./reducers/cert";
+import common from "./reducers/common";
 
 const persistConfig = {
     key: "root",
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     userInfo: persistReducer(persistConfig, userInfo),
     ipInfo,
     certInfo,
+    common,
 });
 
 export default rootReducer;

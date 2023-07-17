@@ -1,19 +1,10 @@
 import { routerPath } from "webPath";
 import { RestServer } from "./Rest";
-import { useDispatch } from "react-redux";
 import { set_user_info } from "redux/actions/userInfoAction";
-import { CommonAlert, CommonConsole } from "./Common";
-import { useState } from "react";
+import { CommonConsole } from "./Common";
+import { set_alert, set_spinner } from "redux/actions/commonAction";
 
-export default function Login(
-    url,
-    data,
-    handleLoding,
-    resultCode,
-    dispatch,
-    handleAlert,
-    handleAlertClose
-) {
+export default function Login(url, data, resultCode, dispatch) {
     RestServer("post", url, data)
         .then(function (response) {
             // response
@@ -41,7 +32,11 @@ export default function Login(
 
                 dispatch(set_user_info(JSON.stringify(user_info)));
 
-                handleLoding(false);
+                dispatch(
+                    set_spinner({
+                        isLoading: false,
+                    })
+                );
 
                 window.location.replace(routerPath.main_url);
             } else if (result_code === "1003") {
@@ -50,10 +45,21 @@ export default function Login(
                 CommonConsole("decLog", response);
                 // CommonConsole("alertMsg", response);
 
-                handleAlert(true, response.headers.result_message_ko);
+                dispatch(
+                    set_alert({
+                        isAlertOpen: true,
+                        alertTitle: response.headers.result_message_ko
+                            ? response.headers.result_message_ko
+                            : "",
+                        alertContent: "",
+                    })
+                );
 
-                // setIsLoading(false);
-                handleLoding(false);
+                dispatch(
+                    set_spinner({
+                        isLoading: false,
+                    })
+                );
             }
         })
         .catch(function (error) {
@@ -61,8 +67,20 @@ export default function Login(
             CommonConsole("decLog", error);
             // CommonConsole("alertMsg", error);
 
-            handleAlert(true, error.response.headers.result_message_ko);
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: error.response.headers.result_message_ko
+                        ? error.response.headers.result_message_ko
+                        : "",
+                    alertContent: "",
+                })
+            );
 
-            handleLoding(false);
+            dispatch(
+                set_spinner({
+                    isLoading: false,
+                })
+            );
         });
 }
