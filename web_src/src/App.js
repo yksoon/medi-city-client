@@ -123,7 +123,6 @@ function App() {
                 <Router />
                 <CommonAlert
                     handleAlertClose={handleAlertClose}
-                    // handleAlert={handleAlert}
                     option={alertOption}
                 />
                 <CommonSpinner option={spinnerOption} />

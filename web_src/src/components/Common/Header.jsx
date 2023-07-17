@@ -261,8 +261,8 @@ function Header({ props }) {
                                                 회원정보수정
                                             </a> */}
                                         </div>
-                                        <a
-                                            href="mypage.html"
+                                        <Link
+                                            to={routerPath.myPage_url}
                                             className="profile_img_wrap"
                                         >
                                             <span className="profile_img">
@@ -281,7 +281,7 @@ function Header({ props }) {
                                                     alt=""
                                                 />
                                             </div>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </>
                             )}

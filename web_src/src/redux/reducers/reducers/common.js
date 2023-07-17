@@ -2,8 +2,14 @@ import { SET_ALERT, SET_SPINNER } from "redux/actions/commonAction";
 
 // 초기값 설정
 const initialState = {
-    alert: {},
-    spinner: {},
+    alert: {
+        isAlertOpen: false,
+        alertTitle: "",
+        alertContent: "",
+    },
+    spinner: {
+        isLoading: false,
+    },
 };
 
 // codes Reducer

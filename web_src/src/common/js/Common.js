@@ -1,7 +1,6 @@
 import { React, useEffect, useRef } from "react";
-import Modal from "@mui/material/Modal";
 import { Link } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Dialog, Modal } from "@mui/material";
 
 // Alert (props)
 // isOpen = state 상태값
@@ -53,17 +52,16 @@ const CommonAlert = (props) => {
 
     return (
         <>
-            <Modal
+            <Dialog
                 open={isAlertOpen}
                 onClose={handleAlertClose}
-                // onClose={handleAlert(false)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <div className="modal_wrap block">
                     <div className="modal noti_modal ">
                         <div>
-                            <span className="noti_icon">
+                            <span className="noti_icon" id="modal-modal-title">
                                 <img src="img/common/alert.png" alt="" />
                             </span>
                             <h3>
@@ -90,7 +88,7 @@ const CommonAlert = (props) => {
                         </div>
                     </div>
                 </div>
-            </Modal>
+            </Dialog>
         </>
     );
 };
@@ -146,7 +144,6 @@ const CommonConsole = (type, responseData) => {
 const CommonSpinner = (props) => {
     const spinner = useRef();
 
-    console.log(props);
     const isLoading = props.option.isLoading;
     const alertMsg = props.option.alert ? props.option.alert : "";
     const error = props.option.error ? props.option.error : "";
