@@ -1,13 +1,7 @@
 import * as React from "react";
-import {
-    BrowserRouter,
-    Route,
-    Switch,
-    Redirect,
-    Routes,
-} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
-import { apiPath, routerPath } from "webPath";
+import { routerPath } from "webPath";
 
 import NotFoundPage from "NotFoundPage";
 import Main from "components/Main/Main";
@@ -25,8 +19,9 @@ const Router = () => {
     return (
         <Routes>
             {/* /link를 입력하면 LinkPage 오픈 */}
+
+            {/* 메인 */}
             <Route path={routerPath.main_url} element={<Main />} />
-            <Route path={routerPath.myPage_url} element={<MyPageMain />} />
 
             {/* 회원가임 */}
             <Route path={routerPath.signup_url} element={<SignUpMain />} />
@@ -40,13 +35,16 @@ const Router = () => {
             {/* 비번 찾기 */}
             <Route path={routerPath.findPw_url} element={<FindPWMain />} />
 
+            {/* 마이페이지 */}
+            <Route path={routerPath.myPage_url} element={<MyPageMain />} />
+
             {/* 휴대폰인증 테스트 */}
             <Route path={"/mobile_test"} element={<MobileTest />} />
 
             {/* 휴대폰인증 테스트 */}
             <Route path={"/cert/result"} element={<MobileTestSuccess />} />
 
-            <Route path="*" element={NotFoundPage} />
+            <Route path="*" element={<NotFoundPage />} />
         </Routes>
     );
 };

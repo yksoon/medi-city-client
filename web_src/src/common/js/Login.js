@@ -1,11 +1,10 @@
 import { routerPath } from "webPath";
 import { RestServer } from "./Rest";
-import { useDispatch } from "react-redux";
 import { set_user_info } from "redux/actions/userInfoAction";
 import { CommonConsole } from "./Common";
-// import { Instance } from "./Instance";
+import { set_alert, set_spinner } from "redux/actions/commonAction";
 
-export default function Login(url, data, handleLoding, resultCode, dispatch) {
+export default function Login(url, data, resultCode, dispatch) {
     RestServer("post", url, data)
         .then(function (response) {
             // response
@@ -33,24 +32,55 @@ export default function Login(url, data, handleLoding, resultCode, dispatch) {
 
                 dispatch(set_user_info(JSON.stringify(user_info)));
 
-                handleLoding(false);
+                dispatch(
+                    set_spinner({
+                        isLoading: false,
+                    })
+                );
 
                 window.location.replace(routerPath.main_url);
             } else if (result_code === "1003") {
                 CommonConsole("log", response);
 
                 CommonConsole("decLog", response);
-                CommonConsole("alertMsg", response);
+                // CommonConsole("alertMsg", response);
 
-                // setIsLoading(false);
-                handleLoding(false);
+                dispatch(
+                    set_alert({
+                        isAlertOpen: true,
+                        alertTitle: response.headers.result_message_ko
+                            ? response.headers.result_message_ko
+                            : "",
+                        alertContent: "",
+                    })
+                );
+
+                dispatch(
+                    set_spinner({
+                        isLoading: false,
+                    })
+                );
             }
         })
         .catch(function (error) {
             // 오류발생시 실행
             CommonConsole("decLog", error);
-            CommonConsole("alertMsg", error);
+            // CommonConsole("alertMsg", error);
 
-            handleLoding(false);
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: error.response.headers.result_message_ko
+                        ? error.response.headers.result_message_ko
+                        : "",
+                    alertContent: "",
+                })
+            );
+
+            dispatch(
+                set_spinner({
+                    isLoading: false,
+                })
+            );
         });
 }

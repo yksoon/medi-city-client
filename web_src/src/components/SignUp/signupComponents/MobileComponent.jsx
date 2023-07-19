@@ -6,7 +6,8 @@ import { apiPath } from "webPath";
 import { useDispatch, useSelector } from "react-redux";
 import { set_cert_info } from "redux/actions/certAction";
 import { ResultCode } from "common/js/ResultCode";
-import { CommonConsole } from "common/js/Common";
+import { CommonConsole, CommonSpinner } from "common/js/Common";
+import { set_alert, set_spinner } from "redux/actions/commonAction";
 
 // 인증 idx
 let certNumIdxFromServer;
@@ -19,7 +20,6 @@ const MobileComponent = forwardRef((props, ref) => {
 
     const dispatch = useDispatch();
 
-    const spinner = useRef(null);
     // 인증정보
     const form_url = useRef(null);
     const enc_data = useRef(null);
@@ -31,7 +31,6 @@ const MobileComponent = forwardRef((props, ref) => {
     const timerId = useRef(null); // 간격 타이머의 Id 저장
     const [timerStatus, setTimerStatus] = useState(false); // 타이머 상태
 
-    const [isLoading, setIsLoading] = useState(false);
     const [certStatus, setCertStatus] = useState(false);
 
     // 타이머 시작
@@ -62,7 +61,14 @@ const MobileComponent = forwardRef((props, ref) => {
 
             stopTimer();
 
-            alert("시간초과. 인증을 다시 진행해주세요.");
+            // alert
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "시간초과",
+                    alertContent: "인증을 다시 진행해주세요",
+                })
+            );
         }
     }, [sec]);
 
@@ -139,7 +145,11 @@ const MobileComponent = forwardRef((props, ref) => {
 
     // 인증번호 발송
     const sendCert = () => {
-        setIsLoading(true);
+        dispatch(
+            set_spinner({
+                isLoading: true,
+            })
+        );
 
         const url = apiPath.api_user_cert;
 
@@ -163,7 +173,23 @@ const MobileComponent = forwardRef((props, ref) => {
                 // 오류발생시 실행
                 CommonConsole("log", error);
                 CommonConsole("decLog", error);
-                CommonConsole("alertMsg", error);
+                // CommonConsole("alertMsg", error);
+
+                // alert
+                dispatch(
+                    set_alert({
+                        isAlertOpen: true,
+                        alertTitle: "잠시 후 다시 시도해주세요",
+                        alertContent: "",
+                    })
+                );
+
+                // Spinner
+                dispatch(
+                    set_spinner({
+                        isLoading: false,
+                    })
+                );
             });
     };
 
@@ -214,13 +240,36 @@ const MobileComponent = forwardRef((props, ref) => {
 
                         // 인증 확인 시 인터벌 해제
                         stopTimer();
-                        setIsLoading(false);
+
+                        // Spinner
+                        dispatch(
+                            set_spinner({
+                                isLoading: false,
+                            })
+                        );
+
                         setCertStatus(true);
 
                         // 인증 완료 후 로직
                         certComplete(resData);
                     } else {
-                        alert("에러");
+                        CommonConsole("log", response);
+
+                        // alert
+                        dispatch(
+                            set_alert({
+                                isAlertOpen: true,
+                                alertTitle: "잠시 후 다시 시도해주세요",
+                                alertContent: "",
+                            })
+                        );
+
+                        // Spinner
+                        dispatch(
+                            set_spinner({
+                                isLoading: false,
+                            })
+                        );
                     }
                 })
                 .catch((error) => {
@@ -230,8 +279,13 @@ const MobileComponent = forwardRef((props, ref) => {
                     CommonConsole("decLog", error);
                     // CommonConsole("alertMsg", error);
 
-                    let spnin = spinner.current.childNodes[0];
-                    spnin.classList.add("error");
+                    // Spinner
+                    dispatch(
+                        set_spinner({
+                            isLoading: true,
+                            error: "Y",
+                        })
+                    );
                 });
         }
     };
@@ -362,11 +416,6 @@ const MobileComponent = forwardRef((props, ref) => {
                 <p className="mark" id="mark_tel">
                     휴대폰 인증을 진행해주세요.
                 </p>
-            )}
-            {isLoading && (
-                <div className="spinner" ref={spinner}>
-                    <CircularProgress />
-                </div>
             )}
 
             {/* formData */}

@@ -1,6 +1,6 @@
-import { React } from "react";
-import Modal from "@mui/material/Modal";
+import { React, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { CircularProgress, Dialog, Modal } from "@mui/material";
 
 // Alert (props)
 // isOpen = state 상태값
@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 // content = 내용
 // btn = 확인버튼
 // closeModal = 닫기 (state를 변경할 수 있는 handler)
-const CommonAlert = ({ isOpen, title, content, btn, handleModalClose }) => {
+const CommonModal = ({ isOpen, title, content, btn, handleModalClose }) => {
     return (
         <>
             <Modal
@@ -37,11 +37,63 @@ const CommonAlert = ({ isOpen, title, content, btn, handleModalClose }) => {
                     </div>
                 </div>
             </Modal>
-            <></>
         </>
     );
 };
 
+const CommonAlert = (props) => {
+    let option = props.option;
+
+    let isAlertOpen = option.isAlertOpen;
+    let title = option.alertTitle;
+    let content = option.alertContent;
+
+    const handleAlertClose = props.handleAlertClose;
+
+    return (
+        <>
+            <Dialog
+                open={isAlertOpen}
+                onClose={handleAlertClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <div className="modal_wrap block">
+                    <div className="modal noti_modal ">
+                        <div>
+                            <span className="noti_icon" id="modal-modal-title">
+                                <img src="img/common/alert.png" alt="" />
+                            </span>
+                            <h3>
+                                {title
+                                    ? decodeURI(title).replace("%20", " ")
+                                    : ""}
+                            </h3>
+                            <p>
+                                {content
+                                    ? decodeURI(content).replace("%20", " ")
+                                    : ""}
+                            </p>
+                        </div>
+                        <div className="btn_box">
+                            <Link
+                                className="backbtn"
+                                onClick={handleAlertClose}
+                            >
+                                확인{" "}
+                                <span>
+                                    <img src="img/common/arrow.png" alt="" />
+                                </span>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </Dialog>
+        </>
+    );
+};
+
+// 디버깅용 콘솔
 const CommonConsole = (type, responseData) => {
     let response;
 
@@ -78,7 +130,7 @@ const CommonConsole = (type, responseData) => {
             );
 
         case "alertMsg":
-            return alert(decodeURI(result_message_ko));
+            return alert(decodeURI(result_message_ko).replace("%20", " "));
 
         case "alert":
             return alert(responseData);
@@ -87,4 +139,35 @@ const CommonConsole = (type, responseData) => {
             break;
     }
 };
-export { CommonAlert, CommonConsole };
+
+// 스피너
+const CommonSpinner = (props) => {
+    const spinner = useRef();
+
+    const isLoading = props.option.isLoading;
+    const alertMsg = props.option.alert ? props.option.alert : "";
+    const error = props.option.error ? props.option.error : "";
+
+    useEffect(() => {
+        if (error === "Y") {
+            if (!alertMsg) {
+                let spnin = spinner.current.childNodes[0];
+                spnin.classList.add("error");
+            } else {
+                alert(decodeURI(alertMsg).replace("%20", " "));
+            }
+        }
+    }, [props]);
+
+    return (
+        <>
+            {isLoading && (
+                <div className="spinner" ref={spinner}>
+                    <CircularProgress />
+                </div>
+            )}
+        </>
+    );
+};
+
+export { CommonModal, CommonConsole, CommonSpinner, CommonAlert };

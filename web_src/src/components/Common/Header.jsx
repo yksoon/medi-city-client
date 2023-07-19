@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import { RestServer } from "common/js/Rest";
-import { CircularProgress } from "@mui/material";
 // import { menu_show } from "./nav";
 // import $ from "jquery";
 import "common/css/header.css";
@@ -10,7 +9,7 @@ import Login from "common/js/Login";
 import { useSelector, useDispatch } from "react-redux";
 import { set_user_info } from "redux/actions/userInfoAction";
 import { CommonConsole } from "common/js/Common";
-// import Login from "common/js/Login";
+import { set_alert, set_spinner } from "redux/actions/commonAction";
 
 let resultCode;
 function Header({ props }) {
@@ -22,10 +21,8 @@ function Header({ props }) {
     const inputId = useRef(null);
     const inputPw = useRef(null);
 
-    const [isLoading, setIsLoading] = useState(false);
-    const spinner = useRef(null);
-
     const dispatch = useDispatch();
+
     // let loginInfo;
     // (() => {
     //     loginInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -63,17 +60,35 @@ function Header({ props }) {
 
     const signIn = () => {
         if (!userId) {
-            CommonConsole("alert", "아이디를 입력해주세요");
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "아이디를 입력해주세요",
+                    alertContent: "",
+                })
+            );
+
             inputId.current.focus();
             return false;
         }
         if (!userPwd) {
-            CommonConsole("alert", "비밀번호를 입력해주세요");
+            dispatch(
+                set_alert({
+                    isAlertOpen: true,
+                    alertTitle: "비밀번호를 입력해주세요",
+                    alertContent: "",
+                })
+            );
+
             inputPw.current.focus();
             return false;
         }
 
-        setIsLoading(true);
+        dispatch(
+            set_spinner({
+                isLoading: true,
+            })
+        );
 
         const url = apiPath.api_login;
 
@@ -83,15 +98,17 @@ function Header({ props }) {
             user_pwd: userPwd,
         };
 
-        const handleLoding = (status) => {
-            setIsLoading(status);
-        };
-
-        Login(url, data, handleLoding, resultCode, dispatch);
+        Login(url, data, resultCode, dispatch);
     };
 
     const signout = () => {
         setIsSignOut(true);
+
+        dispatch(
+            set_spinner({
+                isLoading: true,
+            })
+        );
 
         const url = apiPath.api_signout;
         let data = {};
@@ -110,6 +127,12 @@ function Header({ props }) {
 
                     setIsSignOut(false);
 
+                    dispatch(
+                        set_spinner({
+                            isLoading: false,
+                        })
+                    );
+
                     window.location.replace(routerPath.main_url);
                 }
             })
@@ -117,7 +140,21 @@ function Header({ props }) {
                 // 오류발생시 실행
                 CommonConsole("log", error);
                 CommonConsole("decLog", error);
-                CommonConsole("alertMsg", error);
+                // CommonConsole("alertMsg", error);
+
+                // Spinner
+                dispatch(
+                    set_spinner({
+                        isLoading: false,
+                    })
+                );
+
+                dispatch(
+                    set_alert({
+                        isAlertOpen: true,
+                        title: error.response.headers.result_message_ko,
+                    })
+                );
 
                 // localStorage.removeItem("userInfo");
                 dispatch(set_user_info(null));
@@ -222,8 +259,8 @@ function Header({ props }) {
                                                 회원정보수정
                                             </a> */}
                                         </div>
-                                        <a
-                                            href="mypage.html"
+                                        <Link
+                                            to={routerPath.myPage_url}
                                             className="profile_img_wrap"
                                         >
                                             <span className="profile_img">
@@ -242,7 +279,7 @@ function Header({ props }) {
                                                     alt=""
                                                 />
                                             </div>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </>
                             )}
@@ -391,11 +428,6 @@ function Header({ props }) {
                         </Link>
                     </div>
                 </div>
-                {isLoading && (
-                    <div className="spinner" ref={spinner}>
-                        <CircularProgress />
-                    </div>
-                )}
             </header>
         </>
     );
