@@ -2,16 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import { RestServer } from "common/js/Rest";
-import { CircularProgress } from "@mui/material";
 // import { menu_show } from "./nav";
 // import $ from "jquery";
 import "common/css/header.css";
 import Login from "common/js/Login";
 import { useSelector, useDispatch } from "react-redux";
 import { set_user_info } from "redux/actions/userInfoAction";
-import { CommonConsole, CommonSpinner } from "common/js/Common";
+import { CommonConsole } from "common/js/Common";
 import { set_alert, set_spinner } from "redux/actions/commonAction";
-// import Login from "common/js/Login";
 
 let resultCode;
 function Header({ props }) {
