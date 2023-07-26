@@ -15,6 +15,9 @@ const persistConfig = {
     whitelist: ["userInfo"],
 };
 
+// TODO: 관리자처럼 리덕스 세팅 변경해야됨
+// TODO: userInfo에서 userToken 분리
+
 const rootReducer = combineReducers({
     codes,
     userInfo: persistReducer(persistConfig, userInfo),
