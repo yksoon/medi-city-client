@@ -69,7 +69,7 @@ a.subbtn.off {border: 1px solid #ddd;color: #ddd;}
 a.subbtn.hold {border: 1px solid #efefef;background: #efefef;color: #bdbdbd;}
 a.subbtn.hold:hover {border: 1px solid #efefef;background: #efefef;color: #bdbdbd;}
 a.backbtn {display:inline-block;height: 53px;line-height: 53px;font-size: 16px;text-align: center;border-radius: 50px;transition:all 0.3s;border: 1px solid #ddd;padding: 0 60px;color: #bdbdbd;}
-a.backbtn:hover {color: #616161;border: 1px solid #a8a8a8;}
+a.backbtn:hover {color: #616161;border: 1px solid #818181;}
 a.hotel_btn {display:inline-block;width: 220px;height: 53px;line-height: 53px;font-size: 16px;text-align: center;border-radius: 50px;margin: 0 20px 0 0 ;transition:all 0.3s;}
 .file {display:none;}
 .file_btn {display:inline-block;width:auto;min-width:146px;padding: 0 38px;height: 48px;text-align: center;border-radius: 10px;line-height: 48px;border: 1px solid #ddd;color: #818181;cursor: pointer;}
@@ -95,10 +95,25 @@ h3.title {font-size: 38px;font-weight: 700;}
 /* 공통 //E */
 
 /* 모달 //S */
-.modal_wrap {display:none;position:fixed;top:0;left:0;width:100%;height:100vh;overflow:hidden;background: rgba(255,255,255,0.6);z-index:999;}
-.modal_wrap .modal {position:absolute;top:50%;left:50%;transform:translate(-50%, -50%); border-radius: 50px;box-shadow: 5px 5px 15px rgba(0,0,0,0.1);background:#fff;padding:50px;max-height:840px;overflow-y:scroll;z-index:999;}
+/* .modal_wrap {display:none;position:fixed;top:0;left:0;width:100%;height:100vh;overflow:hidden;background: rgba(255,255,255,0.6);z-index:999;} */
+.modal_wrap {display:block;position:fixed;top:0;left:0;width:100%;height:100vh;overflow:hidden;background: rgba(255,255,255,0.6);z-index:999;}
+.modal_wrap .modal {position:absolute;top:50%;left:50%;transform:translate(-50%, -50%); border-radius: 50px;box-shadow: 3px 3px 20px rgba(0,0,0,0.15);background:#fff;padding:50px;max-height:840px;overflow-y:scroll;z-index:999;}
 .modal_wrap .modal .modal_close {position:absolute;top:60px;right:50px;cursor:pointer;}
+.modal_wrap .modal{ -ms-overflow-style: none; } .modal_wrap .modal::-webkit-scrollbar{ display:none; }
+.modal_wrap .noti_modal {width:600px;max-height:500px;text-align: center;padding:30px;}
+.modal_wrap .noti_modal .btn_box {margin:40px 0 0;}
+.noti_modal.modal_big {width:800px;max-height:800px;text-align: center;}
+.noti_modal h3 {font-size:27px;font-weight: 700;}
+.noti_modal p {font-size:21px;font-weight: 500;margin:12px 0 0;}
+.noti_modal .noti_icon {text-align:center;display: block;margin:0 0 24px;}
+.noti_modal .noti_icon img {width: 80px;}
+.block {display:block;}
 /* 모달 //E */
+
+/* 스피너 */
+.spinner {position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(255,255,255,0.4);z-index:999;}
+.spinner span {position:absolute;left:50%;top:50%;transform:translate(-50%, -50%);width:40px !important; height:40px !important;padding:0 !important;color:#0047A0;}
+.spinner span.error {color:#1976d2;}
 
 header{position:relative;width:100%;top:0;left:0;height:112px;z-index: 30;background:#fff;}
 .header_content {width:1600px;display:flex;align-items: center; justify-content: space-between;margin: 0 auto;height:112px;}
@@ -188,13 +203,14 @@ nav.nav_on span:nth-child(3) { top: 8px; transform: rotate(-135deg); width:24px;
 .main_banner .banner02 {background: url('/public/img/main/banner02.png') center center no-repeat;}
 
 .main_news > ul {display:flex;}
-.main_news > ul li {position:relative;width: calc(( 100% - 80px ) / 4);margin: 0 40px 0 0;border: 1px solid #ddd;border-radius: 50px;}
+.main_news > ul li {position:relative;width: calc(( 100% - 120px ) / 4);margin: 0 40px 0 0;border: 1px solid #ddd;border-radius: 50px;}
 .main_news > ul li a {display:block;width:100%;height:100%;padding: 50px 36px 40px;}
-.main_news > ul li li:first-child {width: 50%;}
+
 .main_news > ul li h4 {margin: 0 0 6px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .main_news > ul li p{line-height:30px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .main_news > ul li > a.home_btn {display:inline-block;padding:0;width:20px;height:24px;position:absolute;right:36px;top:50px;}
-.main_news > ul li:first-child {width:50%;}
+.main_news > ul.block_3 {margin: 0 0 40px;}
+.main_news > ul.block_3 li:first-child {width: calc(50% - 20px);}
 .main_news > ul li:last-child {margin: 0;}
 .main_news > ul li.comming {position:relative;}
 /* .main_news > ul li.comming:before {position: absolute; left: 20px; top: -25px; content:"";display: block;width: 177px;height: 52px;background: url('../img/common/label_comming.png') center center no-repeat;z-index:10;} */
@@ -229,6 +245,7 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .form .mark::before {display:inline-block;content:"!";width:27px;height:27px;background:#A6A6A6;color:#fff;text-align:center;font-weight:600;border-radius: 50%;line-height:27px;margin:0 10px 0 0;}
 .form .mark.red::before {background: #de1414;}
 .form .mark.green::before {background:#05b10b;}
+.form .mark.pw_find_mark {margin:0;}
 
 .sign > div > div {margin: 0 0 40px;}
 .sign .flex > div {margin:0 0 0 20px;}
@@ -247,7 +264,15 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 
 /* 확인페이지 */
 .ok {padding:60px 0 0;text-align:center;}
+.ok_page {padding:60px 0 0;text-align:center;}
 .ok h3 {font-size: 32px;font-weight: 700;margin: 32px 0 15px;}
+.ok_page h3 {font-size: 32px;font-weight: 700;margin: 32px 0 15px;}
+
+/* 404 */
+.error_page {padding:120px 0 0;text-align:center;height:100vh;background:#f2f2f2;}
+.error_page > img {width:180px;}
+.error_page a.backbtn {background:#fff;}
+.error_page h3 {font-size: 32px;font-weight: 700;margin: 32px 0 15px;}
 
 /* 아이디,비밀번호찾기 */
 .find .flex {justify-content: center;}
@@ -308,5 +333,12 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 /* 호텔 */
 /* 호텔리스트 */
 .hotel_list ul li {border: 1px solid #ddd;padding: 40px;display:flex;border-radius: 50px;}
-.hotel_list ul li span.hotel_list_thumb {width: 745px;height: 450;overflow:hidden;}
-.hotel_list ul li span.hotel_list_thumb img {width: 100%;;}
+.hotel_list ul li span.hotel_list_thumb {width: 745px;height: 450px;overflow:hidden;border-radius: 50px;}
+.hotel_list ul li span.hotel_list_thumb img {width: 100%;}
+.hotel_list ul li .hotel_list_txt {width: calc( 100% - 745px ) ;padding:0 0 0 30px;}
+.hotel_list ul li .hotel_list_txt h3 {font-size: 32px;font-weight: 700;color: #000;}
+.hotel_list ul li .hotel_list_txt h5 {font-size: 21px;font-weight: 600;color: #616161;margin:10px 0 20px;}
+.hotel_list ul li .hotel_list_txt .hotel_venue p{font-size: 21px;font-weight: 500;}
+.hotel_list ul li .hotel_list_txt .hotel_venue p span{display:inline-block;vertical-align:middle;margin:0 10px 0 0;}
+.hotel_list ul li .hotel_list_txt .hotel_intro {color: #333;margin:10px 0 20px;margin:28px 0 40px;}
+.hotel_list ul li .hotel_list_txt .hotel_intro .hotel_intro_more {display:inline-block;color: #818181;cursor:pointer;}
