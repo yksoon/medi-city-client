@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import Slider from "react-slick";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
 import $ from "jquery";
 import { Link } from "react-router-dom";
 
@@ -10,11 +10,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-// import required modules
-import { Autoplay, Pagination } from "swiper/modules";
-
-function MainHotel(props) {
+const MainHotel = (props) => {
     const hotelItems = [
         {
             imgUrl: "/img/main/hotel01.png",
@@ -123,6 +119,6 @@ function MainHotel(props) {
             </Swiper>
         </div>
     );
-}
+};
 
 export default MainHotel;

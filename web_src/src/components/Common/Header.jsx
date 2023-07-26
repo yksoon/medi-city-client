@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import { RestServer } from "common/js/Rest";
 // import { menu_show } from "./nav";
@@ -7,7 +7,7 @@ import { RestServer } from "common/js/Rest";
 import "common/css/header.css";
 import Login from "common/js/Login";
 import { useSelector, useDispatch } from "react-redux";
-import { set_user_info } from "redux/actions/userInfoAction";
+import { init_user_info, set_user_info } from "redux/actions/userInfoAction";
 import { CommonConsole } from "common/js/Common";
 import { set_alert, set_spinner } from "redux/actions/commonAction";
 
@@ -21,6 +21,7 @@ function Header({ props }) {
     const inputId = useRef(null);
     const inputPw = useRef(null);
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     // let loginInfo;
@@ -120,7 +121,8 @@ function Header({ props }) {
 
                 if (result_code === "0000") {
                     // localStorage.removeItem("userInfo");
-                    dispatch(set_user_info(null));
+                    // dispatch(set_user_info(null));
+                    dispatch(init_user_info(null));
 
                     setUserId("");
                     setUserPwd("");
@@ -133,7 +135,8 @@ function Header({ props }) {
                         })
                     );
 
-                    window.location.replace(routerPath.main_url);
+                    navigate(routerPath.main_url);
+                    // window.location.replace(routerPath.main_url);
                 }
             })
             .catch(function (error) {
@@ -157,8 +160,10 @@ function Header({ props }) {
                 );
 
                 // localStorage.removeItem("userInfo");
-                dispatch(set_user_info(null));
+                // dispatch(set_user_info(null));
+                dispatch(init_user_info(null));
                 setIsSignOut(false);
+                navigate(routerPath.main_url);
             });
     };
 

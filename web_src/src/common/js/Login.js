@@ -1,6 +1,6 @@
 import { routerPath } from "webPath";
 import { RestServer } from "./Rest";
-import { set_user_info } from "redux/actions/userInfoAction";
+import { set_user_info, set_user_token } from "redux/actions/userInfoAction";
 import { CommonConsole } from "./Common";
 import { set_alert, set_spinner } from "redux/actions/commonAction";
 
@@ -31,6 +31,7 @@ export default function Login(url, data, resultCode, dispatch) {
                 }
 
                 dispatch(set_user_info(JSON.stringify(user_info)));
+                dispatch(set_user_token(JSON.stringify(user_info)));
 
                 dispatch(
                     set_spinner({
