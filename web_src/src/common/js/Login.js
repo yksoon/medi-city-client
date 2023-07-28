@@ -1,10 +1,10 @@
 import { routerPath } from "webPath";
 import { RestServer } from "./Rest";
 import { set_user_info, set_user_token } from "redux/actions/userInfoAction";
-import { CommonConsole } from "./Common";
-import { set_alert, set_spinner } from "redux/actions/commonAction";
+import { CommonConsole, CommonErrorCatch, CommonNotify } from "./Common";
+import { set_spinner } from "redux/actions/commonAction";
 
-export default function Login(url, data, resultCode, dispatch) {
+export default function Login(url, data, resultCode, dispatch, alert) {
     RestServer("post", url, data)
         .then(function (response) {
             // response
@@ -46,15 +46,11 @@ export default function Login(url, data, resultCode, dispatch) {
                 CommonConsole("decLog", response);
                 // CommonConsole("alertMsg", response);
 
-                dispatch(
-                    set_alert({
-                        isAlertOpen: true,
-                        alertTitle: response.headers.result_message_ko
-                            ? response.headers.result_message_ko
-                            : "",
-                        alertContent: "",
-                    })
-                );
+                CommonNotify({
+                    type: "alert",
+                    hook: alert,
+                    message: response.headers.result_message_ko,
+                });
 
                 dispatch(
                     set_spinner({
@@ -65,23 +61,6 @@ export default function Login(url, data, resultCode, dispatch) {
         })
         .catch(function (error) {
             // 오류발생시 실행
-            CommonConsole("decLog", error);
-            // CommonConsole("alertMsg", error);
-
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: error.response.headers.result_message_ko
-                        ? error.response.headers.result_message_ko
-                        : "",
-                    alertContent: "",
-                })
-            );
-
-            dispatch(
-                set_spinner({
-                    isLoading: false,
-                })
-            );
+            CommonErrorCatch(error, dispatch, alert);
         });
 }

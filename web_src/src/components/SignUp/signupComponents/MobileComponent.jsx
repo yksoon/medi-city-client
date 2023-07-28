@@ -1,13 +1,12 @@
 import React, { useRef, forwardRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
 import { RestServer } from "common/js/Rest";
 import { apiPath } from "webPath";
 import { useDispatch, useSelector } from "react-redux";
 import { set_cert_info } from "redux/actions/certAction";
-import { ResultCode } from "common/js/ResultCode";
-import { CommonConsole, CommonSpinner } from "common/js/Common";
-import { set_alert, set_spinner } from "redux/actions/commonAction";
+import { CommonConsole, CommonNotify, CommonSpinner } from "common/js/Common";
+import { set_spinner } from "redux/actions/commonAction";
+import useAlert from "hook/useAlert";
 
 // 인증 idx
 let certNumIdxFromServer;
@@ -19,6 +18,7 @@ const MobileComponent = forwardRef((props, ref) => {
     const mobileStatus = props.mobileStatus;
 
     const dispatch = useDispatch();
+    const { alert } = useAlert();
 
     // 인증정보
     const form_url = useRef(null);
@@ -62,13 +62,11 @@ const MobileComponent = forwardRef((props, ref) => {
             stopTimer();
 
             // alert
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "시간초과",
-                    alertContent: "인증을 다시 진행해주세요",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "인증을 다시 진행해주세요",
+            });
         }
     }, [sec]);
 
@@ -176,13 +174,11 @@ const MobileComponent = forwardRef((props, ref) => {
                 // CommonConsole("alertMsg", error);
 
                 // alert
-                dispatch(
-                    set_alert({
-                        isAlertOpen: true,
-                        alertTitle: "잠시 후 다시 시도해주세요",
-                        alertContent: "",
-                    })
-                );
+                CommonNotify({
+                    type: "alert",
+                    hook: alert,
+                    message: "잠시 후 다시 시도해주세요",
+                });
 
                 // Spinner
                 dispatch(
@@ -256,13 +252,11 @@ const MobileComponent = forwardRef((props, ref) => {
                         CommonConsole("log", response);
 
                         // alert
-                        dispatch(
-                            set_alert({
-                                isAlertOpen: true,
-                                alertTitle: "잠시 후 다시 시도해주세요",
-                                alertContent: "",
-                            })
-                        );
+                        CommonNotify({
+                            type: "alert",
+                            hook: alert,
+                            message: "잠시 후 다시 시도해주세요",
+                        });
 
                         // Spinner
                         dispatch(

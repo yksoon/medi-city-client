@@ -9,8 +9,9 @@ import ResetPWComplete from "./ResetPWComplete";
 import { CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { set_cert_info } from "redux/actions/certAction";
-import { CommonConsole } from "common/js/Common";
-import { set_alert, set_spinner } from "redux/actions/commonAction";
+import { CommonConsole, CommonNotify } from "common/js/Common";
+import { set_spinner } from "redux/actions/commonAction";
+import useAlert from "hook/useAlert";
 
 function FindPWMain() {
     const [isFind, setIsFind] = useState("1");
@@ -39,6 +40,7 @@ function FindPWMain() {
     const [timerStatus, setTimerStatus] = useState(false); // 타이머 상태
 
     const dispatch = useDispatch();
+    const { alert } = useAlert();
 
     // 타이머 시작
     // - 의존성 배열이 비어있으므로 한 번만 실행됨
@@ -69,13 +71,11 @@ function FindPWMain() {
             stopTimer();
 
             // alert
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "시간초과",
-                    alertContent: "인증을 다시 진행해주세요",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "인증을 다시 진행해주세요",
+            });
         }
     }, [sec]);
 
@@ -114,24 +114,21 @@ function FindPWMain() {
     const sendCert = () => {
         if (!userID) {
             // alert
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "아이디를 입력해주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "아이디를 입력해주세요",
+            });
+
             inputUserID.current.focus();
             return;
         } else if (!firstName || !lastName) {
             // alert
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "성명을 입력해주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "성명을 입력해주세요",
+            });
 
             inputFirstName.current.focus();
             return;
@@ -167,13 +164,11 @@ function FindPWMain() {
                     CommonConsole("log", error);
 
                     // alert
-                    dispatch(
-                        set_alert({
-                            isAlertOpen: true,
-                            alertTitle: "잠시 후 다시 시도해주세요",
-                            alertContent: "",
-                        })
-                    );
+                    CommonNotify({
+                        type: "alert",
+                        hook: alert,
+                        message: "잠시 후 다시 시도해주세요",
+                    });
                 });
         }
     };
@@ -237,13 +232,12 @@ function FindPWMain() {
                         setIsFind("2");
                     } else {
                         // alert
-                        dispatch(
-                            set_alert({
-                                isAlertOpen: true,
-                                alertTitle: "잠시 후 다시 시도해주세요",
-                                alertContent: "",
-                            })
-                        );
+
+                        CommonNotify({
+                            type: "alert",
+                            hook: alert,
+                            message: "잠시 후 다시 시도해주세요",
+                        });
                     }
                 })
                 .catch((error) => {

@@ -1,12 +1,11 @@
-import { CommonModal, CommonConsole, CommonSpinner } from "common/js/Common";
-import React, { useState, forwardRef, useEffect, useRef } from "react";
+import { CommonModal, CommonConsole, CommonNotify } from "common/js/Common";
+import React, { useState, forwardRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { termsContent, privacyContent } from "common/js/terms";
 import { RestServer } from "common/js/Rest";
 import { apiPath } from "webPath";
-import { CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { set_alert, set_spinner } from "redux/actions/commonAction";
+import { set_spinner } from "redux/actions/commonAction";
+import useAlert from "hook/useAlert";
 
 const TermsComponent = forwardRef((props, ref) => {
     const termChkMain = props.termChkMain;
@@ -31,6 +30,7 @@ const TermsComponent = forwardRef((props, ref) => {
     const [marketingItem, setMarketingItem] = useState({});
 
     const dispatch = useDispatch();
+    const { alert } = useAlert();
 
     // let termItem = {};
     // let privacyItem = {};
@@ -119,12 +119,11 @@ const TermsComponent = forwardRef((props, ref) => {
                         })
                     );
 
-                    dispatch(
-                        set_alert({
-                            isAlertOpen: true,
-                            title: "잠시 후 다시 시도해주세요",
-                        })
-                    );
+                    CommonNotify({
+                        type: "alert",
+                        hook: alert,
+                        message: "잠시 후 다시 시도해주세요",
+                    });
                 }
             })
             .catch((error) => {
@@ -141,12 +140,11 @@ const TermsComponent = forwardRef((props, ref) => {
                     })
                 );
 
-                dispatch(
-                    set_alert({
-                        isAlertOpen: true,
-                        title: "잠시 후 다시 시도해주세요",
-                    })
-                );
+                CommonNotify({
+                    type: "alert",
+                    hook: alert,
+                    message: "잠시 후 다시 시도해주세요",
+                });
             });
     };
 

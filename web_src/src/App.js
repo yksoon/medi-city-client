@@ -14,14 +14,30 @@ import {
 import { set_ip_info } from "redux/actions/ipInfoAction";
 
 import Router from "./Router";
-import { CommonAlert, CommonSpinner } from "common/js/Common";
-import { set_alert } from "redux/actions/commonAction";
+import { CommonSpinner } from "common/js/Common";
+import {
+    AlertContextProvider,
+    ConfirmContextProvider,
+} from "context/ContextProvider";
+import AlertModal from "common/js/AlertModal";
+import ConfirmModal from "common/js/ConfirmModal";
 
 function App() {
+    let ipInfo = useSelector((state) => state.ipInfo.ipInfo);
+    const dispatch = useDispatch();
+
     useEffect(() => {
         // localStorage.clear();
 
-        getIpInfo();
+        const ipCallback = (ip) => {
+            if (ip) {
+                dispatch(set_ip_info(ip));
+            }
+        };
+        if (!ipInfo) {
+            getIpInfo(ipCallback);
+        }
+
         getResultCode();
         getCodes();
         getCountryBank();
@@ -31,37 +47,24 @@ function App() {
         // localStorage.clear();
     }, []);
 
-    const dispatch = useDispatch();
-
-    // Alert
-    let alertOption = useSelector((state) => state.common.alert);
-
-    const handleAlertClose = () => {
-        let alertOption = {
-            isAlertOpen: false,
-            alertTitle: "",
-            alertContent: "",
-        };
-
-        dispatch(set_alert(alertOption));
-    };
-
     // Spinner
     let spinnerOption = useSelector((state) => state.common.spinner);
 
     // IP
-    const getIpInfo = () => {
+    const getIpInfo = async (callback) => {
         let ip;
 
-        axios
+        await axios
             .get("https://geolocation-db.com/json/")
             .then((res) => {
                 ip = res.data.IPv4;
-                dispatch(set_ip_info(ip));
+                callback(ip);
+                // dispatch(set_ip_info(ip));
             })
             .catch((error) => {
                 ip = "";
-                dispatch(set_ip_info(ip));
+                callback(ip);
+                // dispatch(set_ip_info(ip));
             });
     };
 
@@ -120,12 +123,15 @@ function App() {
     return (
         <>
             <div className="wrap">
-                <Router />
-                <CommonAlert
-                    handleAlertClose={handleAlertClose}
-                    option={alertOption}
-                />
                 <CommonSpinner option={spinnerOption} />
+
+                <ConfirmContextProvider>
+                    <AlertContextProvider>
+                        <Router />
+                        <AlertModal />
+                        <ConfirmModal />
+                    </AlertContextProvider>
+                </ConfirmContextProvider>
             </div>
         </>
     );

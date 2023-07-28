@@ -15,12 +15,14 @@ import MobileComponent from "./signupComponents/MobileComponent";
 import LicenseComponent from "./signupComponents/LicenseComponent";
 import DepartmentComponent from "./signupComponents/DepartmentComponent";
 import TermsComponent from "./signupComponents/TermsComponent";
-import { CommonConsole, CommonSpinner } from "common/js/Common";
-import { set_alert, set_spinner } from "redux/actions/commonAction";
+import { CommonConsole, CommonNotify, CommonSpinner } from "common/js/Common";
+import { set_spinner } from "redux/actions/commonAction";
+import useAlert from "hook/useAlert";
 
 function SignUpMain() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { alert } = useAlert();
 
     const signupRefs = {
         accountType: useRef(null),
@@ -196,13 +198,11 @@ function SignUpMain() {
                         CommonConsole("log", response);
 
                         // alert
-                        dispatch(
-                            set_alert({
-                                isAlertOpen: true,
-                                alertTitle: response.headers.result_message_ko,
-                                alertContent: "",
-                            })
-                        );
+                        CommonNotify({
+                            type: "alert",
+                            hook: alert,
+                            message: response.headers.result_message_ko,
+                        });
 
                         // Spinner
                         dispatch(
@@ -219,13 +219,11 @@ function SignUpMain() {
                     // CommonConsole("alertMsg", error);
 
                     // alert
-                    dispatch(
-                        set_alert({
-                            isAlertOpen: true,
-                            alertTitle: "잠시 후에 다시 시도해주세요.",
-                            alertContent: "",
-                        })
-                    );
+                    CommonNotify({
+                        type: "alert",
+                        hook: alert,
+                        message: "잠시 후에 다시 시도해주세요.",
+                    });
 
                     // Spinner
                     dispatch(
@@ -271,25 +269,23 @@ function SignUpMain() {
 
     const validation = () => {
         if (!chkId) {
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "아이디를 확인해주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "아이디를 확인해주세요",
+            });
+
             signupRefs.inputID.current.focus();
 
             return false;
         }
         if (!chkPw) {
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "비밀번호를 확인해주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "비밀번호를 확인해주세요",
+            });
+
             signupRefs.inputPW.current.focus();
 
             return false;
@@ -300,25 +296,23 @@ function SignUpMain() {
             signupRefs.user_name_first_en.current.value === "" ||
             signupRefs.user_name_last_en.current.value === ""
         ) {
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "성명을 입력해주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "성명을 입력해주세요",
+            });
+
             signupRefs.user_name_first_ko.current.focus();
 
             return false;
         }
         if (!chkMobile) {
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "휴대폰 인증을 완료해주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "휴대폰 인증을 완료해주세요",
+            });
+
             signupRefs.inputMobile2.current.focus();
 
             return false;
@@ -328,13 +322,12 @@ function SignUpMain() {
                 signupRefs.user_name_last_ko.current.value !==
             certInfo.name
         ) {
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "성명이 일치하지 않습니다.",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "성명이 일치하지 않습니다",
+            });
+
             signupRefs.user_name_first_ko.current.focus();
 
             return false;
@@ -343,13 +336,12 @@ function SignUpMain() {
             !signupRefs.termsChk.current.checked ||
             !signupRefs.privacyChk.current.checked
         ) {
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "약관에 동의해주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "약관에 동의해주세요",
+            });
+
             signupRefs.termsChk.current.focus();
 
             return false;

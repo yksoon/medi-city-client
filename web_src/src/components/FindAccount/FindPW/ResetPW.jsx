@@ -4,9 +4,10 @@ import { pwPattern } from "common/js/Pattern";
 import { CircularProgress } from "@mui/material";
 import { RestServer } from "common/js/Rest";
 import { apiPath } from "webPath";
-import { CommonConsole } from "common/js/Common";
+import { CommonConsole, CommonNotify } from "common/js/Common";
 import { useDispatch } from "react-redux";
-import { set_alert, set_spinner } from "redux/actions/commonAction";
+import { set_spinner } from "redux/actions/commonAction";
+import useAlert from "hook/useAlert";
 
 function ResetPW({ userID, changeIsFind }) {
     let user_id = userID;
@@ -17,6 +18,7 @@ function ResetPW({ userID, changeIsFind }) {
     const [inputPW2, setInputPW2] = useState("");
 
     const dispatch = useDispatch();
+    const { alert } = useAlert();
 
     // 1 : 비번 서로 X, 패턴 X
     // 2 : 비번 서로 X, 패턴 O
@@ -117,13 +119,11 @@ function ResetPW({ userID, changeIsFind }) {
 
         if (!pwStatus) {
             // alert
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "비밀번호를 확인 해주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "비밀번호를 확인 해주세요",
+            });
 
             // Spinner
             dispatch(
@@ -164,13 +164,11 @@ function ResetPW({ userID, changeIsFind }) {
                     changeIsFind("3");
                 } else {
                     // alert
-                    dispatch(
-                        set_alert({
-                            isAlertOpen: true,
-                            alertTitle: "오류가 발생했습니다",
-                            alertContent: "다시 시도해주세요",
-                        })
-                    );
+                    CommonNotify({
+                        type: "alert",
+                        hook: alert,
+                        message: "잠시 후 다시 시도해주세요",
+                    });
 
                     // Spinner
                     dispatch(
@@ -185,13 +183,11 @@ function ResetPW({ userID, changeIsFind }) {
                 CommonConsole("log", error);
 
                 // alert
-                dispatch(
-                    set_alert({
-                        isAlertOpen: true,
-                        alertTitle: "오류가 발생했습니다",
-                        alertContent: "다시 시도해주세요",
-                    })
-                );
+                CommonNotify({
+                    type: "alert",
+                    hook: alert,
+                    message: "잠시 후 다시 시도해주세요",
+                });
 
                 // Spinner
                 dispatch(
