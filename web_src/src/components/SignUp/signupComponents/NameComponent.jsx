@@ -1,8 +1,12 @@
 import React, { forwardRef } from "react";
 
 const NameComponent = forwardRef((props, ref) => {
-    const { userNameFirstKo, userNameLastKo, userNameFirstEn, userNameLastEn } =
-        ref;
+    const {
+        user_name_first_ko,
+        user_name_last_ko,
+        user_name_first_en,
+        user_name_last_en,
+    } = ref;
 
     return (
         <>
@@ -14,13 +18,13 @@ const NameComponent = forwardRef((props, ref) => {
                     type="name"
                     className="input w180"
                     placeholder="성"
-                    ref={userNameFirstKo}
+                    ref={user_name_first_ko}
                 />
                 <input
                     type="name"
                     className="input w180"
                     placeholder="이름"
-                    ref={userNameLastKo}
+                    ref={user_name_last_ko}
                 />
             </div>
             <div>
@@ -31,13 +35,13 @@ const NameComponent = forwardRef((props, ref) => {
                     type="name"
                     className="input w180"
                     placeholder="First name"
-                    ref={userNameFirstEn}
+                    ref={user_name_first_en}
                 />
                 <input
                     type="name"
                     className="input w180"
                     placeholder="Last name"
-                    ref={userNameLastEn}
+                    ref={user_name_last_en}
                 />
             </div>
         </>

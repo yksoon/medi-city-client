@@ -94,9 +94,9 @@ function Header({ props }) {
         const url = apiPath.api_login;
 
         let data = {
-            signupType: "000",
-            userId: userId,
-            userPwd: userPwd,
+            signup_type: "000",
+            user_id: userId,
+            user_pwd: userPwd,
         };
 
         Login(url, data, resultCode, dispatch, alert);
@@ -117,9 +117,9 @@ function Header({ props }) {
         RestServer("post", url, data)
             .then(function (response) {
                 // response
-                let resultcode = response.headers.resultcode;
+                let result_code = response.headers.result_code;
 
-                if (resultcode === "0000") {
+                if (result_code === "0000") {
                     // localStorage.removeItem("userInfo");
                     // dispatch(set_user_info(null));
                     dispatch(init_user_info(null));
@@ -219,7 +219,7 @@ function Header({ props }) {
                                         <div>
                                             <h5>
                                                 환영합니다{" "}
-                                                {`${loginInfo.userNameFirstKo}${loginInfo.userNameLastKo}`}
+                                                {`${loginInfo.user_name_first_ko}${loginInfo.user_name_last_ko}`}
                                                 님
                                             </h5>
                                             {isSignOut ? (
