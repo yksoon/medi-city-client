@@ -4,15 +4,15 @@ import { set_user_info, set_user_token } from "redux/actions/userInfoAction";
 import { CommonConsole, CommonErrorCatch, CommonNotify } from "./Common";
 import { set_spinner } from "redux/actions/commonAction";
 
-export default function Login(url, data, resultCode, dispatch, alert) {
+export default function Login(url, data, resultcode, dispatch, alert) {
     RestServer("post", url, data)
         .then(function (response) {
             // response
             let userInfo;
 
-            let resultCode = response.headers.resultCode;
+            let resultcode = response.headers.resultcode;
 
-            if (resultCode === "0000") {
+            if (resultcode === "0000") {
                 userInfo = response.data.resultInfo;
 
                 let deleteKey = [
@@ -40,7 +40,7 @@ export default function Login(url, data, resultCode, dispatch, alert) {
                 );
 
                 window.location.replace(routerPath.main_url);
-            } else if (resultCode === "1003") {
+            } else if (resultcode === "1003") {
                 CommonConsole("log", response);
 
                 CommonConsole("decLog", response);
@@ -49,7 +49,7 @@ export default function Login(url, data, resultCode, dispatch, alert) {
                 CommonNotify({
                     type: "alert",
                     hook: alert,
-                    message: response.headers.resultMessageKo,
+                    message: response.headers.resultmessageko,
                 });
 
                 dispatch(

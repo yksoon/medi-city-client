@@ -12,8 +12,6 @@ import TermsMain from "components/TermPrivacy/TermMain";
 import PrivacyMain from "components/TermPrivacy/PrivacyMain";
 import FindIdMain from "components/FindAccount/FindID/FindIDMain";
 import FindPWMain from "components/FindAccount/FindPW/FindPWMain";
-import MobileTest from "components/MobileTest";
-import MobileTestSuccess from "components/MobileTestSuccess";
 
 const Router = () => {
     return (
@@ -37,12 +35,6 @@ const Router = () => {
 
             {/* 마이페이지 */}
             <Route path={routerPath.myPage_url} element={<MyPageMain />} />
-
-            {/* 휴대폰인증 테스트 */}
-            <Route path={"/mobile_test"} element={<MobileTest />} />
-
-            {/* 휴대폰인증 테스트 */}
-            <Route path={"/cert/result"} element={<MobileTestSuccess />} />
 
             <Route path="*" element={<NotFoundPage />} />
         </Routes>

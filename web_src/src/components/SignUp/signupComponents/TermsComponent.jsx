@@ -63,7 +63,7 @@ const TermsComponent = forwardRef((props, ref) => {
 
                 let termsContent = [];
 
-                if (response.headers.resultCode === "0000") {
+                if (response.headers.resultcode === "0000") {
                     termsContent = [...response.data.resultInfo];
 
                     for (let i = 0; i < termsContent.length; i++) {

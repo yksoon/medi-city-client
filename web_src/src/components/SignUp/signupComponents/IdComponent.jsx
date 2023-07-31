@@ -23,10 +23,10 @@ const IdComponent = forwardRef((props, ref) => {
             .then((response) => {
                 let res = response;
 
-                if (res.headers.resultCode === "0000") {
+                if (res.headers.resultcode === "0000") {
                     setIdchkCode("0000");
                     idStatus(true);
-                } else if (res.headers.resultCode === "1000") {
+                } else if (res.headers.resultcode === "1000") {
                     setIdchkCode("1000");
                     idStatus(false);
                 }

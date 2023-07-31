@@ -117,9 +117,9 @@ function Header({ props }) {
         RestServer("post", url, data)
             .then(function (response) {
                 // response
-                let resultCode = response.headers.resultCode;
+                let resultcode = response.headers.resultcode;
 
-                if (resultCode === "0000") {
+                if (resultcode === "0000") {
                     // localStorage.removeItem("userInfo");
                     // dispatch(set_user_info(null));
                     dispatch(init_user_info(null));

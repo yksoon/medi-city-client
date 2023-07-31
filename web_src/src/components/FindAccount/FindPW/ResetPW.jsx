@@ -153,7 +153,7 @@ function ResetPW({ userID, changeIsFind }) {
 
                 CommonConsole("log", response);
 
-                if (res.headers.resultCode === "0000") {
+                if (res.headers.resultcode === "0000") {
                     // Spinner
                     dispatch(
                         set_spinner({

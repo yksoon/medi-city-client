@@ -99,9 +99,9 @@ const CommonAlert = (props) => {
 const CommonConsole = (type, responseData) => {
     let response;
 
-    let resultMessageKo;
-    let resultMessageEn;
-    let resultCode;
+    let resultmessageko;
+    let resultmessageen;
+    let resultcode;
     let message;
 
     if (!responseData.response) {
@@ -111,9 +111,9 @@ const CommonConsole = (type, responseData) => {
     }
 
     if (response.headers) {
-        resultMessageKo = response.headers.resultMessageKo;
-        resultMessageEn = response.headers.resultMessageEn;
-        resultCode = response.headers.resultCode;
+        resultmessageko = response.headers.resultmessageko;
+        resultmessageen = response.headers.resultmessageen;
+        resultcode = response.headers.resultcode;
         message = response.headers.message;
     } else {
         response = responseData;
@@ -125,14 +125,14 @@ const CommonConsole = (type, responseData) => {
 
         case "decLog":
             return console.log(
-                decodeURI(resultMessageKo),
-                decodeURI(resultMessageEn),
-                decodeURI(resultCode),
+                decodeURI(resultmessageko),
+                decodeURI(resultmessageen),
+                decodeURI(resultcode),
                 decodeURI(message)
             );
 
         case "alertMsg":
-            return alert(decodeURI(resultMessageKo).replace("%20", " "));
+            return alert(decodeURI(resultmessageko).replace("%20", " "));
 
         case "alert":
             return alert(responseData);
@@ -192,8 +192,8 @@ const CommonErrorCatch = (error, dispatch, alert) => {
         }
         // 비정상접근 or 비정상토큰
         else if (
-            error.response.headers.resultCode === "9995" ||
-            error.response.headers.resultCode === "2003"
+            error.response.headers.resultcode === "9995" ||
+            error.response.headers.resultcode === "2003"
         ) {
             tokenExpire(dispatch, alert);
         }
@@ -208,7 +208,7 @@ const CommonErrorCatch = (error, dispatch, alert) => {
             CommonNotify({
                 type: "alert",
                 hook: alert,
-                message: error.response.headers.resultMessageKo,
+                message: error.response.headers.resultmessageko,
             });
         }
     }

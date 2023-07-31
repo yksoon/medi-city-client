@@ -136,9 +136,9 @@ function FindIDMain() {
 
                 let resultInfo;
 
-                let resultCode = response.headers.resultCode;
+                let resultcode = response.headers.resultcode;
 
-                if (resultCode === "0000") {
+                if (resultcode === "0000") {
                     resultInfo = response.data.resultInfo;
 
                     CommonConsole("log", resultInfo);
@@ -158,7 +158,7 @@ function FindIDMain() {
                     CommonNotify({
                         type: "alert",
                         hook: alert,
-                        message: response.headers.resultMessageKo,
+                        message: response.headers.resultmessageko,
                     });
 
                     // Spinner

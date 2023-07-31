@@ -35,9 +35,9 @@ const tokenExpire = (dispatch, alert) => {
     RestServer("post", url, data)
         .then(function (response) {
             // response
-            let resultCode = response.headers.resultCode;
+            let resultcode = response.headers.resultcode;
 
-            if (resultCode === "0000") {
+            if (resultcode === "0000") {
                 // localStorage.removeItem("userInfo");
                 // dispatch(set_user_info(null));
                 dispatch(init_user_info(null));
@@ -67,7 +67,7 @@ const tokenExpire = (dispatch, alert) => {
             CommonNotify({
                 type: "alert",
                 hook: alert,
-                message: error.response.headers.resultMessageKo,
+                message: error.response.headers.resultmessageko,
             });
 
             // dispatch(set_user_info(null));

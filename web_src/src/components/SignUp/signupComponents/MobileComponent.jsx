@@ -227,9 +227,9 @@ const MobileComponent = forwardRef((props, ref) => {
                     CommonConsole("log", response);
 
                     let resData = response.data.resultInfo;
-                    let resultCode = response.headers.resultCode;
+                    let resultcode = response.headers.resultcode;
 
-                    if (resultCode === "0000") {
+                    if (resultcode === "0000") {
                         dispatch(set_cert_info(resData));
                         mobileStatus(true);
 
