@@ -1,24 +1,23 @@
 import React, { useRef, forwardRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
 import { RestServer } from "common/js/Rest";
 import { apiPath } from "webPath";
 import { useDispatch, useSelector } from "react-redux";
 import { set_cert_info } from "redux/actions/certAction";
-import { ResultCode } from "common/js/ResultCode";
-import { CommonConsole, CommonSpinner } from "common/js/Common";
-import { set_alert, set_spinner } from "redux/actions/commonAction";
+import { CommonConsole, CommonNotify, CommonSpinner } from "common/js/Common";
+import { set_spinner } from "redux/actions/commonAction";
+import useAlert from "hook/useAlert";
 
 // 인증 idx
 let certNumIdxFromServer;
 
 const MobileComponent = forwardRef((props, ref) => {
-    const { inputMobile1, inputMobile2, inputMobile3, inter_phone_number } =
-        ref;
+    const { inputMobile1, inputMobile2, inputMobile3, interPhoneNumber } = ref;
 
     const mobileStatus = props.mobileStatus;
 
     const dispatch = useDispatch();
+    const { alert } = useAlert();
 
     // 인증정보
     const form_url = useRef(null);
@@ -62,13 +61,11 @@ const MobileComponent = forwardRef((props, ref) => {
             stopTimer();
 
             // alert
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "시간초과",
-                    alertContent: "인증을 다시 진행해주세요",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "인증을 다시 진행해주세요",
+            });
         }
     }, [sec]);
 
@@ -154,17 +151,17 @@ const MobileComponent = forwardRef((props, ref) => {
         const url = apiPath.api_user_cert;
 
         let data = {
-            certification_tool: "000",
-            certification_type: "000",
+            certificationTool: "000",
+            certificationType: "000",
         };
 
         RestServer("post", url, data)
             .then((response) => {
-                let resData = response.data.result_info;
+                let resData = response.data.resultInfo;
 
                 localStorage.setItem(
-                    "certification_idx",
-                    resData.certification_idx
+                    "certificationIdx",
+                    resData.certificationIdx
                 );
 
                 insertFormData(resData);
@@ -176,13 +173,11 @@ const MobileComponent = forwardRef((props, ref) => {
                 // CommonConsole("alertMsg", error);
 
                 // alert
-                dispatch(
-                    set_alert({
-                        isAlertOpen: true,
-                        alertTitle: "잠시 후 다시 시도해주세요",
-                        alertContent: "",
-                    })
-                );
+                CommonNotify({
+                    type: "alert",
+                    hook: alert,
+                    message: "잠시 후 다시 시도해주세요",
+                });
 
                 // Spinner
                 dispatch(
@@ -223,18 +218,18 @@ const MobileComponent = forwardRef((props, ref) => {
 
     // 인증번호 확인
     const chkCert = () => {
-        const certification_idx = localStorage.getItem("certification_idx");
-        const url = apiPath.api_user_cert_result + `/${certification_idx}`;
+        const certificationIdx = localStorage.getItem("certificationIdx");
+        const url = apiPath.api_user_cert_result + `/${certificationIdx}`;
 
-        if (certification_idx) {
+        if (certificationIdx) {
             RestServer("get", url, {})
                 .then((response) => {
                     CommonConsole("log", response);
 
-                    let resData = response.data.result_info;
-                    let result_code = response.headers.result_code;
+                    let resData = response.data.resultInfo;
+                    let resultcode = response.headers.resultcode;
 
-                    if (result_code === "0000") {
+                    if (resultcode === "0000") {
                         dispatch(set_cert_info(resData));
                         mobileStatus(true);
 
@@ -256,13 +251,11 @@ const MobileComponent = forwardRef((props, ref) => {
                         CommonConsole("log", response);
 
                         // alert
-                        dispatch(
-                            set_alert({
-                                isAlertOpen: true,
-                                alertTitle: "잠시 후 다시 시도해주세요",
-                                alertContent: "",
-                            })
-                        );
+                        CommonNotify({
+                            type: "alert",
+                            hook: alert,
+                            message: "잠시 후 다시 시도해주세요",
+                        });
 
                         // Spinner
                         dispatch(
@@ -346,7 +339,7 @@ const MobileComponent = forwardRef((props, ref) => {
                     <div id="phone_num" className="m0">
                         <input
                             type="hidden"
-                            ref={inter_phone_number}
+                            ref={interPhoneNumber}
                             value="82"
                         />
                         <input

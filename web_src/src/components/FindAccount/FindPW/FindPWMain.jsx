@@ -9,8 +9,9 @@ import ResetPWComplete from "./ResetPWComplete";
 import { CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { set_cert_info } from "redux/actions/certAction";
-import { CommonConsole } from "common/js/Common";
-import { set_alert, set_spinner } from "redux/actions/commonAction";
+import { CommonConsole, CommonNotify } from "common/js/Common";
+import { set_spinner } from "redux/actions/commonAction";
+import useAlert from "hook/useAlert";
 
 function FindPWMain() {
     const [isFind, setIsFind] = useState("1");
@@ -39,6 +40,7 @@ function FindPWMain() {
     const [timerStatus, setTimerStatus] = useState(false); // 타이머 상태
 
     const dispatch = useDispatch();
+    const { alert } = useAlert();
 
     // 타이머 시작
     // - 의존성 배열이 비어있으므로 한 번만 실행됨
@@ -69,13 +71,11 @@ function FindPWMain() {
             stopTimer();
 
             // alert
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "시간초과",
-                    alertContent: "인증을 다시 진행해주세요",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "인증을 다시 진행해주세요",
+            });
         }
     }, [sec]);
 
@@ -114,24 +114,21 @@ function FindPWMain() {
     const sendCert = () => {
         if (!userID) {
             // alert
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "아이디를 입력해주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "아이디를 입력해주세요",
+            });
+
             inputUserID.current.focus();
             return;
         } else if (!firstName || !lastName) {
             // alert
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "성명을 입력해주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "성명을 입력해주세요",
+            });
 
             inputFirstName.current.focus();
             return;
@@ -146,18 +143,18 @@ function FindPWMain() {
             const url = apiPath.api_user_cert;
 
             let data = {
-                certification_tool: "000",
-                certification_type: "200",
-                user_id: userID,
+                certificationTool: "000",
+                certificationType: "200",
+                userId: userID,
             };
 
             RestServer("post", url, data)
                 .then((response) => {
-                    let resData = response.data.result_info;
+                    let resData = response.data.resultInfo;
 
                     localStorage.setItem(
-                        "certification_idx",
-                        resData.certification_idx
+                        "certificationIdx",
+                        resData.certificationIdx
                     );
 
                     insertFormData(resData);
@@ -167,13 +164,11 @@ function FindPWMain() {
                     CommonConsole("log", error);
 
                     // alert
-                    dispatch(
-                        set_alert({
-                            isAlertOpen: true,
-                            alertTitle: "잠시 후 다시 시도해주세요",
-                            alertContent: "",
-                        })
-                    );
+                    CommonNotify({
+                        type: "alert",
+                        hook: alert,
+                        message: "잠시 후 다시 시도해주세요",
+                    });
                 });
         }
     };
@@ -208,18 +203,18 @@ function FindPWMain() {
 
     // 인증번호 확인
     const chkCert = () => {
-        const certification_idx = localStorage.getItem("certification_idx");
-        const url = apiPath.api_user_cert_result + `/${certification_idx}`;
+        const certificationIdx = localStorage.getItem("certificationIdx");
+        const url = apiPath.api_user_cert_result + `/${certificationIdx}`;
 
-        if (certification_idx) {
+        if (certificationIdx) {
             RestServer("get", url, {})
                 .then((response) => {
                     CommonConsole("log", response);
 
-                    let resData = response.data.result_info;
-                    let result_code = response.headers.result_code;
+                    let resData = response.data.resultInfo;
+                    let resultcode = response.headers.resultcode;
 
-                    if (result_code === "0000") {
+                    if (resultcode === "0000") {
                         // 인증 확인 시 인터벌 해제
                         stopTimer();
 
@@ -237,13 +232,12 @@ function FindPWMain() {
                         setIsFind("2");
                     } else {
                         // alert
-                        dispatch(
-                            set_alert({
-                                isAlertOpen: true,
-                                alertTitle: "잠시 후 다시 시도해주세요",
-                                alertContent: "",
-                            })
-                        );
+
+                        CommonNotify({
+                            type: "alert",
+                            hook: alert,
+                            message: "잠시 후 다시 시도해주세요",
+                        });
                     }
                 })
                 .catch((error) => {

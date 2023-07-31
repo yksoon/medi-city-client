@@ -1,12 +1,11 @@
-import { CommonModal, CommonConsole, CommonSpinner } from "common/js/Common";
-import React, { useState, forwardRef, useEffect, useRef } from "react";
+import { CommonModal, CommonConsole, CommonNotify } from "common/js/Common";
+import React, { useState, forwardRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { termsContent, privacyContent } from "common/js/terms";
 import { RestServer } from "common/js/Rest";
 import { apiPath } from "webPath";
-import { CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { set_alert, set_spinner } from "redux/actions/commonAction";
+import { set_spinner } from "redux/actions/commonAction";
+import useAlert from "hook/useAlert";
 
 const TermsComponent = forwardRef((props, ref) => {
     const termChkMain = props.termChkMain;
@@ -31,18 +30,14 @@ const TermsComponent = forwardRef((props, ref) => {
     const [marketingItem, setMarketingItem] = useState({});
 
     const dispatch = useDispatch();
+    const { alert } = useAlert();
 
     // let termItem = {};
     // let privacyItem = {};
     // let marketingItem = {};
 
-    const {
-        termsChk,
-        privacyChk,
-        marketingChk,
-        marketing_sms,
-        marketing_mail,
-    } = ref;
+    const { termsChk, privacyChk, marketingChk, marketingSms, marketingMail } =
+        ref;
     // const chkRef = useRef([]);
 
     useEffect(() => {
@@ -59,8 +54,8 @@ const TermsComponent = forwardRef((props, ref) => {
 
         const url = apiPath.api_terms_list;
         const data = {
-            page_num: 1,
-            page_size: 3,
+            pageNum: 1,
+            pageSize: 3,
         };
         RestServer("post", url, data)
             .then((response) => {
@@ -68,21 +63,21 @@ const TermsComponent = forwardRef((props, ref) => {
 
                 let termsContent = [];
 
-                if (response.headers.result_code === "0000") {
-                    termsContent = [...response.data.result_info];
+                if (response.headers.resultcode === "0000") {
+                    termsContent = [...response.data.resultInfo];
 
                     for (let i = 0; i < termsContent.length; i++) {
-                        let typeCd = termsContent[i].terms_type_cd;
-                        let title = termsContent[i].terms_type;
+                        let typeCd = termsContent[i].termsTypeCd;
+                        let title = termsContent[i].termsType;
                         let content = termsContent[i].conditions;
-                        let terms_idx = termsContent[i].terms_idx;
+                        let termsIdx = termsContent[i].termsIdx;
 
                         switch (typeCd) {
                             case "100":
                                 let arr1 = {};
                                 arr1["title"] = title;
                                 arr1["content"] = content;
-                                arr1["terms_idx"] = terms_idx;
+                                arr1["termsIdx"] = termsIdx;
                                 setTermItem(arr1);
                                 break;
 
@@ -90,15 +85,15 @@ const TermsComponent = forwardRef((props, ref) => {
                                 let arr2 = {};
                                 arr2["title"] = title;
                                 arr2["content"] = content;
-                                arr2["terms_idx"] = terms_idx;
+                                arr2["termsIdx"] = termsIdx;
                                 setPrivacyItem(arr2);
                                 break;
 
                             case "400":
                                 let arr3 = {};
-                                arr3["title"] = termsContent[i].terms_type;
+                                arr3["title"] = termsContent[i].termsType;
                                 arr3["content"] = content;
-                                arr3["terms_idx"] = terms_idx;
+                                arr3["termsIdx"] = termsIdx;
                                 setMarketingItem(arr3);
                                 break;
 
@@ -119,12 +114,11 @@ const TermsComponent = forwardRef((props, ref) => {
                         })
                     );
 
-                    dispatch(
-                        set_alert({
-                            isAlertOpen: true,
-                            title: "잠시 후 다시 시도해주세요",
-                        })
-                    );
+                    CommonNotify({
+                        type: "alert",
+                        hook: alert,
+                        message: "잠시 후 다시 시도해주세요",
+                    });
                 }
             })
             .catch((error) => {
@@ -141,12 +135,11 @@ const TermsComponent = forwardRef((props, ref) => {
                     })
                 );
 
-                dispatch(
-                    set_alert({
-                        isAlertOpen: true,
-                        title: "잠시 후 다시 시도해주세요",
-                    })
-                );
+                CommonNotify({
+                    type: "alert",
+                    hook: alert,
+                    message: "잠시 후 다시 시도해주세요",
+                });
             });
     };
 
@@ -202,7 +195,7 @@ const TermsComponent = forwardRef((props, ref) => {
                 } else {
                     setTerms(e.target.checked);
                     if (e.target.checked) {
-                        termChkMain(termItem.terms_idx);
+                        termChkMain(termItem.termsIdx);
                     } else {
                         termChkMain("");
                     }
@@ -216,7 +209,7 @@ const TermsComponent = forwardRef((props, ref) => {
                 } else {
                     setPrivacy(e.target.checked);
                     if (e.target.checked) {
-                        privacyChkMain(privacyItem.terms_idx);
+                        privacyChkMain(privacyItem.termsIdx);
                     } else {
                         privacyChkMain("");
                     }
@@ -228,7 +221,7 @@ const TermsComponent = forwardRef((props, ref) => {
                 setSms(e.target.checked);
                 setMail(e.target.checked);
                 if (e.target.checked) {
-                    marketingChkMain(marketingItem.terms_idx);
+                    marketingChkMain(marketingItem.termsIdx);
                 } else {
                     marketingChkMain("");
                 }
@@ -241,10 +234,10 @@ const TermsComponent = forwardRef((props, ref) => {
                     if (!mail) {
                         marketingChkMain("");
                     } else {
-                        marketingChkMain(marketingItem.terms_idx);
+                        marketingChkMain(marketingItem.termsIdx);
                     }
                 } else {
-                    marketingChkMain(marketingItem.terms_idx);
+                    marketingChkMain(marketingItem.termsIdx);
                 }
                 break;
 
@@ -255,10 +248,10 @@ const TermsComponent = forwardRef((props, ref) => {
                     if (!sms) {
                         marketingChkMain("");
                     } else {
-                        marketingChkMain(marketingItem.terms_idx);
+                        marketingChkMain(marketingItem.termsIdx);
                     }
                 } else {
-                    marketingChkMain(marketingItem.terms_idx);
+                    marketingChkMain(marketingItem.termsIdx);
                 }
                 break;
 
@@ -424,7 +417,7 @@ const TermsComponent = forwardRef((props, ref) => {
                                     id="marketing_sms"
                                     className="hide"
                                     checked={sms}
-                                    ref={marketing_sms}
+                                    ref={marketingSms}
                                     onChange={(e) => handleChk(e)}
                                 />
                                 <label htmlFor="marketing_sms">
@@ -456,7 +449,7 @@ const TermsComponent = forwardRef((props, ref) => {
                                     id="marketing_mail"
                                     className="hide"
                                     checked={mail}
-                                    ref={marketing_mail}
+                                    ref={marketingMail}
                                     onChange={(e) => handleChk(e)}
                                 />
                                 <label htmlFor="marketing_mail">

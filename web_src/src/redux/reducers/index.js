@@ -12,18 +12,18 @@ import common from "./reducers/common";
 const persistConfig = {
     key: "root",
     storage: storageSession,
-    whitelist: ["userInfo"],
+    version: 0,
+    whitelist: ["codes", "userInfo", "ipInfo"],
 };
 
-// TODO: 관리자처럼 리덕스 세팅 변경해야됨
 // TODO: userInfo에서 userToken 분리
 
 const rootReducer = combineReducers({
     codes,
-    userInfo: persistReducer(persistConfig, userInfo),
+    userInfo,
     ipInfo,
     certInfo,
     common,
 });
 
-export default rootReducer;
+export default persistReducer(persistConfig, rootReducer);

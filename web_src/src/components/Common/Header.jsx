@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import { RestServer } from "common/js/Rest";
-// import { menu_show } from "./nav";
-// import $ from "jquery";
-import "common/css/header.css";
 import Login from "common/js/Login";
 import { useSelector, useDispatch } from "react-redux";
-import { set_user_info } from "redux/actions/userInfoAction";
-import { CommonConsole } from "common/js/Common";
-import { set_alert, set_spinner } from "redux/actions/commonAction";
+import { init_user_info, set_user_info } from "redux/actions/userInfoAction";
+import {
+    CommonConsole,
+    CommonErrorCatch,
+    CommonNotify,
+} from "common/js/Common";
+import { set_spinner } from "redux/actions/commonAction";
+import useAlert from "hook/useAlert";
 
 let resultCode;
 function Header({ props }) {
@@ -21,7 +23,10 @@ function Header({ props }) {
     const inputId = useRef(null);
     const inputPw = useRef(null);
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const { alert } = useAlert();
 
     // let loginInfo;
     // (() => {
@@ -60,25 +65,21 @@ function Header({ props }) {
 
     const signIn = () => {
         if (!userId) {
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "아이디를 입력해주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "아이디를 입력해주세요",
+            });
 
             inputId.current.focus();
             return false;
         }
         if (!userPwd) {
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "비밀번호를 입력해주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "비밀번호를 입력해주세요",
+            });
 
             inputPw.current.focus();
             return false;
@@ -93,12 +94,12 @@ function Header({ props }) {
         const url = apiPath.api_login;
 
         let data = {
-            signup_type: "000",
-            user_id: userId,
-            user_pwd: userPwd,
+            signupType: "000",
+            userId: userId,
+            userPwd: userPwd,
         };
 
-        Login(url, data, resultCode, dispatch);
+        Login(url, data, resultCode, dispatch, alert);
     };
 
     const signout = () => {
@@ -116,11 +117,12 @@ function Header({ props }) {
         RestServer("post", url, data)
             .then(function (response) {
                 // response
-                let result_code = response.headers.result_code;
+                let resultcode = response.headers.resultcode;
 
-                if (result_code === "0000") {
+                if (resultcode === "0000") {
                     // localStorage.removeItem("userInfo");
-                    dispatch(set_user_info(null));
+                    // dispatch(set_user_info(null));
+                    dispatch(init_user_info(null));
 
                     setUserId("");
                     setUserPwd("");
@@ -133,32 +135,19 @@ function Header({ props }) {
                         })
                     );
 
-                    window.location.replace(routerPath.main_url);
+                    navigate(routerPath.main_url);
+                    // window.location.replace(routerPath.main_url);
                 }
             })
             .catch(function (error) {
                 // 오류발생시 실행
-                CommonConsole("log", error);
-                CommonConsole("decLog", error);
-                // CommonConsole("alertMsg", error);
-
-                // Spinner
-                dispatch(
-                    set_spinner({
-                        isLoading: false,
-                    })
-                );
-
-                dispatch(
-                    set_alert({
-                        isAlertOpen: true,
-                        title: error.response.headers.result_message_ko,
-                    })
-                );
+                CommonErrorCatch(error, dispatch, alert);
 
                 // localStorage.removeItem("userInfo");
-                dispatch(set_user_info(null));
+                // dispatch(set_user_info(null));
+                dispatch(init_user_info(null));
                 setIsSignOut(false);
+                navigate(routerPath.main_url);
             });
     };
 
@@ -230,7 +219,7 @@ function Header({ props }) {
                                         <div>
                                             <h5>
                                                 환영합니다{" "}
-                                                {`${loginInfo.user_name_first_ko}${loginInfo.user_name_last_ko}`}
+                                                {`${loginInfo.userNameFirstKo}${loginInfo.userNameLastKo}`}
                                                 님
                                             </h5>
                                             {isSignOut ? (

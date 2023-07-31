@@ -4,10 +4,15 @@ import Header from "components/Common/Header";
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
-import { CircularProgress } from "@mui/material";
-import { CommonConsole, CommonSpinner } from "common/js/Common";
+import {
+    CommonConsole,
+    CommonErrorCatch,
+    CommonNotify,
+    CommonSpinner,
+} from "common/js/Common";
 import { useDispatch } from "react-redux";
-import { set_alert, set_spinner } from "redux/actions/commonAction";
+import { set_spinner } from "redux/actions/commonAction";
+import useAlert from "hook/useAlert";
 
 function FindIDMain() {
     const [finded, setFinded] = useState(false);
@@ -25,6 +30,7 @@ function FindIDMain() {
     const inputMobile3 = useRef(null);
 
     const dispatch = useDispatch();
+    const { alert } = useAlert();
 
     useEffect(() => {
         setFinded(false);
@@ -81,25 +87,23 @@ function FindIDMain() {
     const findIdClick = () => {
         if (!firstName || !lastName) {
             // alert
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "성명을 입력해 주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "성명을 입력해 주세요",
+            });
+
             inputFirstName.current.focus();
             return;
         }
         if (!mobile1 || !mobile2 || !mobile3) {
             // alert
-            dispatch(
-                set_alert({
-                    isAlertOpen: true,
-                    alertTitle: "전화번호를 입력해 주세요",
-                    alertContent: "",
-                })
-            );
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "전화번호를 입력해 주세요",
+            });
+
             inputMobile1.current.focus();
             return;
         }
@@ -116,9 +120,9 @@ function FindIDMain() {
 
         let url = apiPath.api_user_find_id;
         let data = {
-            user_name_first_ko: firstName,
-            user_name_last_ko: lastName,
-            inter_phone_number: "82",
+            userNameFirstKo: firstName,
+            userNameLastKo: lastName,
+            interPhoneNumber: "82",
             mobile1: mobile1,
             mobile2: mobile2,
             mobile3: mobile3,
@@ -130,16 +134,16 @@ function FindIDMain() {
 
                 CommonConsole("log", response);
 
-                let result_info;
+                let resultInfo;
 
-                let result_code = response.headers.result_code;
+                let resultcode = response.headers.resultcode;
 
-                if (result_code === "0000") {
-                    result_info = response.data.result_info;
+                if (resultcode === "0000") {
+                    resultInfo = response.data.resultInfo;
 
-                    CommonConsole("log", result_info);
+                    CommonConsole("log", resultInfo);
 
-                    setFindList(result_info);
+                    setFindList(resultInfo);
 
                     // Spinner
                     dispatch(
@@ -151,13 +155,11 @@ function FindIDMain() {
                     setFinded(true);
                 } else {
                     // alert
-                    dispatch(
-                        set_alert({
-                            isAlertOpen: true,
-                            alertTitle: response.headers.result_message_ko,
-                            alertContent: "",
-                        })
-                    );
+                    CommonNotify({
+                        type: "alert",
+                        hook: alert,
+                        message: response.headers.resultmessageko,
+                    });
 
                     // Spinner
                     dispatch(
@@ -169,18 +171,7 @@ function FindIDMain() {
             })
             .catch(function (error) {
                 // 오류발생시 실행
-                CommonConsole("log", error);
-                CommonConsole("decLog", error);
-
-                // CommonConsole("alertMsg", error);
-
-                // Spinner
-                dispatch(
-                    set_spinner({
-                        isLoading: true,
-                        error: "Y",
-                    })
-                );
+                CommonErrorCatch(error, dispatch, alert);
             });
     };
 
@@ -290,9 +281,9 @@ function FindIDMain() {
                                     key={`user_id_${index}`}
                                 >
                                     <h4 style={{ marginRight: "70px" }}>
-                                        {item.user_id}
+                                        {item.userId}
                                     </h4>
-                                    <h4>{item.reg_dttm.split(" ")[0]}</h4>
+                                    <h4>{item.regDttm.split(" ")[0]}</h4>
                                 </div>
                             ))
                         ) : (

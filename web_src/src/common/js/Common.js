@@ -1,6 +1,8 @@
 import { React, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { CircularProgress, Dialog, Modal } from "@mui/material";
+import { set_spinner } from "redux/actions/commonAction";
+import tokenExpire from "./tokenExpire";
 
 // Alert (props)
 // isOpen = state 상태값
@@ -97,9 +99,9 @@ const CommonAlert = (props) => {
 const CommonConsole = (type, responseData) => {
     let response;
 
-    let result_message_ko;
-    let result_message_en;
-    let result_code;
+    let resultmessageko;
+    let resultmessageen;
+    let resultcode;
     let message;
 
     if (!responseData.response) {
@@ -109,9 +111,9 @@ const CommonConsole = (type, responseData) => {
     }
 
     if (response.headers) {
-        result_message_ko = response.headers.result_message_ko;
-        result_message_en = response.headers.result_message_en;
-        result_code = response.headers.result_code;
+        resultmessageko = response.headers.resultmessageko;
+        resultmessageen = response.headers.resultmessageen;
+        resultcode = response.headers.resultcode;
         message = response.headers.message;
     } else {
         response = responseData;
@@ -123,14 +125,14 @@ const CommonConsole = (type, responseData) => {
 
         case "decLog":
             return console.log(
-                decodeURI(result_message_ko),
-                decodeURI(result_message_en),
-                decodeURI(result_code),
+                decodeURI(resultmessageko),
+                decodeURI(resultmessageen),
+                decodeURI(resultcode),
                 decodeURI(message)
             );
 
         case "alertMsg":
-            return alert(decodeURI(result_message_ko).replace("%20", " "));
+            return alert(decodeURI(resultmessageko).replace("%20", " "));
 
         case "alert":
             return alert(responseData);
@@ -170,4 +172,111 @@ const CommonSpinner = (props) => {
     );
 };
 
-export { CommonModal, CommonConsole, CommonSpinner, CommonAlert };
+const CommonErrorCatch = (error, dispatch, alert) => {
+    // 오류발생시 실행
+    CommonConsole("log", error);
+
+    if (error.response) {
+        if (error.response.status === 500 || error.response.status === 503) {
+            dispatch(
+                set_spinner({
+                    isLoading: false,
+                })
+            );
+
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: "잠시 후 다시 시도해주세요",
+            });
+        }
+        // 비정상접근 or 비정상토큰
+        else if (
+            error.response.headers.resultcode === "9995" ||
+            error.response.headers.resultcode === "2003"
+        ) {
+            tokenExpire(dispatch, alert);
+        }
+        // 에러
+        else {
+            dispatch(
+                set_spinner({
+                    isLoading: false,
+                })
+            );
+
+            CommonNotify({
+                type: "alert",
+                hook: alert,
+                message: error.response.headers.resultmessageko,
+            });
+        }
+    }
+    // 타임아웃
+    if (error.message === "timeout of 5000ms exceeded") {
+        dispatch(
+            set_spinner({
+                isLoading: false,
+            })
+        );
+
+        CommonNotify({
+            type: "alert",
+            hook: alert,
+            message: "잠시 후 다시 시도해주세요",
+        });
+    }
+};
+
+// 알림창
+const CommonNotify = async (option) => {
+    const type = option.type;
+    const hook = option.hook;
+    const message = option.message;
+    const callback = option.callback && option.callback;
+
+    switch (type) {
+        case "confirm":
+            const resultConfirm = await hook({
+                message: message,
+                buttons: {
+                    ok: "확인",
+                    cancel: "취소",
+                },
+            });
+
+            if (resultConfirm) {
+                if (callback) {
+                    const type = typeof callback;
+
+                    if (type === "function") {
+                        callback();
+                    }
+                }
+            }
+
+            break;
+
+        case "alert":
+            await hook({
+                message: message,
+                buttons: {
+                    ok: "확인",
+                    cancel: "취소",
+                },
+            });
+
+            break;
+        default:
+            break;
+    }
+};
+
+export {
+    CommonModal,
+    CommonConsole,
+    CommonSpinner,
+    CommonAlert,
+    CommonErrorCatch,
+    CommonNotify,
+};
