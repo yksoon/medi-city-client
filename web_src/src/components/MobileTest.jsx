@@ -143,7 +143,7 @@ const MobileTest = () => {
                 .then((response) => {
                     console.log("response", response);
 
-                    let resData = response.data.result_info;
+                    let resData = response.data.resultInfo;
                     setUserData(resData);
 
                     // 인증 확인 시 인터벌 해제

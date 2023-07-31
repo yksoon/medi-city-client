@@ -34,12 +34,12 @@ const MobileTestSuccess = () => {
             .then((response) => {
                 // console.log("authTest", response);
 
-                let resData = response.data.result_info;
-                let result_code = response.headers.result_code;
+                let resData = response.data.resultInfo;
+                let resultCode = response.headers.resultCode;
 
                 console.log(resData);
 
-                if (result_code === "0000") {
+                if (resultCode === "0000") {
                     closeWindow();
                 } else {
                     alert("에러");
@@ -50,12 +50,12 @@ const MobileTestSuccess = () => {
                 // 오류발생시 실행
                 console.log(error);
                 // localStorage.removeItem("certification_idx");
-                let err = error.response.headers.result_code;
+                let err = error.response.headers.resultCode;
                 // console.log(err);
 
                 for (let i = 0; i < resultCode.length; i++) {
-                    if (resultCode[i].result_code === err) {
-                        let msg = resultCode[i].result_message_ko;
+                    if (resultCode[i].resultCode === err) {
+                        let msg = resultCode[i].resultMessageKo;
                         console.log(msg);
                         alert(msg);
                     }

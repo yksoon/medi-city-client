@@ -15,18 +15,18 @@ const IdComponent = forwardRef((props, ref) => {
     const idDuplicateCheck = (e) => {
         const user_chk_url = apiPath.api_user_check;
         let data = {
-            signup_type: `${accountType.current.value}`,
-            user_id: `${inputID.current.value}`,
+            signupType: `${accountType.current.value}`,
+            userId: `${inputID.current.value}`,
         };
 
         RestServer("post", user_chk_url, data)
             .then((response) => {
                 let res = response;
 
-                if (res.headers.result_code === "0000") {
+                if (res.headers.resultCode === "0000") {
                     setIdchkCode("0000");
                     idStatus(true);
-                } else if (res.headers.result_code === "1000") {
+                } else if (res.headers.resultCode === "1000") {
                     setIdchkCode("1000");
                     idStatus(false);
                 }

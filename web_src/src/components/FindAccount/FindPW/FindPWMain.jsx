@@ -143,18 +143,18 @@ function FindPWMain() {
             const url = apiPath.api_user_cert;
 
             let data = {
-                certification_tool: "000",
-                certification_type: "200",
-                user_id: userID,
+                certificationTool: "000",
+                certificationType: "200",
+                userId: userID,
             };
 
             RestServer("post", url, data)
                 .then((response) => {
-                    let resData = response.data.result_info;
+                    let resData = response.data.resultInfo;
 
                     localStorage.setItem(
-                        "certification_idx",
-                        resData.certification_idx
+                        "certificationIdx",
+                        resData.certificationIdx
                     );
 
                     insertFormData(resData);
@@ -203,18 +203,18 @@ function FindPWMain() {
 
     // 인증번호 확인
     const chkCert = () => {
-        const certification_idx = localStorage.getItem("certification_idx");
-        const url = apiPath.api_user_cert_result + `/${certification_idx}`;
+        const certificationIdx = localStorage.getItem("certificationIdx");
+        const url = apiPath.api_user_cert_result + `/${certificationIdx}`;
 
-        if (certification_idx) {
+        if (certificationIdx) {
             RestServer("get", url, {})
                 .then((response) => {
                     CommonConsole("log", response);
 
-                    let resData = response.data.result_info;
-                    let result_code = response.headers.result_code;
+                    let resData = response.data.resultInfo;
+                    let resultCode = response.headers.resultCode;
 
-                    if (result_code === "0000") {
+                    if (resultCode === "0000") {
                         // 인증 확인 시 인터벌 해제
                         stopTimer();
 
