@@ -1,7 +1,8 @@
 import React, { forwardRef } from "react";
 
 const DepartmentComponent = forwardRef((props, ref) => {
-    const { organizationNameKo, departmentNameKo, specializedNameKo } = ref;
+    const { organization_name_ko, department_name_ko, specialized_name_ko } =
+        ref;
 
     return (
         <>
@@ -10,7 +11,7 @@ const DepartmentComponent = forwardRef((props, ref) => {
                 <input
                     type="text"
                     className="input w280"
-                    ref={organizationNameKo}
+                    ref={organization_name_ko}
                 />
             </div>
             <div>
@@ -18,7 +19,7 @@ const DepartmentComponent = forwardRef((props, ref) => {
                 <input
                     type="text"
                     className="input w280"
-                    ref={departmentNameKo}
+                    ref={department_name_ko}
                 />
             </div>
             <div>
@@ -26,7 +27,7 @@ const DepartmentComponent = forwardRef((props, ref) => {
                 <input
                     type="text"
                     className="input w280"
-                    ref={specializedNameKo}
+                    ref={specialized_name_ko}
                 />
             </div>
         </>

@@ -36,8 +36,13 @@ const TermsComponent = forwardRef((props, ref) => {
     // let privacyItem = {};
     // let marketingItem = {};
 
-    const { termsChk, privacyChk, marketingChk, marketingSms, marketingMail } =
-        ref;
+    const {
+        termsChk,
+        privacyChk,
+        marketingChk,
+        marketing_sms,
+        marketing_mail,
+    } = ref;
     // const chkRef = useRef([]);
 
     useEffect(() => {
@@ -54,8 +59,8 @@ const TermsComponent = forwardRef((props, ref) => {
 
         const url = apiPath.api_terms_list;
         const data = {
-            pageNum: 1,
-            pageSize: 3,
+            page_num: 1,
+            page_size: 3,
         };
         RestServer("post", url, data)
             .then((response) => {
@@ -63,21 +68,21 @@ const TermsComponent = forwardRef((props, ref) => {
 
                 let termsContent = [];
 
-                if (response.headers.resultcode === "0000") {
-                    termsContent = [...response.data.resultInfo];
+                if (response.headers.result_code === "0000") {
+                    termsContent = [...response.data.result_info];
 
                     for (let i = 0; i < termsContent.length; i++) {
-                        let typeCd = termsContent[i].termsTypeCd;
-                        let title = termsContent[i].termsType;
+                        let typeCd = termsContent[i].terms_type_cd;
+                        let title = termsContent[i].terms_type;
                         let content = termsContent[i].conditions;
-                        let termsIdx = termsContent[i].termsIdx;
+                        let terms_idx = termsContent[i].terms_idx;
 
                         switch (typeCd) {
                             case "100":
                                 let arr1 = {};
                                 arr1["title"] = title;
                                 arr1["content"] = content;
-                                arr1["termsIdx"] = termsIdx;
+                                arr1["terms_idx"] = terms_idx;
                                 setTermItem(arr1);
                                 break;
 
@@ -85,15 +90,15 @@ const TermsComponent = forwardRef((props, ref) => {
                                 let arr2 = {};
                                 arr2["title"] = title;
                                 arr2["content"] = content;
-                                arr2["termsIdx"] = termsIdx;
+                                arr2["terms_idx"] = terms_idx;
                                 setPrivacyItem(arr2);
                                 break;
 
                             case "400":
                                 let arr3 = {};
-                                arr3["title"] = termsContent[i].termsType;
+                                arr3["title"] = termsContent[i].terms_type;
                                 arr3["content"] = content;
-                                arr3["termsIdx"] = termsIdx;
+                                arr3["terms_idx"] = terms_idx;
                                 setMarketingItem(arr3);
                                 break;
 
@@ -195,7 +200,7 @@ const TermsComponent = forwardRef((props, ref) => {
                 } else {
                     setTerms(e.target.checked);
                     if (e.target.checked) {
-                        termChkMain(termItem.termsIdx);
+                        termChkMain(termItem.terms_idx);
                     } else {
                         termChkMain("");
                     }
@@ -209,7 +214,7 @@ const TermsComponent = forwardRef((props, ref) => {
                 } else {
                     setPrivacy(e.target.checked);
                     if (e.target.checked) {
-                        privacyChkMain(privacyItem.termsIdx);
+                        privacyChkMain(privacyItem.terms_idx);
                     } else {
                         privacyChkMain("");
                     }
@@ -221,7 +226,7 @@ const TermsComponent = forwardRef((props, ref) => {
                 setSms(e.target.checked);
                 setMail(e.target.checked);
                 if (e.target.checked) {
-                    marketingChkMain(marketingItem.termsIdx);
+                    marketingChkMain(marketingItem.terms_idx);
                 } else {
                     marketingChkMain("");
                 }
@@ -234,10 +239,10 @@ const TermsComponent = forwardRef((props, ref) => {
                     if (!mail) {
                         marketingChkMain("");
                     } else {
-                        marketingChkMain(marketingItem.termsIdx);
+                        marketingChkMain(marketingItem.terms_idx);
                     }
                 } else {
-                    marketingChkMain(marketingItem.termsIdx);
+                    marketingChkMain(marketingItem.terms_idx);
                 }
                 break;
 
@@ -248,10 +253,10 @@ const TermsComponent = forwardRef((props, ref) => {
                     if (!sms) {
                         marketingChkMain("");
                     } else {
-                        marketingChkMain(marketingItem.termsIdx);
+                        marketingChkMain(marketingItem.terms_idx);
                     }
                 } else {
-                    marketingChkMain(marketingItem.termsIdx);
+                    marketingChkMain(marketingItem.terms_idx);
                 }
                 break;
 
@@ -417,7 +422,7 @@ const TermsComponent = forwardRef((props, ref) => {
                                     id="marketing_sms"
                                     className="hide"
                                     checked={sms}
-                                    ref={marketingSms}
+                                    ref={marketing_sms}
                                     onChange={(e) => handleChk(e)}
                                 />
                                 <label htmlFor="marketing_sms">
@@ -449,7 +454,7 @@ const TermsComponent = forwardRef((props, ref) => {
                                     id="marketing_mail"
                                     className="hide"
                                     checked={mail}
-                                    ref={marketingMail}
+                                    ref={marketing_mail}
                                     onChange={(e) => handleChk(e)}
                                 />
                                 <label htmlFor="marketing_mail">

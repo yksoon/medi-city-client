@@ -12,7 +12,8 @@ import useAlert from "hook/useAlert";
 let certNumIdxFromServer;
 
 const MobileComponent = forwardRef((props, ref) => {
-    const { inputMobile1, inputMobile2, inputMobile3, interPhoneNumber } = ref;
+    const { inputMobile1, inputMobile2, inputMobile3, inter_phone_number } =
+        ref;
 
     const mobileStatus = props.mobileStatus;
 
@@ -151,17 +152,17 @@ const MobileComponent = forwardRef((props, ref) => {
         const url = apiPath.api_user_cert;
 
         let data = {
-            certificationTool: "000",
-            certificationType: "000",
+            certification_tool: "000",
+            certification_type: "000",
         };
 
         RestServer("post", url, data)
             .then((response) => {
-                let resData = response.data.resultInfo;
+                let resData = response.data.result_info;
 
                 localStorage.setItem(
-                    "certificationIdx",
-                    resData.certificationIdx
+                    "certification_idx",
+                    resData.certification_idx
                 );
 
                 insertFormData(resData);
@@ -218,18 +219,18 @@ const MobileComponent = forwardRef((props, ref) => {
 
     // 인증번호 확인
     const chkCert = () => {
-        const certificationIdx = localStorage.getItem("certificationIdx");
-        const url = apiPath.api_user_cert_result + `/${certificationIdx}`;
+        const certification_idx = localStorage.getItem("certification_idx");
+        const url = apiPath.api_user_cert_result + `/${certification_idx}`;
 
-        if (certificationIdx) {
+        if (certification_idx) {
             RestServer("get", url, {})
                 .then((response) => {
                     CommonConsole("log", response);
 
-                    let resData = response.data.resultInfo;
-                    let resultcode = response.headers.resultcode;
+                    let resData = response.data.result_info;
+                    let result_code = response.headers.result_code;
 
-                    if (resultcode === "0000") {
+                    if (result_code === "0000") {
                         dispatch(set_cert_info(resData));
                         mobileStatus(true);
 
@@ -339,7 +340,7 @@ const MobileComponent = forwardRef((props, ref) => {
                     <div id="phone_num" className="m0">
                         <input
                             type="hidden"
-                            ref={interPhoneNumber}
+                            ref={inter_phone_number}
                             value="82"
                         />
                         <input
