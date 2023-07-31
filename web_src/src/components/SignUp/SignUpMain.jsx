@@ -26,25 +26,25 @@ function SignUpMain() {
 
     const signupRefs = {
         accountType: useRef(null),
-        inputID: useRef(null),
-        inputPW: useRef(null),
-        user_name_first_ko: useRef(null),
-        user_name_last_ko: useRef(null),
-        user_name_first_en: useRef(null),
-        user_name_last_en: useRef(null),
-        md_licenses_number: useRef(null),
-        organization_name_ko: useRef(null),
-        department_name_ko: useRef(null),
-        specialized_name_ko: useRef(null),
-        inter_phone_number: useRef(null),
+        inputId: useRef(null),
+        inputPw: useRef(null),
+        userNameFirstKo: useRef(null),
+        userNameLastKo: useRef(null),
+        userNameFirstEn: useRef(null),
+        userNameLastEn: useRef(null),
+        mdLicensesNumber: useRef(null),
+        organizationNameKo: useRef(null),
+        departmentNameKo: useRef(null),
+        specializedNameKo: useRef(null),
+        interPhoneNumber: useRef(null),
         inputMobile1: useRef(null),
         inputMobile2: useRef(null),
         inputMobile3: useRef(null),
         termsChk: useRef(null),
         privacyChk: useRef(null),
         marketingChk: useRef(null),
-        marketing_sms: useRef(null),
-        marketing_mail: useRef(null),
+        marketingSms: useRef(null),
+        marketingMail: useRef(null),
     };
 
     // 사용 가능한 아이디 확인
@@ -56,7 +56,7 @@ function SignUpMain() {
     const [marketing, setMarketing] = useState("");
     const certInfo = useSelector((state) => state.certInfo.certInfo);
 
-    const certification_idx = localStorage.getItem("certification_idx");
+    const certificationIdx = localStorage.getItem("certificationIdx");
 
     const sendSignupForm = () => {
         if (validation()) {
@@ -70,7 +70,7 @@ function SignUpMain() {
             let birth_mm = certInfo.birth_date.slice(4, 6);
             let birth_dd = certInfo.birth_date.slice(-2);
             let gender;
-            let certification_tool;
+            let certificationTool;
 
             // nice = 0: 여자, 1: 남자
             if (certInfo.gender === "1") {
@@ -88,90 +88,88 @@ function SignUpMain() {
 
             // 인증 도구 = 000 : 휴대폰, 100 : 인증서, 200 : 이메일, 900 : 기타등등
             if (certInfo.auth_type === "M") {
-                certification_tool = "000";
+                certificationTool = "000";
             } else if (
                 certInfo.auth_type === "X" ||
                 certInfo.auth_type === "F"
             ) {
-                certification_tool = "100";
+                certificationTool = "100";
             } else if (
                 certInfo.auth_type === "C" ||
                 certInfo.auth_type === "S"
             ) {
-                certification_tool = "900";
+                certificationTool = "900";
             }
 
-            let mobile_agency;
+            let mobileAgency;
             // 통신사
-            switch (certInfo.mobile_co) {
+            switch (certInfo.mobileCo) {
                 // SK Telecom
                 case "1":
-                    mobile_agency = "000";
+                    mobileAgency = "000";
                     break;
 
                 // KT
                 case "2":
-                    mobile_agency = "100";
+                    mobileAgency = "100";
                     break;
 
                 // LGU+
                 case "3":
-                    mobile_agency = "200";
+                    mobileAgency = "200";
                     break;
 
                 // SK Telecom 알뜰폰
                 case "5":
-                    mobile_agency = "300";
+                    mobileAgency = "300";
                     break;
 
                 // KT 알뜰폰
                 case "6":
-                    mobile_agency = "400";
+                    mobileAgency = "400";
                     break;
 
                 // LGU+ 알뜰폰
                 case "7":
-                    mobile_agency = "500";
+                    mobileAgency = "500";
                     break;
 
                 // 기타
                 default:
-                    mobile_agency = "900";
+                    mobileAgency = "900";
                     break;
             }
 
             let data = {
-                user_id: signupRefs.inputID.current.value,
-                user_pwd: signupRefs.inputPW.current.value,
-                user_name_first_ko: signupRefs.user_name_first_ko.current.value,
-                user_name_last_ko: signupRefs.user_name_last_ko.current.value,
-                user_name_first_en: signupRefs.user_name_first_en.current.value,
-                user_name_last_en: signupRefs.user_name_last_en.current.value,
-                md_licenses_number: signupRefs.md_licenses_number.current.value,
-                auth_code: certification_idx,
-                inter_phone_number: signupRefs.inter_phone_number.current.value,
+                userId: signupRefs.inputID.current.value,
+                userPwd: signupRefs.inputPW.current.value,
+                userNameFirstKo: signupRefs.userNameFirstKo.current.value,
+                userNameLastKo: signupRefs.userNameLastKo.current.value,
+                userNameFirstEn: signupRefs.userNameFirstEn.current.value,
+                userNameLastEn: signupRefs.userNameLastEn.current.value,
+                mdLicensesNumber: signupRefs.mdLicensesNumber.current.value,
+                authCode: certificationIdx,
+                interPhoneNumber: signupRefs.interPhoneNumber.current.value,
                 mobile1: signupRefs.inputMobile1.current.value,
                 mobile2: signupRefs.inputMobile2.current.value,
                 mobile3: signupRefs.inputMobile3.current.value,
-                signup_type: signupRefs.accountType.current.value,
-                organization_name_ko:
-                    signupRefs.organization_name_ko.current.value,
-                specialized_name_ko:
-                    signupRefs.specialized_name_ko.current.value,
-                department_name_ko: signupRefs.department_name_ko.current.value,
-                sms_yn: signupRefs.marketing_sms.current.checked ? "Y" : "N",
-                email_yn: signupRefs.marketing_mail.current.checked ? "Y" : "N",
-                certification_idx: certification_idx,
-                birth_yyyy: birth_yyyy,
-                birth_mm: birth_mm,
-                birth_dd: birth_dd,
+                signupType: signupRefs.accountType.current.value,
+                organizationNameKo: signupRefs.organizationNameKo.current.value,
+                specializedNameKo: signupRefs.specializedNameKo.current.value,
+                departmentNameKo: signupRefs.departmentNameKo.current.value,
+                smsYn: signupRefs.marketingSms.current.checked ? "Y" : "N",
+                emailYn: signupRefs.marketingMail.current.checked ? "Y" : "N",
+                certificationIdx: certificationIdx,
+                birthYyyy: birth_yyyy,
+                birthMm: birth_mm,
+                birthDd: birth_dd,
                 gender: gender,
-                user_ci: certInfo.ci,
-                user_di: certInfo.di,
-                certification_tool: certification_tool,
-                certification_type: "000",
-                terms_idx: terms_idx_func(),
-                mobile_agency: mobile_agency,
+                userCi: certInfo.ci,
+                userDi: certInfo.di,
+                certificationTool: certificationTool,
+                certificationType: "000",
+                termsIdx: termsIdxFunc(),
+                mobileAgency: mobileAgency,
             };
 
             let url = apiPath.api_user;
@@ -180,10 +178,10 @@ function SignUpMain() {
                 .then((response) => {
                     // response
 
-                    let result_code = response.headers.result_code;
+                    let resultcode = response.headers.resultcode;
 
-                    if (result_code === "0000") {
-                        localStorage.removeItem("certification_idx");
+                    if (resultcode === "0000") {
+                        localStorage.removeItem("certificationIdx");
                         dispatch(set_cert_info(null));
 
                         // Spinner
@@ -201,7 +199,7 @@ function SignUpMain() {
                         CommonNotify({
                             type: "alert",
                             hook: alert,
-                            message: response.headers.result_message_ko,
+                            message: response.headers.resultmessageko,
                         });
 
                         // Spinner
@@ -235,7 +233,7 @@ function SignUpMain() {
         }
     };
 
-    const terms_idx_func = () => {
+    const termsIdxFunc = () => {
         let termsIdx = String(terms) + String(privacy) + String(marketing);
         let arr = [...termsIdx];
         let terms_idx = arr.join();
@@ -291,10 +289,10 @@ function SignUpMain() {
             return false;
         }
         if (
-            signupRefs.user_name_first_ko.current.value === "" ||
-            signupRefs.user_name_last_ko.current.value === "" ||
-            signupRefs.user_name_first_en.current.value === "" ||
-            signupRefs.user_name_last_en.current.value === ""
+            signupRefs.userNameFirstKo.current.value === "" ||
+            signupRefs.userNameLastKo.current.value === "" ||
+            signupRefs.userNameFirstEn.current.value === "" ||
+            signupRefs.userNameLastEn.current.value === ""
         ) {
             CommonNotify({
                 type: "alert",
@@ -302,7 +300,7 @@ function SignUpMain() {
                 message: "성명을 입력해주세요",
             });
 
-            signupRefs.user_name_first_ko.current.focus();
+            signupRefs.userNameFirstKo.current.focus();
 
             return false;
         }
@@ -318,8 +316,8 @@ function SignUpMain() {
             return false;
         }
         if (
-            signupRefs.user_name_first_ko.current.value +
-                signupRefs.user_name_last_ko.current.value !==
+            signupRefs.userNameFirstKo.current.value +
+                signupRefs.userNameLastKo.current.value !==
             certInfo.name
         ) {
             CommonNotify({
@@ -328,7 +326,7 @@ function SignUpMain() {
                 message: "성명이 일치하지 않습니다",
             });
 
-            signupRefs.user_name_first_ko.current.focus();
+            signupRefs.userNameFirstKo.current.focus();
 
             return false;
         }

@@ -87,8 +87,8 @@ function App() {
     // codes
     const getCodes = () => {
         RestServer("post", apiPath.api_codes, {
-            code_types: [],
-            exclude_code_types: ["COUNTRY_TYPE", "BANK_TYPE"],
+            codeTypes: [],
+            excludeCodeTypes: ["COUNTRY_TYPE", "BANK_TYPE"],
         })
             .then((response) => {
                 console.log("codes", response);
@@ -104,8 +104,8 @@ function App() {
     // codes
     const getCountryBank = () => {
         RestServer("post", apiPath.api_codes, {
-            code_types: ["COUNTRY_TYPE", "BANK_TYPE"],
-            exclude_code_types: [],
+            codeTypes: ["COUNTRY_TYPE", "BANK_TYPE"],
+            excludeCodeTypes: [],
         })
             .then((response) => {
                 console.log("codesCountryBank", response);

@@ -120,9 +120,9 @@ function FindIDMain() {
 
         let url = apiPath.api_user_find_id;
         let data = {
-            user_name_first_ko: firstName,
-            user_name_last_ko: lastName,
-            inter_phone_number: "82",
+            userNameFirstKo: firstName,
+            userNameLastKo: lastName,
+            interPhoneNumber: "82",
             mobile1: mobile1,
             mobile2: mobile2,
             mobile3: mobile3,
@@ -134,16 +134,16 @@ function FindIDMain() {
 
                 CommonConsole("log", response);
 
-                let result_info;
+                let resultInfo;
 
-                let result_code = response.headers.result_code;
+                let resultcode = response.headers.resultcode;
 
-                if (result_code === "0000") {
-                    result_info = response.data.result_info;
+                if (resultcode === "0000") {
+                    resultInfo = response.data.resultInfo;
 
-                    CommonConsole("log", result_info);
+                    CommonConsole("log", resultInfo);
 
-                    setFindList(result_info);
+                    setFindList(resultInfo);
 
                     // Spinner
                     dispatch(
@@ -158,7 +158,7 @@ function FindIDMain() {
                     CommonNotify({
                         type: "alert",
                         hook: alert,
-                        message: response.headers.result_message_ko,
+                        message: response.headers.resultmessageko,
                     });
 
                     // Spinner
@@ -281,9 +281,9 @@ function FindIDMain() {
                                     key={`user_id_${index}`}
                                 >
                                     <h4 style={{ marginRight: "70px" }}>
-                                        {item.user_id}
+                                        {item.userId}
                                     </h4>
-                                    <h4>{item.reg_dttm.split(" ")[0]}</h4>
+                                    <h4>{item.regDttm.split(" ")[0]}</h4>
                                 </div>
                             ))
                         ) : (

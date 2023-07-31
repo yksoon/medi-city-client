@@ -141,19 +141,19 @@ function ResetPW({ userID, changeIsFind }) {
     const restChangePw = () => {
         let url = apiPath.api_user_reset_pw;
         let data = {
-            user_id: user_id,
-            user_pwd: inputPW1,
+            userId: user_id,
+            userPwd: inputPW1,
         };
 
         RestServer("put", url, data)
             .then(function (response) {
                 // response
                 let res = response;
-                let result_info = res.data.result_info;
+                let resultInfo = res.data.resultInfo;
 
                 CommonConsole("log", response);
 
-                if (res.headers.result_code === "0000") {
+                if (res.headers.resultcode === "0000") {
                     // Spinner
                     dispatch(
                         set_spinner({
