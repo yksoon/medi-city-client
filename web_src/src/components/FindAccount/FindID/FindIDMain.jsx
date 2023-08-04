@@ -1,6 +1,6 @@
 import { RestServer } from "common/js/Rest";
-import Footer from "components/Common/Footer";
-import Header from "components/Common/Header";
+import Footer from "components/common/Footer";
+import Header from "components/common/Header";
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
