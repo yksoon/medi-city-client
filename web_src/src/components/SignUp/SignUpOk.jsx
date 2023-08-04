@@ -4,6 +4,7 @@ import Header from "components/common/Header";
 import Footer from "components/common/Footer";
 import { routerPath } from "webPath";
 
+// 가입 완료
 function SignUpOk() {
     return (
         <>
