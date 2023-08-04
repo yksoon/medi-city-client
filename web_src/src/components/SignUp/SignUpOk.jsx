@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "components/Common/Header";
-import Footer from "components/Common/Footer";
+import Header from "components/common/Header";
+import Footer from "components/common/Footer";
 import { routerPath } from "webPath";
 
+// 가입 완료
 function SignUpOk() {
     return (
         <>
@@ -14,7 +15,7 @@ function SignUpOk() {
                         <span>
                             <img src="/img/common/sign.png" alt="" />
                         </span>
-                        <h3>회원가입이 완료되었습니다.</h3>
+                        <h3>회원가입이 완료되었습니다!</h3>
                         <p>
                             다양한 회원전용 서비스를 마음껏 누리세요!
                             감사합니다.

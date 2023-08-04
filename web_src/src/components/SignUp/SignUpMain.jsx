@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RestServer } from "common/js/Rest";
 import { set_cert_info } from "redux/actions/certAction";
 
-import Header from "components/Common/Header";
-import Footer from "components/Common/Footer";
+import Header from "components/common/Header";
+import Footer from "components/common/Footer";
 
 import IdComponent from "./signupComponents/IdComponent";
 import PwComponent from "./signupComponents/PwComponent";

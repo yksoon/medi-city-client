@@ -1,8 +1,8 @@
 import { CommonModal, CommonConsole, CommonNotify } from "common/js/Common";
 import React, { useState, forwardRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RestServer } from "common/js/Rest";
-import { apiPath } from "webPath";
+import { apiPath, routerPath } from "webPath";
 import { useDispatch } from "react-redux";
 import { set_spinner } from "redux/actions/commonAction";
 import useAlert from "hook/useAlert";
@@ -32,6 +32,8 @@ const TermsComponent = forwardRef((props, ref) => {
     const dispatch = useDispatch();
     const { alert } = useAlert();
 
+    const navigate = useNavigate();
+
     // let termItem = {};
     // let privacyItem = {};
     // let marketingItem = {};
@@ -48,6 +50,16 @@ const TermsComponent = forwardRef((props, ref) => {
     useEffect(() => {
         initTerms();
     }, []);
+
+    const goToMain = () => {
+        dispatch(
+            set_spinner({
+                isLoading: false,
+            })
+        );
+
+        navigate(routerPath.main_url);
+    };
 
     const initTerms = () => {
         // setIsLoading(true);
@@ -144,6 +156,7 @@ const TermsComponent = forwardRef((props, ref) => {
                     type: "alert",
                     hook: alert,
                     message: "잠시 후 다시 시도해주세요",
+                    callback: () => goToMain(),
                 });
             });
     };
