@@ -5,6 +5,7 @@ import { routerPath } from "webPath";
 import NotFoundPage from "NotFoundPage";
 import { Suspense, lazy } from "react";
 import { Backdrop, CircularProgress } from "@mui/material";
+import HealthCheck from "components/HealthCheck";
 
 const Router = () => {
     // 레이지 로딩 추가
@@ -62,6 +63,9 @@ const Router = () => {
 
                 {/* 마이페이지 */}
                 <Route path={routerPath.myPage_url} element={<MyPageMain />} />
+
+                {/* 상태체크 */}
+                <Route path="/health" element={<HealthCheck />} />
 
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
