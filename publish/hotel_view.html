@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="kr">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>메디씨티 사용자페이지</title> 
+        <script src="js/jquery-3.7.0.min.js"></script>
+    
+         <!-- 플러그인 -->
+         <script src="js/jquery.bxslider.min.js"></script>
+         <link rel="stylesheet" href="css/jquery.bxslider.css">
+         <link rel="stylesheet" type="text/css" href="css/slick.css"/>
+         <link rel="stylesheet" type="text/css" href="css/slick-theme.css"/>
+         <script type="text/javascript" src="js/slick.min.js"></script>
+    
+         <script src="js/nav.js"></script>
+    
+         <link rel="stylesheet" href="css/default.css">
+         <link rel="stylesheet" href="css/style.css">
+     
+    </head>
+    <style>
+        .hotel_temp p {position: relative;display: block;}
+        .hotel_temp .hotel_plus{ position: absolute;bottom:40px;left:60px;z-index:999}
+    </style>
+<body>
+    <div class="wrap">
+        <header></header>
+
+        <!-- con_area //S -->
+        <div id="con_area">
+            <div class="hotel_temp">
+                <p style="margin:0 0 60px;"><img src="img/temp/hotel_view_01.png" alt="" usemap="#Map2"></p>
+                <p style="margin:0 0 20px;"><a href="javascript:void(0);" class="font-12 hotel_plus">상세보기</a><img src="img/temp/hotel_view_list.png" alt="" usemap="#Map3"></p>
+                <p style="margin:0 0 20px;"><a href="javascript:void(0);" class="font-12 hotel_plus">상세보기</a><img src="img/temp/hotel_view_list.png" alt="" usemap="#Map3"></p>
+                <p style="margin:0 0 20px;"><a href="javascript:void(0);" class="font-12 hotel_plus">상세보기</a><img src="img/temp/hotel_view_list.png" alt="" usemap="#Map3"></p>
+                <p style="margin:0 0 20px;"><a href="javascript:void(0);" class="font-12 hotel_plus">상세보기</a><img src="img/temp/hotel_view_list.png" alt="" usemap="#Map3"></p>
+            </div>
+            <map name="Map2" id="Map2">
+                <area shape="rect" coords="1112,13,1148,47" href="https://new.stjohns.co.kr/" target="_blank" alt=" ">
+                <area shape="rect" coords="1160,13,1196,45" href="http://kko.to/8dDkl6TG9V" target="_blank"  alt=" ">
+            </map>
+            <map name="Map3" id="Map3">
+                <area shape="rect" coords="1359,64,1554,138" href="javascript:alert('준비중입니다.');" alt=" ">
+            </map>
+        </div>
+         <!-- con_area //E -->
+
+
+        <footer></footer>
+
+        
+    </div>
+</body>
+</html>
+
+<script>
+// header
+    const header = document.querySelector('header');
+    fetch('include/header.html')
+    .then(res => res.text())
+    .then(data => header.innerHTML = data);
+
+    //footer
+    const footer = document.querySelector('footer');
+    fetch('include/footer.html')
+    .then(res => res.text())
+    .then(data => footer.innerHTML = data);
+</script>
+<script>
+    $('.hotel_plus').click(function(){
+        $(this).siblings('img').attr('src','img/temp/hotel_view_detail.png');
+        $(this).text('상세보기 닫기');
+    });
+</script>
