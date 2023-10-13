@@ -28,8 +28,8 @@ Instance.interceptors.request.use(
         userInfo = store.getState().userInfo.userInfo;
         ip = store.getState().ipInfo.ipInfo;
 
-        config.headers["Medicity-Src"] = ip ? ip : "";
-        config.headers["Medicity-Token"] = userInfo ? userInfo.token : "";
+        config.headers["Medipeople-Src"] = ip ? ip : "";
+        config.headers["Medipeople-Token"] = userInfo ? userInfo.token : "";
         return config;
     },
     (err) => {
