@@ -4,16 +4,7 @@ import { useSelector } from "react-redux";
 import store from "redux/store/store";
 
 let ip;
-let userInfo;
-
-// axios.get("https://geolocation-db.com/json/").then((res) => {
-//     ip = res.data.IPv4;
-//     localStorage.setItem("connIP", ip);
-// });
-
-//TMI 공식 문서에서 axios를 "인스턴스"라고 부른다.
-//timeout과 같은 네트워크 요청도 처리할 수 있다.
-// create메소드의 인자로 객체를 전달하고 이 객체 안에 설정값(config)를 설정할 수 있다.
+let token;
 
 const Instance = axios.create({
     headers: {
@@ -25,11 +16,18 @@ const Instance = axios.create({
 // const userInfo;
 Instance.interceptors.request.use(
     (config) => {
-        userInfo = store.getState().userInfo.userInfo;
-        ip = store.getState().ipInfo.ipInfo;
+        const recoilSession = JSON.parse(
+            sessionStorage.getItem("recoilSession")
+        );
+
+        ip =
+            recoilSession === null
+                ? sessionStorage.getItem("ipInfo")
+                : recoilSession.ipInfo;
+        token = recoilSession === null ? "" : recoilSession.userToken;
 
         config.headers["Medipeople-Src"] = ip ? ip : "";
-        config.headers["Medipeople-Token"] = userInfo ? userInfo.token : "";
+        config.headers["Medipeople-Token"] = token ? token : "";
         return config;
     },
     (err) => {
