@@ -1,8 +1,13 @@
 import { React, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { CircularProgress, Dialog, Modal } from "@mui/material";
-import { set_spinner } from "redux/actions/commonAction";
+import { apiPath, routerPath } from "webPath";
 import tokenExpire from "./tokenExpire";
+import { RestServer } from "./Rest";
+import useAlert from "hook/useAlert";
+import { useResetRecoilState, useSetRecoilState } from "recoil";
+import { isSpinnerAtom, userInfoAtom, userTokenAtom } from "recoils/atoms";
+import { errorCode } from "./resultCode";
 
 // Alert (props)
 // isOpen = state 상태값
@@ -10,32 +15,70 @@ import tokenExpire from "./tokenExpire";
 // content = 내용
 // btn = 확인버튼
 // closeModal = 닫기 (state를 변경할 수 있는 handler)
-const CommonModal = ({ isOpen, title, content, btn, handleModalClose }) => {
+const CommonModal = (props) => {
+    const modalOption = {
+        isOpen: props.isOpen,
+        title: props.title,
+        handleModalClose: props.handleModalClose,
+        width: props.width,
+    };
+
+    const component = props.component;
+
+    const handleNeedUpdate = props.handleNeedUpdate
+        ? props.handleNeedUpdate
+        : null;
+
+    // 모달 컴포넌트 렌더
+    const renderComponent = (component) => {
+        switch (component) {
+            // 회원 등록,수정 컴포넌트
+            // case "RegUserModal":
+            //     return (
+            //         <RegUserModal
+            //             handleNeedUpdate={handleNeedUpdate}
+            //             handleModalClose={modalOption.handleModalClose}
+            //             modUserData={props.modUserData}
+            //         />
+            //     );
+
+            default:
+                return;
+        }
+    };
     return (
         <>
             <Modal
-                open={isOpen}
-                onClose={handleModalClose}
+                open={modalOption.isOpen}
+                onClose={modalOption.handleModalClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <div className="modal_wrap" id="modal_wrap">
-                    <div className="modal w1000" id="modal">
-                        <div className="modal_close" onClick={handleModalClose}>
-                            <img src="/img/common/modal_close.png" alt="" />
+                    <div className={`modal w${modalOption.width}`}>
+                        <div
+                            className="modal_content form hotel"
+                            id="hotelInsert"
+                        >
+                            <div className="mo_title">
+                                <h4>{modalOption.title}</h4>
+                                <div
+                                    className="modal_close"
+                                    onClick={modalOption.handleModalClose}
+                                >
+                                    <img
+                                        src="img/common/modal_close.png"
+                                        alt=""
+                                    />
+                                </div>
+                            </div>
+
+                            {/* 모달 컨텐츠 드가자 */}
+
+                            {renderComponent(component)}
+
+                            {/* 모달 컨텐츠 드가자 END */}
                         </div>
-                        <div className="term" id="term">
-                            <h3 className="title">{title}</h3>
-                            <div className="linebox bd50">{content}</div>
-                        </div>
-                        {/* <div className="btn_box">
-                            <Link
-                                className="mainbtn btn01"
-                                onClick={handleModalClose}
-                            >
-                                확인
-                            </Link>
-                        </div> */}
                     </div>
                 </div>
             </Modal>
@@ -43,54 +86,84 @@ const CommonModal = ({ isOpen, title, content, btn, handleModalClose }) => {
     );
 };
 
-const CommonAlert = (props) => {
-    let option = props.option;
+// Alert (props)
+// isOpen = state 상태값
+// title = 제목
+// content = 내용
+// btn = 확인버튼
+// closeModal = 닫기 (state를 변경할 수 있는 handler)
+const CommonModalChild = (props) => {
+    const modalOption = {
+        isOpen: props.isOpen,
+        title: props.title,
+        handleModalClose: props.handleModalClose,
+        width: props.width,
+    };
 
-    let isAlertOpen = option.isAlertOpen;
-    let title = option.alertTitle;
-    let content = option.alertContent;
+    const component = props.component;
 
-    const handleAlertClose = props.handleAlertClose;
+    const handleNeedUpdate = props.handleNeedUpdate
+        ? props.handleNeedUpdate
+        : null;
 
+    // 미리보기 데이터
+    const previewData = props.previewData;
+
+    // 모달 컴포넌트 렌더
+    const renderComponent = (component) => {
+        switch (component) {
+            // case "HotelPreview":
+            //     return (
+            //         <HotelPreview
+            //             handleNeedUpdate={handleNeedUpdate}
+            //             handleModalClose={modalOption.handleModalClose}
+            //             previewData={previewData}
+            //         />
+            //     );
+
+            default:
+                return;
+        }
+    };
     return (
         <>
-            <Dialog
-                open={isAlertOpen}
-                onClose={handleAlertClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+            <Modal
+                open={modalOption.isOpen}
+                onClose={modalOption.handleModalClose}
+                aria-labelledby="modal2-modal2-title"
+                aria-describedby="modal2-modal2-description"
             >
-                <div className="modal_wrap block">
-                    <div className="modal noti_modal ">
-                        <div>
-                            <span className="noti_icon" id="modal-modal-title">
-                                <img src="img/common/alert.png" alt="" />
-                            </span>
-                            <h3>
-                                {title
-                                    ? decodeURI(title).replace("%20", " ")
-                                    : ""}
-                            </h3>
-                            <p>
-                                {content
-                                    ? decodeURI(content).replace("%20", " ")
-                                    : ""}
-                            </p>
-                        </div>
-                        <div className="btn_box">
-                            <Link
-                                className="backbtn"
-                                onClick={handleAlertClose}
-                            >
-                                확인{" "}
-                                <span>
-                                    <img src="img/common/arrow.png" alt="" />
-                                </span>
-                            </Link>
+                <div className="modal_wrap" id="modal_wrap">
+                    <div
+                        className={`modal w${modalOption.width}`}
+                        style={{ zIndex: 11 }}
+                    >
+                        <div
+                            className="modal_content form hotel"
+                            id="hotelInsert"
+                        >
+                            <div className="mo_title">
+                                <h4>{modalOption.title}</h4>
+                                <div
+                                    className="modal_close"
+                                    onClick={modalOption.handleModalClose}
+                                >
+                                    <img
+                                        src="img/common/modal_close.png"
+                                        alt=""
+                                    />
+                                </div>
+                            </div>
+
+                            {/* 모달 컨텐츠 드가자 */}
+
+                            {renderComponent(component)}
+
+                            {/* 모달 컨텐츠 드가자 END */}
                         </div>
                     </div>
                 </div>
-            </Dialog>
+            </Modal>
         </>
     );
 };
@@ -172,17 +245,38 @@ const CommonSpinner = (props) => {
     );
 };
 
-const CommonErrorCatch = (error, dispatch, alert) => {
+const CommonSpinner2 = (props) => {
+    return (
+        <>
+            <div className="spinner">
+                <CircularProgress />
+            </div>
+        </>
+    );
+};
+
+const CommonErrorCatch = (
+    error,
+    setIsSpinner,
+    alert,
+    resetUserInfo,
+    resetUserToken
+) => {
     // 오류발생시 실행
     CommonConsole("log", error);
 
     if (error.response) {
-        if (error.response.status === 500 || error.response.status === 503) {
-            dispatch(
-                set_spinner({
-                    isLoading: false,
-                })
-            );
+        if (
+            error.response.status === errorCode.timeOut || // 타임아웃 - 500
+            error.response.status === errorCode.timeOut2 // 타임아웃 - 503
+        ) {
+            // dispatch(
+            //     set_spinner({
+            //         isLoading: false,
+            //     })
+            // );
+
+            setIsSpinner(false);
 
             CommonNotify({
                 type: "alert",
@@ -192,18 +286,32 @@ const CommonErrorCatch = (error, dispatch, alert) => {
         }
         // 비정상접근 or 비정상토큰
         else if (
-            error.response.headers.result_code === "9995" ||
-            error.response.headers.result_code === "2003"
+            error.response.headers.result_code === errorCode.abnormalApproach || // 비정상 접근 - "9995"
+            error.response.headers.result_code === errorCode.emptyToken || // 토큰이 없음 - "2000"
+            error.response.headers.result_code === errorCode.tokenExpired || // 토큰 만료 - "2001"
+            error.response.headers.result_code === errorCode.tokenTamperWith || // 올바른 토큰 아닐 시 - "2002"
+            error.response.headers.result_code === errorCode.invalidToken // 올바른 토큰 아닐 시 - "2003"
         ) {
-            tokenExpire(dispatch, alert);
+            tokenExpire(
+                // dispatch,
+                setIsSpinner,
+                alert,
+                resetUserInfo,
+                resetUserToken
+            );
+        } else if (
+            error.request.responseURL.indexOf(apiPath.api_user_cert) === 0
+        ) {
+            return false;
         }
         // 에러
         else {
-            dispatch(
-                set_spinner({
-                    isLoading: false,
-                })
-            );
+            // dispatch(
+            //     set_spinner({
+            //         isLoading: false,
+            //     })
+            // );
+            setIsSpinner(false);
 
             CommonNotify({
                 type: "alert",
@@ -213,12 +321,14 @@ const CommonErrorCatch = (error, dispatch, alert) => {
         }
     }
     // 타임아웃
-    if (error.message === "timeout of 5000ms exceeded") {
-        dispatch(
-            set_spinner({
-                isLoading: false,
-            })
-        );
+    const timeOut = 20000;
+    if (error.message === `timeout of ${timeOut}ms exceeded`) {
+        // dispatch(
+        //     set_spinner({
+        //         isLoading: false,
+        //     })
+        // );
+        setIsSpinner(false);
 
         CommonNotify({
             type: "alert",
@@ -233,7 +343,7 @@ const CommonNotify = async (option) => {
     const type = option.type;
     const hook = option.hook;
     const message = option.message;
-    const callback = option.callback && option.callback;
+    const callback = option.callback ? option.callback : null;
 
     switch (type) {
         case "confirm":
@@ -258,7 +368,7 @@ const CommonNotify = async (option) => {
             break;
 
         case "alert":
-            await hook({
+            const resultAlert = await hook({
                 message: message,
                 buttons: {
                     ok: "확인",
@@ -266,17 +376,91 @@ const CommonNotify = async (option) => {
                 },
             });
 
+            if (resultAlert) {
+                if (callback) {
+                    const type = typeof callback;
+
+                    if (type === "function") {
+                        callback();
+                    }
+                }
+            }
+
             break;
         default:
             break;
     }
 };
 
+// 공용 REST
+/* 
+-- restParams --
+dispatch : useDispatch
+alert : useAlert
+method : "post", "get", "delete", "put", "post_multi", "put_multi"
+url : ""
+data : {}
+callback : callback()
+admin: ""
+*/
+const CommonRest = async (restParams = {}) => {
+    // const dispatch = restParams.err.dispatch;
+    const setIsSpinner = restParams.err.setIsSpinner;
+    const alert = restParams.err.alert ? restParams.err.alert : "";
+    const resetUserInfo = restParams.err.resetUserInfo;
+    const resetUserToken = restParams.err.resetUserToken;
+
+    const method = restParams.method;
+    const url = restParams.url;
+    const data = restParams.data;
+    const admin = restParams.admin;
+
+    await RestServer(method, url, data, admin)
+        .then((response) => {
+            restParams.callback(response);
+        })
+        .catch((error) => {
+            CommonErrorCatch(
+                error,
+                // dispatch,
+                setIsSpinner,
+                alert,
+                resetUserInfo,
+                resetUserToken
+            );
+
+            // console.log(restParams);
+
+            // restParams.errCallback(error);
+            // console.log(error);
+            // func(error);
+        });
+};
+
+const CommonErrModule = () => {
+    const { alert } = useAlert();
+    // const { confirm } = useConfirm();
+    const setIsSpinner = useSetRecoilState(isSpinnerAtom);
+    const resetUserInfo = useResetRecoilState(userInfoAtom);
+    const resetUserToken = useResetRecoilState(userTokenAtom);
+    const err = {
+        setIsSpinner,
+        alert,
+        resetUserInfo,
+        resetUserToken,
+    };
+
+    return err;
+};
+
 export {
     CommonModal,
     CommonConsole,
     CommonSpinner,
-    CommonAlert,
     CommonErrorCatch,
     CommonNotify,
+    CommonRest,
+    CommonSpinner2,
+    CommonErrModule,
+    CommonModalChild,
 };

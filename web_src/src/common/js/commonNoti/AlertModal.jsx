@@ -7,26 +7,26 @@ const AlertModal = () => {
     if (alertList.length <= 0) return null;
 
     return (
-        <div className="modal_wrap block">
+        <div className="alert_wrap block">
             {alertList.map(
                 ({ id, message, buttons: { ok, close, cancel } }, idx) => {
                     return (
-                        <div
-                            className="modal noti_modal"
-                            key={`confirm_${idx}`}
-                        >
+                        <div className="alert" key={`confirm_${idx}`}>
                             <div>
-                                <span
+                                {/* <span
                                     className="noti_icon"
                                     id="modal-modal-title"
                                 >
                                     <img src="img/common/alert.png" alt="" />
-                                </span>
+                                </span> */}
+                                <span className="alert_icon">!</span>
                                 <h3>
                                     {message
                                         ? decodeURI(message)
                                               .replaceAll("%20", " ")
                                               .replaceAll("%40", "@")
+                                              .replaceAll("%3A", ":")
+                                              .replaceAll("%3B", ";")
                                         : ""}
                                 </h3>
                                 <p>
@@ -37,16 +37,10 @@ const AlertModal = () => {
                                         : ""} */}
                                 </p>
                             </div>
-                            <div className="btn_box">
-                                <Link className="backbtn" onClick={ok.click}>
+                            <div className="modal_btn_box">
+                                <Link className="modal_btn" onClick={ok.click}>
                                     {ok.text}{" "}
-                                    <span>
-                                        <img
-                                            src="img/common/arrow.png"
-                                            alt=""
-                                        />
-                                    </span>
-                                </Link>{" "}
+                                </Link>
                             </div>
                         </div>
                         // <div className="mmodal-content" key={`confirm_${idx}`}>

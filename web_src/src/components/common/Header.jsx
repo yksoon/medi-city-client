@@ -1,49 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
-import { RestServer } from "common/js/Rest";
-import Login from "common/js/Login";
-import { useSelector, useDispatch } from "react-redux";
-import { init_user_info, set_user_info } from "redux/actions/userInfoAction";
-import {
-    CommonConsole,
-    CommonErrorCatch,
-    CommonNotify,
-} from "common/js/Common";
-import { set_spinner } from "redux/actions/commonAction";
+import { CommonErrModule, CommonNotify, CommonRest } from "common/js/Common";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { isSpinnerAtom, userInfoAtom, userTokenAtom } from "recoils/atoms";
 import useAlert from "hook/useAlert";
+import { successCode } from "common/js/resultCode";
+import useConfirm from "hook/useConfirm";
 
-
-let resultCode;
 function Header({ props }) {
-    const [userId, setUserId] = useState("");
-    const [userPwd, setUserPwd] = useState("");
-
-    const [isSignOut, setIsSignOut] = useState(false);
+    const { alert } = useAlert();
+    const { confirm } = useConfirm();
+    const err = CommonErrModule();
 
     const inputId = useRef(null);
     const inputPw = useRef(null);
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
-    const { alert } = useAlert();
-
-    // let loginInfo;
-    // (() => {
-    //     loginInfo = JSON.parse(localStorage.getItem("userInfo"));
-    // })();
-
-    let loginInfo = useSelector((state) => state.userInfo.userInfo);
-    resultCode = useSelector((state) => state.codes.resultCode);
-    useEffect(() => {
-        // resultCode = JSON.parse(localStorage.getItem("result_code"));
-
-        // 처음 렌더시 아이디 인풋 포커싱
-        if (!loginInfo) {
-            inputId.current.focus();
-        }
-    }, []);
+    const setIsSpinner = useSetRecoilState(isSpinnerAtom);
+    const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
+    const [userToken, setUserToken] = useRecoilState(userTokenAtom);
 
     const menu_show = () => {
         const nav = document.getElementById("menu");
@@ -57,15 +34,8 @@ function Header({ props }) {
         }
     };
 
-    const onEmailHandler = (event) => {
-        setUserId(event.currentTarget.value);
-    };
-    const onPasswordHandler = (event) => {
-        setUserPwd(event.currentTarget.value);
-    };
-
     const signIn = () => {
-        if (!userId) {
+        if (!inputId.current.value) {
             CommonNotify({
                 type: "alert",
                 hook: alert,
@@ -75,7 +45,7 @@ function Header({ props }) {
             inputId.current.focus();
             return false;
         }
-        if (!userPwd) {
+        if (!inputPw.current.value) {
             CommonNotify({
                 type: "alert",
                 hook: alert,
@@ -86,70 +56,122 @@ function Header({ props }) {
             return false;
         }
 
-        dispatch(
-            set_spinner({
-                isLoading: true,
-            })
-        );
+        doSignin();
+    };
+
+    const doSignin = () => {
+        setIsSpinner(true);
 
         const url = apiPath.api_login;
 
-        let data = {
+        const data = {
             signup_type: "000",
-            user_id: userId,
-            user_pwd: userPwd,
+            user_id: inputId.current.value,
+            user_pwd: inputPw.current.value,
         };
 
-        Login(url, data, resultCode, dispatch, alert);
+        // 파라미터
+        const restParams = {
+            method: "post",
+            url: url,
+            data: data,
+            err: err,
+            callback: (res) => responsLogic(res),
+        };
+
+        CommonRest(restParams);
+
+        const responsLogic = (res) => {
+            let result_code = res.headers.result_code;
+
+            if (result_code === successCode.success) {
+                let user_info = res.data.result_info;
+
+                // 블랙리스트
+                let deleteKey = [
+                    "md_licenses_number",
+                    // "signin_policy",
+                    // "signin_policy_cd",
+                    "user_pwd",
+                    "user_role",
+                    "user_salt",
+                ];
+
+                for (let i = 0; i < deleteKey.length; i++) {
+                    delete user_info[deleteKey[i]];
+                }
+
+                setUserInfo(user_info);
+                setUserToken(user_info.token);
+
+                // sessionStorage.setItem("userInfo", JSON.stringify(user_info));
+                // dispatch(set_user_info(JSON.stringify(user_info)));
+
+                // dispatch(set_user_token(JSON.stringify(user_info)));
+                // setUserToken(user_info.token);
+
+                setIsSpinner(false);
+
+                navigate(routerPath.main_url);
+            } else {
+                setIsSpinner(false);
+
+                CommonNotify({
+                    type: "alert",
+                    hook: alert,
+                    message: res.headers.result_message_ko,
+                });
+            }
+        };
     };
 
     const signout = () => {
-        setIsSignOut(true);
+        CommonNotify({
+            type: "confirm",
+            hook: confirm,
+            message: "로그아웃 하시겠습니까?",
+            callback: () => doSignOut(),
+        });
 
-        dispatch(
-            set_spinner({
-                isLoading: true,
-            })
-        );
+        const doSignOut = () => {
+            setIsSpinner(true);
 
-        const url = apiPath.api_signout;
-        let data = {};
+            const url = apiPath.api_signout;
+            let data = {};
 
-        RestServer("post", url, data)
-            .then(function (response) {
-                // response
-                let result_code = response.headers.result_code;
+            // 파라미터
+            const restParams = {
+                method: "post",
+                url: url,
+                data: data,
+                err: err,
+                callback: (res) => responsLogic(res),
+            };
 
-                if (result_code === "0000") {
-                    // localStorage.removeItem("userInfo");
-                    // dispatch(set_user_info(null));
-                    dispatch(init_user_info(null));
+            CommonRest(restParams);
 
-                    setUserId("");
-                    setUserPwd("");
+            const responsLogic = (res) => {
+                let result_code = res.headers.result_code;
 
-                    setIsSignOut(false);
+                if (result_code === successCode.success) {
+                    setUserInfo({});
+                    setUserToken("");
 
-                    dispatch(
-                        set_spinner({
-                            isLoading: false,
-                        })
-                    );
+                    setIsSpinner(false);
+                } else {
+                    setIsSpinner(false);
 
-                    navigate(routerPath.main_url);
-                    // window.location.replace(routerPath.main_url);
+                    CommonNotify({
+                        type: "alert",
+                        hook: alert,
+                        message: res.headers.result_message_ko,
+                    });
+
+                    setUserInfo({});
+                    setUserToken("");
                 }
-            })
-            .catch(function (error) {
-                // 오류발생시 실행
-                CommonErrorCatch(error, dispatch, alert);
-
-                // localStorage.removeItem("userInfo");
-                // dispatch(set_user_info(null));
-                dispatch(init_user_info(null));
-                setIsSignOut(false);
-                navigate(routerPath.main_url);
-            });
+            };
+        };
     };
 
     const handleOnKeyPress = (e) => {
@@ -169,14 +191,13 @@ function Header({ props }) {
                     </h1>
                     <div className="flex">
                         <div className="login">
-                            {!loginInfo ? (
+                            {!userToken ? (
                                 <>
                                     <div className="flex">
                                         <input
                                             type="email"
                                             placeholder="ID"
                                             className="login"
-                                            onChange={(e) => onEmailHandler(e)}
                                             onKeyDown={handleOnKeyPress} // Enter 입력 이벤트 함수
                                             ref={inputId}
                                         />
@@ -184,9 +205,6 @@ function Header({ props }) {
                                             type="password"
                                             placeholder="PASSWORD"
                                             className="login"
-                                            onChange={(e) =>
-                                                onPasswordHandler(e)
-                                            }
                                             onKeyDown={handleOnKeyPress} // Enter 입력 이벤트 함수
                                             ref={inputPw}
                                         />
@@ -220,27 +238,16 @@ function Header({ props }) {
                                         <div>
                                             <h5>
                                                 환영합니다{" "}
-                                                {`${loginInfo.user_name_first_ko}${loginInfo.user_name_last_ko}`}
+                                                {`${userInfo.user_name_first_ko}${userInfo.user_name_last_ko}`}
                                                 님
                                             </h5>
-                                            {isSignOut ? (
-                                                <>
-                                                    <p
-                                                        className="font-12"
-                                                        id="header_logout"
-                                                    >
-                                                        로그아웃
-                                                    </p>
-                                                </>
-                                            ) : (
-                                                <Link
-                                                    className="font-12"
-                                                    id="header_logout"
-                                                    onClick={signout}
-                                                >
-                                                    로그아웃
-                                                </Link>
-                                            )}
+                                            <Link
+                                                className="font-12"
+                                                id="header_logout"
+                                                onClick={signout}
+                                            >
+                                                로그아웃
+                                            </Link>
 
                                             {/* <a
                                                 href="mypage_modify_step1.html"

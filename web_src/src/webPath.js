@@ -84,12 +84,14 @@ const apiPath = {
     }board${slash}`,
 
     // 공통 결과코드
-    api_result: `${
+    api_mng_result: `${
         base_api_url + slash + mng + slash + version + slash
     }info/result`,
 
     // 공통 결과코드
-    api_codes: `${base_api_url + slash + mng + slash + version + slash}_codes`,
+    api_mng_codes: `${
+        base_api_url + slash + mng + slash + version + slash
+    }_codes`,
 
     // ------------------ Account Service ------------------
     // 사용자 상세 GET

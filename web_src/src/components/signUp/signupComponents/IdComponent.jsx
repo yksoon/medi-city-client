@@ -1,9 +1,19 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import { apiPath } from "webPath";
 import { RestServer } from "common/js/Rest";
-import { CommonConsole } from "common/js/Common";
+import { CommonConsole, CommonErrModule, CommonRest } from "common/js/Common";
+import useAlert from "hook/useAlert";
+import useConfirm from "hook/useConfirm";
+import { useSetRecoilState } from "recoil";
+import { isSpinnerAtom } from "recoils/atoms";
+import { successCode } from "common/js/resultCode";
 
 const IdComponent = forwardRef((props, ref) => {
+    const { alert } = useAlert();
+    const { confirm } = useConfirm();
+    const err = CommonErrModule();
+    const setIsSpinner = useSetRecoilState(isSpinnerAtom);
+
     const { accountType, inputID } = ref;
     const idStatus = props.idStatus;
 
@@ -23,10 +33,12 @@ const IdComponent = forwardRef((props, ref) => {
             .then((response) => {
                 let res = response;
 
-                if (res.headers.result_code === "0000") {
+                if (res.headers.result_code === successCode.success) {
                     setIdchkCode("0000");
                     idStatus(true);
-                } else if (res.headers.result_code === "1000") {
+                } else if (
+                    res.headers.result_code === successCode.duplication
+                ) {
                     setIdchkCode("1000");
                     idStatus(false);
                 }

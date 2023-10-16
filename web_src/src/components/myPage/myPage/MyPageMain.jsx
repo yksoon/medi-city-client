@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 function MyPageMain() {
     return (
         <>
-            <></>
             <div>
                 <h1>마이페이지</h1>
             </div>
