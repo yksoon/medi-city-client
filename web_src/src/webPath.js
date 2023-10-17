@@ -124,6 +124,11 @@ const apiPath = {
         base_api_url + slash + account + slash + version + slash
     }user/_cert`,
 
+    // 인증결과 받아서 다시 GET
+    api_auth_cert_recieve_result: `${
+        base_api_url + slash + auth + slash + version + slash
+    }cert/result/`,
+
     // 사용자 목록 POST
     api_users: `${
         base_api_url + slash + account + slash + version + slash
