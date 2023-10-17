@@ -1,10 +1,11 @@
 import { CommonErrModule, CommonRest, CommonSpinner2 } from "common/js/Common";
+import { successCode } from "common/js/resultCode";
 import useAlert from "hook/useAlert";
 import useConfirm from "hook/useConfirm";
 import { useEffect } from "react";
 import { useLocation, useParams } from "react-router";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { certInfoAtom, isSpinnerAtom } from "recoils/atoms";
+import { useRecoilState } from "recoil";
+import { isSpinnerAtom } from "recoils/atoms";
 import { apiPath } from "webPath";
 
 const CertResult = (props) => {
@@ -12,8 +13,6 @@ const CertResult = (props) => {
     const { confirm } = useConfirm();
     const err = CommonErrModule();
     const [isSpinner, setIsSpinner] = useRecoilState(isSpinnerAtom);
-
-    const certInfo = useRecoilValue(certInfoAtom);
 
     const params = useParams();
     const cert_idx = params.cert_idx;
@@ -24,14 +23,6 @@ const CertResult = (props) => {
     useEffect(() => {
         sendResult();
     }, []);
-
-    useEffect(() => {
-        if (Object.keys(certInfo).length !== 0) {
-            window.opener = null;
-            window.open("", "_self");
-            window.close();
-        }
-    }, [certInfo]);
 
     const sendResult = () => {
         setIsSpinner(true);
@@ -50,7 +41,13 @@ const CertResult = (props) => {
         CommonRest(restParams);
 
         const responsLogic = (res) => {
-            return;
+            const result_code = res.headers.result_code;
+
+            if (result_code === successCode.success) {
+                window.opener = null;
+                window.open("", "_self");
+                window.close();
+            }
         };
     };
 
