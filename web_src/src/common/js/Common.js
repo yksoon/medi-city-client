@@ -300,7 +300,8 @@ const CommonErrorCatch = (
                 resetUserToken
             );
         } else if (
-            error.request.responseURL.indexOf(apiPath.api_user_cert) === 0
+            error.request.responseURL.indexOf(apiPath.api_user_cert) === 0 ||
+            error.request.responseURL.indexOf(apiPath.api_user_check) === 0
         ) {
             return false;
         }

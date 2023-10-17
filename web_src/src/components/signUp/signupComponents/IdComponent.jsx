@@ -24,32 +24,53 @@ const IdComponent = forwardRef((props, ref) => {
 
     const idDuplicateCheck = (e) => {
         const user_chk_url = apiPath.api_user_check;
-        let data = {
+        const data = {
             signup_type: `${accountType.current.value}`,
             user_id: `${inputID.current.value}`,
         };
 
-        RestServer("post", user_chk_url, data)
-            .then((response) => {
-                let res = response;
+        // 파라미터
+        const restParams = {
+            method: "post",
+            url: user_chk_url,
+            data: data,
+            err: err,
+            callback: (res) => responsLogic(res),
+        };
 
-                if (res.headers.result_code === successCode.success) {
-                    setIdchkCode("0000");
-                    idStatus(true);
-                } else if (
-                    res.headers.result_code === successCode.duplication
-                ) {
-                    setIdchkCode("1000");
-                    idStatus(false);
-                }
-            })
-            .catch((error) => {
-                CommonConsole("log", error);
-                CommonConsole("decLog", error);
+        CommonRest(restParams);
 
-                setIdchkCode("400");
+        const responsLogic = (res) => {
+            if (res.headers.result_code === successCode.success) {
+                setIdchkCode("0000");
+                idStatus(true);
+            } else if (res.headers.result_code === successCode.duplication) {
+                setIdchkCode("1000");
                 idStatus(false);
-            });
+            }
+        };
+
+        // RestServer("post", user_chk_url, data)
+        //     .then((response) => {
+        //         let res = response;
+
+        //         if (res.headers.result_code === successCode.success) {
+        //             setIdchkCode("0000");
+        //             idStatus(true);
+        //         } else if (
+        //             res.headers.result_code === successCode.duplication
+        //         ) {
+        //             setIdchkCode("1000");
+        //             idStatus(false);
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         CommonConsole("log", error);
+        //         CommonConsole("decLog", error);
+
+        //         setIdchkCode("400");
+        //         idStatus(false);
+        //     });
     };
 
     return (

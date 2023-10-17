@@ -62,6 +62,7 @@ export const userTokenAtom = atom({
 export const certInfoAtom = atom({
     key: "certInfo",
     default: {},
+    effects_UNSTABLE: [persistAtom],
 });
 
 // ----session End----

@@ -6,15 +6,26 @@ import { Link } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import {
     CommonConsole,
+    CommonErrModule,
     CommonErrorCatch,
     CommonNotify,
+    CommonRest,
     CommonSpinner,
 } from "common/js/Common";
 import { useDispatch } from "react-redux";
 import { set_spinner } from "redux/actions/commonAction";
 import useAlert from "hook/useAlert";
+import useConfirm from "hook/useConfirm";
+import { useSetRecoilState } from "recoil";
+import { isSpinnerAtom } from "recoils/atoms";
+import { successCode } from "common/js/resultCode";
 
 function FindIDMain() {
+    const { alert } = useAlert();
+    const { confirm } = useConfirm();
+    const err = CommonErrModule();
+    const setIsSpinner = useSetRecoilState(isSpinnerAtom);
+
     const [finded, setFinded] = useState(false);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -29,8 +40,7 @@ function FindIDMain() {
     const inputMobile2 = useRef(null);
     const inputMobile3 = useRef(null);
 
-    const dispatch = useDispatch();
-    const { alert } = useAlert();
+    // const dispatch = useDispatch();
 
     useEffect(() => {
         setFinded(false);
@@ -112,14 +122,10 @@ function FindIDMain() {
     };
     const sendFindId = () => {
         // Spinner
-        dispatch(
-            set_spinner({
-                isLoading: true,
-            })
-        );
+        setIsSpinner(true);
 
-        let url = apiPath.api_user_find_id;
-        let data = {
+        const url = apiPath.api_user_find_id;
+        const data = {
             user_name_first_ko: firstName,
             user_name_last_ko: lastName,
             inter_phone_number: "82",
@@ -128,51 +134,47 @@ function FindIDMain() {
             mobile3: mobile3,
         };
 
-        RestServer("post", url, data)
-            .then(function (response) {
-                // response
+        // 파라미터
+        const restParams = {
+            method: "post",
+            url: url,
+            data: data,
+            err: err,
+            callback: (res) => responsLogic(res),
+        };
 
-                CommonConsole("log", response);
+        CommonRest(restParams);
 
-                let result_info;
+        const responsLogic = (res) => {
+            // CommonConsole("log", res);
 
-                let result_code = response.headers.result_code;
+            let result_info;
 
-                if (result_code === "0000") {
-                    result_info = response.data.result_info;
+            let result_code = res.headers.result_code;
 
-                    CommonConsole("log", result_info);
+            if (result_code === successCode.success) {
+                result_info = res.data.result_info;
 
-                    setFindList(result_info);
+                // CommonConsole("log", result_info);
 
-                    // Spinner
-                    dispatch(
-                        set_spinner({
-                            isLoading: false,
-                        })
-                    );
+                setFindList(result_info);
 
-                    setFinded(true);
-                } else {
-                    // alert
-                    CommonNotify({
-                        type: "alert",
-                        hook: alert,
-                        message: response.headers.result_message_ko,
-                    });
+                // Spinner
+                setIsSpinner(false);
 
-                    // Spinner
-                    dispatch(
-                        set_spinner({
-                            isLoading: false,
-                        })
-                    );
-                }
-            })
-            .catch(function (error) {
-                // 오류발생시 실행
-                CommonErrorCatch(error, dispatch, alert);
-            });
+                setFinded(true);
+            } else {
+                // alert
+                CommonNotify({
+                    type: "alert",
+                    hook: alert,
+                    message: res.headers.result_message_ko,
+                });
+
+                // Spinner
+                setIsSpinner(false);
+            }
+        };
     };
 
     return (

@@ -188,7 +188,7 @@ function SignUpMain() {
             const restParams = {
                 method: "post",
                 url: url,
-                data: {},
+                data: data,
                 err: err,
                 callback: (res) => responsLogic(res),
             };
