@@ -52,6 +52,9 @@ const routerPath = {
 
     // 비번찾기
     findPw_url: `${base_url}find_pw${slash}`,
+
+    // 인증결과
+    cert_result: `${base_url}cert/result${slash}`,
 };
 
 // api
