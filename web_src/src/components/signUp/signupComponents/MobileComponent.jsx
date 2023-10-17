@@ -7,6 +7,7 @@ import { apiPath } from "webPath";
 import {
     CommonConsole,
     CommonErrModule,
+    CommonModal,
     CommonNotify,
     CommonRest,
     CommonSpinner,
@@ -33,6 +34,13 @@ const MobileComponent = forwardRef((props, ref) => {
         ref;
 
     const mobileStatus = props.mobileStatus;
+
+    // 모달 데이터
+    const [modData, setModData] = useState({});
+    // 모달
+    const [isOpen, setIsOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [isNeedUpdate, setIsNeedUpdate] = useState(false);
 
     // const dispatch = useDispatch();
 
@@ -122,6 +130,19 @@ const MobileComponent = forwardRef((props, ref) => {
         }
     }
 
+    // 모달창 열기
+    const handleModalOpen = () => {
+        setModalTitle("본인인증");
+        setIsOpen(true);
+    };
+
+    // 모달창 닫기
+    const handleModalClose = () => {
+        setModalTitle("");
+        setModData({});
+        setIsOpen(false);
+    };
+
     function phoneDisplay(idName, displayType) {
         document.getElementById(idName).style.display = displayType;
     }
@@ -187,7 +208,11 @@ const MobileComponent = forwardRef((props, ref) => {
                 resData.certification_idx
             );
 
-            insertFormData(resData);
+            // insertFormData(resData);
+
+            setModData(resData);
+
+            handleModalOpen();
         };
     };
 
@@ -201,22 +226,24 @@ const MobileComponent = forwardRef((props, ref) => {
     };
 
     const sendForm = (form_url) => {
-        let form = document.getElementById("form");
+        // let form = document.getElementById("form");
+
+        // 인증 모달 오픈
 
         // 5초마다 타이머 시작
         setTimerStatus(true);
 
-        let popup = window.open(
-            "",
-            "auth",
-            "width=200,height=200,resizeable,scrollbars"
-        );
+        // let popup = window.open(
+        //     "",
+        //     "auth",
+        //     "width=200,height=200,resizeable,scrollbars"
+        // );
 
-        form.action = form_url;
-        form.mothod = "POST";
-        form.target = "auth";
+        // form.action = form_url;
+        // form.mothod = "POST";
+        // form.target = "auth";
 
-        form.submit();
+        // form.submit();
     };
 
     // 인증번호 확인
@@ -403,7 +430,7 @@ const MobileComponent = forwardRef((props, ref) => {
                 </p>
             )}
 
-            {/* formData */}
+            {/* formData
             <form name="form" id="form" ref={form_url}>
                 <input type="hidden" id="m" name="m" value="" ref={m} />
                 <input
@@ -425,7 +452,17 @@ const MobileComponent = forwardRef((props, ref) => {
                     name="integrity_value"
                     ref={integrity_value}
                 />
-            </form>
+            </form> */}
+
+            <CommonModal
+                isOpen={isOpen}
+                title={modalTitle}
+                width={"1000"}
+                handleModalClose={handleModalClose}
+                component={"CertModal"}
+                // handleNeedUpdate={handleNeedUpdate}
+                modData={modData}
+            />
         </>
     );
 });

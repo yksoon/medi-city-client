@@ -8,6 +8,7 @@ import useAlert from "hook/useAlert";
 import { useResetRecoilState, useSetRecoilState } from "recoil";
 import { isSpinnerAtom, userInfoAtom, userTokenAtom } from "recoils/atoms";
 import { errorCode } from "./resultCode";
+import CertModal from "components/common/CertModal";
 
 // Alert (props)
 // isOpen = state 상태값
@@ -41,6 +42,15 @@ const CommonModal = (props) => {
             //             modUserData={props.modUserData}
             //         />
             //     );
+
+            case "CertModal":
+                return (
+                    <CertModal
+                        // handleNeedUpdate={handleNeedUpdate}
+                        handleModalClose={modalOption.handleModalClose}
+                        modData={props.modData}
+                    />
+                );
 
             default:
                 return;
