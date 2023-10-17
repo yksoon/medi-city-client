@@ -213,38 +213,40 @@ const MobileComponent = forwardRef((props, ref) => {
             setModData(resData);
 
             handleModalOpen();
+
+            setTimerStatus(true);
         };
     };
 
-    const insertFormData = (resData) => {
-        token_version_id.current.value = resData.token_version_id;
-        enc_data.current.value = resData.enc_data;
-        integrity_value.current.value = resData.integrity_value;
-        m.current.value = resData.m;
+    // const insertFormData = (resData) => {
+    //     token_version_id.current.value = resData.token_version_id;
+    //     enc_data.current.value = resData.enc_data;
+    //     integrity_value.current.value = resData.integrity_value;
+    //     m.current.value = resData.m;
 
-        sendForm(resData.form_url);
-    };
+    //     sendForm(resData.form_url);
+    // };
 
-    const sendForm = (form_url) => {
-        // let form = document.getElementById("form");
+    // const sendForm = (form_url) => {
+    //     // let form = document.getElementById("form");
 
-        // 인증 모달 오픈
+    //     // 인증 모달 오픈
 
-        // 5초마다 타이머 시작
-        setTimerStatus(true);
+    //     // 5초마다 타이머 시작
+    //     setTimerStatus(true);
 
-        // let popup = window.open(
-        //     "",
-        //     "auth",
-        //     "width=200,height=200,resizeable,scrollbars"
-        // );
+    //     // let popup = window.open(
+    //     //     "",
+    //     //     "auth",
+    //     //     "width=200,height=200,resizeable,scrollbars"
+    //     // );
 
-        // form.action = form_url;
-        // form.mothod = "POST";
-        // form.target = "auth";
+    //     // form.action = form_url;
+    //     // form.mothod = "POST";
+    //     // form.target = "auth";
 
-        // form.submit();
-    };
+    //     // form.submit();
+    // };
 
     // 인증번호 확인
     const chkCert = () => {

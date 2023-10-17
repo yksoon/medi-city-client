@@ -1,6 +1,6 @@
 const errorCode = {
     timeOut: 500, // 타임아웃
-    timeOut2: 500, // 타임아웃
+    timeOut2: 503, // 타임아웃
     abnormalApproach: "9995", // 비정상접근
     emptyToken: "2000", // 토큰이 없음
     tokenExpired: "2001", // 토큰 만료

@@ -14,6 +14,7 @@ import PrivacyMain from "components/termPrivacy/PrivacyMain";
 import FindIDMain from "components/findAccount/findID/FindIDMain";
 import FindPWMain from "components/findAccount/findPW/FindPWMain";
 import MyPageMain from "components/myPage/myPage/MyPageMain";
+import CertResult from "components/common/CertResult";
 
 const Router = () => {
     // 레이지 로딩 추가
@@ -71,6 +72,12 @@ const Router = () => {
 
                 {/* 마이페이지 */}
                 <Route path={routerPath.myPage_url} element={<MyPageMain />} />
+
+                {/* 본인인증결과 */}
+                <Route
+                    path={`${routerPath.cert_result}:cert_idx`}
+                    element={<CertResult />}
+                />
 
                 {/* 상태체크 */}
                 <Route path="/health" element={<HealthCheck />} />
