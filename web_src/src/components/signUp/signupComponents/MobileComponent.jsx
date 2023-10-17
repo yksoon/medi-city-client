@@ -36,7 +36,7 @@ const MobileComponent = forwardRef((props, ref) => {
     const mobileStatus = props.mobileStatus;
 
     // 모달 데이터
-    const [modData, setModData] = useState({});
+    // const [modData, setModData] = useState({});
     // 모달
     const [isOpen, setIsOpen] = useState(false);
     const [modalTitle, setModalTitle] = useState("");
@@ -130,18 +130,18 @@ const MobileComponent = forwardRef((props, ref) => {
         }
     }
 
-    // 모달창 열기
-    const handleModalOpen = () => {
-        setModalTitle("본인인증");
-        setIsOpen(true);
-    };
+    // // 모달창 열기
+    // const handleModalOpen = () => {
+    //     setModalTitle("본인인증");
+    //     setIsOpen(true);
+    // };
 
-    // 모달창 닫기
-    const handleModalClose = () => {
-        setModalTitle("");
-        setModData({});
-        setIsOpen(false);
-    };
+    // // 모달창 닫기
+    // const handleModalClose = () => {
+    //     setModalTitle("");
+    //     setModData({});
+    //     setIsOpen(false);
+    // };
 
     function phoneDisplay(idName, displayType) {
         document.getElementById(idName).style.display = displayType;
@@ -208,45 +208,45 @@ const MobileComponent = forwardRef((props, ref) => {
                 resData.certification_idx
             );
 
-            // insertFormData(resData);
+            insertFormData(resData);
 
-            setModData(resData);
+            // setModData(resData);
 
-            handleModalOpen();
+            // handleModalOpen();
 
             setTimerStatus(true);
         };
     };
 
-    // const insertFormData = (resData) => {
-    //     token_version_id.current.value = resData.token_version_id;
-    //     enc_data.current.value = resData.enc_data;
-    //     integrity_value.current.value = resData.integrity_value;
-    //     m.current.value = resData.m;
+    const insertFormData = (resData) => {
+        token_version_id.current.value = resData.token_version_id;
+        enc_data.current.value = resData.enc_data;
+        integrity_value.current.value = resData.integrity_value;
+        m.current.value = resData.m;
 
-    //     sendForm(resData.form_url);
-    // };
+        sendForm(resData.form_url);
+    };
 
-    // const sendForm = (form_url) => {
-    //     // let form = document.getElementById("form");
+    const sendForm = (form_url) => {
+        let form = document.getElementById("form");
 
-    //     // 인증 모달 오픈
+        // 인증 모달 오픈
 
-    //     // 5초마다 타이머 시작
-    //     setTimerStatus(true);
+        // 5초마다 타이머 시작
+        setTimerStatus(true);
 
-    //     // let popup = window.open(
-    //     //     "",
-    //     //     "auth",
-    //     //     "width=200,height=200,resizeable,scrollbars"
-    //     // );
+        let popup = window.open(
+            "",
+            "auth",
+            "width=200,height=200,resizeable,scrollbars"
+        );
 
-    //     // form.action = form_url;
-    //     // form.mothod = "POST";
-    //     // form.target = "auth";
+        form.action = form_url;
+        form.mothod = "POST";
+        form.target = "auth";
 
-    //     // form.submit();
-    // };
+        form.submit();
+    };
 
     // 인증번호 확인
     const chkCert = () => {
@@ -432,7 +432,7 @@ const MobileComponent = forwardRef((props, ref) => {
                 </p>
             )}
 
-            {/* formData
+            {/* formData */}
             <form name="form" id="form" ref={form_url}>
                 <input type="hidden" id="m" name="m" value="" ref={m} />
                 <input
@@ -454,9 +454,9 @@ const MobileComponent = forwardRef((props, ref) => {
                     name="integrity_value"
                     ref={integrity_value}
                 />
-            </form> */}
+            </form>
 
-            <CommonModal
+            {/* <CommonModal
                 isOpen={isOpen}
                 title={modalTitle}
                 width={"1000"}
@@ -464,7 +464,7 @@ const MobileComponent = forwardRef((props, ref) => {
                 component={"CertModal"}
                 // handleNeedUpdate={handleNeedUpdate}
                 modData={modData}
-            />
+            /> */}
         </>
     );
 });
