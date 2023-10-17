@@ -26,7 +26,11 @@ const CertResult = (props) => {
     }, []);
 
     useEffect(() => {
-        Object.keys(certInfo).length !== 0 && window.close();
+        if (Object.keys(certInfo).length !== 0) {
+            window.opener = null;
+            window.open("", "_self");
+            window.close();
+        }
     }, [certInfo]);
 
     const sendResult = () => {

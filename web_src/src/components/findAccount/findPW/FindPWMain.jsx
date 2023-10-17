@@ -239,7 +239,7 @@ function FindPWMain() {
                         setCertStatus(true);
 
                         // dispatch(set_cert_info(null));
-                        setCertInfo(null);
+                        setCertInfo(resData);
                         // 인증 완료 후 로직
                         setIsFind("2");
                     } else {
