@@ -267,8 +267,8 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 /* 마이페이지 - 리스트*/
 .mypage::after {display:block;content:"";clear:both;}
 .mypage {position: relative;}
-.my_history {float: left;width: 990px;}
-.my_history > ul > li {border: 1px solid #ddd;padding:30px 40px;border-radius: 50px;margin: 0 0 30px;line-height: 26px;}
+.my_history {float: right;width: calc( 100% - 450px);}
+.my_history > ul > li {border: 1px solid #ddd;padding:30px 40px;border-radius: 20px;margin: 0 0 30px;line-height: 26px;}
 .my_history > ul > li .m_title {display: flex;margin: 4px 0 15px;}
 .my_history > ul > li .m_title h5{font-size: 24px;font-weight: 700;max-width:808px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .my_history .h_thumb {display:block;width: 200px;height: 100px;overflow:hidden;margin:0 25px 0 0;border-radius: 20px;}
@@ -286,24 +286,30 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .my_hotel .h_status ul li.end .circle {border-color: #0047a0;}
 
 .my_inq .i_status {background: #a6a6a6; color: #fff;font-size: 16px;line-height: 26px;padding: 0 16px;border-radius: 50px;display:inline-block;margin: 0 0 0 10px;}
+.my_inq p {margin:0 0 20px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.my_inq p.date {color: #9e9e9e;margin:0 0 10px;}
 .my_inq .i_status.end {background: #0047a0;}
 
-.my_fix_wrap {float: right;width: 580px;position: absolute;right:0;top:0;padding:0 0 280px 0;}
-.fixed_menu {position:fixed;}
-.my_quick {padding: 40px 50px;border: 1px solid #ddd;border-radius: 50px;margin:0 0 32px}
-.my_quick .name {display:flex; align-items: center;margin: 0 0 28spx 0;}
-.my_quick .name h3 {font-size: 38px;font-weight: 700;color: #0047a0;margin:0 18px 0 0;}
+.my_inq_view .i_status {background: #a6a6a6; color: #fff;font-size: 16px;line-height: 26px;padding: 0 16px;border-radius: 50px;display:inline-block;margin: 0 0 0 10px;}
+.my_inq_view .i_status.end {background: #0047a0;}
+
+.my_fix_wrap {float: left;width:410px;}
+.fixed_menu {position:fixed;width:410px;}
+.my_quick {padding: 40px;border: 1px solid #ddd;border-radius: 20px;margin:0 0 32px}
+.my_quick .name {display:flex; align-items: center;margin: 0 0 28px 0;}
+.my_quick .name h3 {font-size: 32px;font-weight: 700;color: #0047a0;margin:0 18px 0 0;}
 .my_quick .name p.point {color: #0047a0;font-size: 24px;font-weight: 700;}
-.my_quick .name p.point span {display: inline-block;width:32px;margin:0 5px 0 0;}
-.my_quick .name p.point span img {width: 100%;margin:-4px 0;}
-.my_quick .my_list .flex {align-items: flex-start;}
-.my_quick .my_list ul {margin: 0 56px 0 0;}
-.my_quick .my_list ul li a {display: inline-block; color: #333;font-size: 24px;font-weight: 700;margin: 20px 0 0;}
+.my_quick .name p.point span {display: inline-block;margin:0 5px 0 0;vertical-align: middle;}
+.my_quick .name p.point span img {margin:-4px 0;}
+.my_quick .my_list .flex {align-items: flex-start;gap:40px;}
+.my_quick .my_list ul {}
+.my_quick .my_list ul li a {display: inline-block; color: #333;font-size: 21px;font-weight: 700;margin: 12px 0 0;}
 .my_quick .my_list ul li a span{color: #a6a6a6;}
 .my_quick .my_list ul li a:hover {color: #0047a0;}
 
-.add_banner {clear:both;}
-.add_banner li {margin:0 0 10px}
+.add_banner li {margin:0 0 10px;border-radius: 20px;overflow: hidden;height:140px;}
+.add_banner li a {display:block;width:100%;height:100%;}
+.add_banner li a img {display:block;height:100%;}
 
 /* 마이페이지 - 회원정보 수정 */
 .modify_form {text-align: center;}
