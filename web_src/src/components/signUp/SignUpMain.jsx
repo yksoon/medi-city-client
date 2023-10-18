@@ -1,9 +1,8 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
-import { useDispatch, useSelector } from "react-redux";
 import { RestServer } from "common/js/Rest";
-import { set_cert_info } from "redux/actions/certAction";
+// import { set_cert_info } from "redux/actions/certAction";
 
 import Header from "components/common/Header";
 import Footer from "components/common/Footer";
@@ -15,14 +14,25 @@ import MobileComponent from "./signupComponents/MobileComponent";
 import LicenseComponent from "./signupComponents/LicenseComponent";
 import DepartmentComponent from "./signupComponents/DepartmentComponent";
 import TermsComponent from "./signupComponents/TermsComponent";
-import { CommonConsole, CommonNotify, CommonSpinner } from "common/js/Common";
-import { set_spinner } from "redux/actions/commonAction";
+import {
+    CommonConsole,
+    CommonErrModule,
+    CommonNotify,
+    CommonRest,
+} from "common/js/Common";
 import useAlert from "hook/useAlert";
+import useConfirm from "hook/useConfirm";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { certInfoAtom, isSpinnerAtom } from "recoils/atoms";
+import { successCode } from "common/js/resultCode";
 
 function SignUpMain() {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
     const { alert } = useAlert();
+    const { confirm } = useConfirm();
+    const err = CommonErrModule();
+    const setIsSpinner = useSetRecoilState(isSpinnerAtom);
+
+    const navigate = useNavigate();
 
     const signupRefs = {
         accountType: useRef(null),
@@ -54,17 +64,15 @@ function SignUpMain() {
     const [terms, setTerms] = useState("");
     const [privacy, setPrivacy] = useState("");
     const [marketing, setMarketing] = useState("");
-    const certInfo = useSelector((state) => state.certInfo.certInfo);
+
+    const [certInfo, setCertInfo] = useRecoilState(certInfoAtom);
+    // const certInfo = useSelector((state) => state.certInfo.certInfo);
 
     const certification_idx = localStorage.getItem("certification_idx");
 
     const sendSignupForm = () => {
         if (validation()) {
-            dispatch(
-                set_spinner({
-                    isLoading: true,
-                })
-            );
+            setIsSpinner(true);
 
             let birth_yyyy = certInfo.birth_date.slice(0, 4);
             let birth_mm = certInfo.birth_date.slice(4, 6);
@@ -174,64 +182,51 @@ function SignUpMain() {
                 mobile_agency: mobile_agency,
             };
 
-            let url = apiPath.api_user;
+            const url = apiPath.api_user;
 
-            RestServer("post", url, data)
-                .then((response) => {
-                    // response
+            // 파라미터
+            const restParams = {
+                method: "post",
+                url: url,
+                data: data,
+                err: err,
+                callback: (res) => responsLogic(res),
+            };
 
-                    let result_code = response.headers.result_code;
+            CommonRest(restParams);
 
-                    if (result_code === "0000") {
-                        localStorage.removeItem("certification_idx");
-                        dispatch(set_cert_info(null));
+            const responsLogic = (res) => {
+                const result_code = res.headers.result_code;
 
-                        // Spinner
-                        dispatch(
-                            set_spinner({
-                                isLoading: false,
-                            })
-                        );
+                if (result_code === successCode.success) {
+                    localStorage.removeItem("certification_idx");
+                    setCertInfo(null);
+                    // dispatch(set_cert_info(null));
 
-                        navigate(routerPath.signup_ok_url);
-                    } else {
-                        CommonConsole("log", response);
+                    // Spinner
+                    // dispatch(
+                    //     set_spinner({
+                    //         isLoading: false,
+                    //     })
+                    // );
 
-                        // alert
-                        CommonNotify({
-                            type: "alert",
-                            hook: alert,
-                            message: response.headers.result_message_ko,
-                        });
+                    setIsSpinner(false);
 
-                        // Spinner
-                        dispatch(
-                            set_spinner({
-                                isLoading: false,
-                            })
-                        );
-                    }
-                })
-                .catch((error) => {
-                    // 오류발생시 실행
-                    CommonConsole("log", error);
-                    CommonConsole("decLog", error);
-                    // CommonConsole("alertMsg", error);
+                    navigate(routerPath.signup_ok_url);
+                } else {
+                    CommonConsole("log", res);
 
                     // alert
                     CommonNotify({
                         type: "alert",
                         hook: alert,
-                        message: "잠시 후에 다시 시도해주세요.",
+                        message: res.headers.result_message_ko,
                     });
 
                     // Spinner
-                    dispatch(
-                        set_spinner({
-                            isLoading: false,
-                        })
-                    );
-                });
+                    setIsSpinner(false);
+                }
+            };
         }
     };
 

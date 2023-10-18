@@ -1,13 +1,27 @@
-import { CommonModal, CommonConsole, CommonNotify } from "common/js/Common";
+import {
+    CommonModal,
+    CommonConsole,
+    CommonNotify,
+    CommonErrModule,
+    CommonRest,
+} from "common/js/Common";
 import React, { useState, forwardRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { RestServer } from "common/js/Rest";
 import { apiPath, routerPath } from "webPath";
-import { useDispatch } from "react-redux";
-import { set_spinner } from "redux/actions/commonAction";
+// import { useDispatch } from "react-redux";
+// import { set_spinner } from "redux/actions/commonAction";
 import useAlert from "hook/useAlert";
+import useConfirm from "hook/useConfirm";
+import { useSetRecoilState } from "recoil";
+import { isSpinnerAtom } from "recoils/atoms";
+import { successCode } from "common/js/resultCode";
 
 const TermsComponent = forwardRef((props, ref) => {
+    const { alert } = useAlert();
+    const { confirm } = useConfirm();
+    const err = CommonErrModule();
+    const setIsSpinner = useSetRecoilState(isSpinnerAtom);
+
     const termChkMain = props.termChkMain;
     const privacyChkMain = props.privacyChkMain;
     const marketingChkMain = props.marketingChkMain;
@@ -29,9 +43,6 @@ const TermsComponent = forwardRef((props, ref) => {
     const [privacyItem, setPrivacyItem] = useState({});
     const [marketingItem, setMarketingItem] = useState({});
 
-    const dispatch = useDispatch();
-    const { alert } = useAlert();
-
     const navigate = useNavigate();
 
     // let termItem = {};
@@ -52,113 +63,95 @@ const TermsComponent = forwardRef((props, ref) => {
     }, []);
 
     const goToMain = () => {
-        dispatch(
-            set_spinner({
-                isLoading: false,
-            })
-        );
+        // dispatch(
+        //     set_spinner({
+        //         isLoading: false,
+        //     })
+        // );
+        setIsSpinner(false);
 
         navigate(routerPath.main_url);
     };
 
     const initTerms = () => {
         // setIsLoading(true);
-        dispatch(
-            set_spinner({
-                isLoading: true,
-            })
-        );
+        // dispatch(
+        //     set_spinner({
+        //         isLoading: true,
+        //     })
+        // );
+        setIsSpinner(true);
 
         const url = apiPath.api_terms_list;
         const data = {
             page_num: 1,
             page_size: 3,
         };
-        RestServer("post", url, data)
-            .then((response) => {
-                // CommonConsole("log", response);
 
-                let termsContent = [];
+        // 파라미터
+        const restParams = {
+            method: "post",
+            url: url,
+            data: data,
+            err: err,
+            callback: (res) => responsLogic(res),
+        };
 
-                if (response.headers.result_code === "0000") {
-                    termsContent = [...response.data.result_info];
+        CommonRest(restParams);
 
-                    for (let i = 0; i < termsContent.length; i++) {
-                        let typeCd = termsContent[i].terms_type_cd;
-                        let title = termsContent[i].terms_type;
-                        let content = termsContent[i].conditions;
-                        let terms_idx = termsContent[i].terms_idx;
+        const responsLogic = (res) => {
+            let termsContent = [];
 
-                        switch (typeCd) {
-                            case "100":
-                                let arr1 = {};
-                                arr1["title"] = title;
-                                arr1["content"] = content;
-                                arr1["terms_idx"] = terms_idx;
-                                setTermItem(arr1);
-                                break;
+            if (res.headers.result_code === successCode.success) {
+                termsContent = [...res.data.result_info];
 
-                            case "000":
-                                let arr2 = {};
-                                arr2["title"] = title;
-                                arr2["content"] = content;
-                                arr2["terms_idx"] = terms_idx;
-                                setPrivacyItem(arr2);
-                                break;
+                for (let i = 0; i < termsContent.length; i++) {
+                    let typeCd = termsContent[i].terms_type_cd;
+                    let title = termsContent[i].terms_type;
+                    let content = termsContent[i].conditions;
+                    let terms_idx = termsContent[i].terms_idx;
 
-                            case "400":
-                                let arr3 = {};
-                                arr3["title"] = termsContent[i].terms_type;
-                                arr3["content"] = content;
-                                arr3["terms_idx"] = terms_idx;
-                                setMarketingItem(arr3);
-                                break;
+                    switch (typeCd) {
+                        case "100":
+                            let arr1 = {};
+                            arr1["title"] = title;
+                            arr1["content"] = content;
+                            arr1["terms_idx"] = terms_idx;
+                            setTermItem(arr1);
+                            break;
 
-                            default:
-                                break;
-                        }
+                        case "000":
+                            let arr2 = {};
+                            arr2["title"] = title;
+                            arr2["content"] = content;
+                            arr2["terms_idx"] = terms_idx;
+                            setPrivacyItem(arr2);
+                            break;
+
+                        case "400":
+                            let arr3 = {};
+                            arr3["title"] = termsContent[i].terms_type;
+                            arr3["content"] = content;
+                            arr3["terms_idx"] = terms_idx;
+                            setMarketingItem(arr3);
+                            break;
+
+                        default:
+                            break;
                     }
-                    dispatch(
-                        set_spinner({
-                            isLoading: false,
-                        })
-                    );
-                } else {
-                    dispatch(
-                        set_spinner({
-                            isLoading: true,
-                            error: "Y",
-                        })
-                    );
-
-                    CommonNotify({
-                        type: "alert",
-                        hook: alert,
-                        message: "잠시 후 다시 시도해주세요",
-                    });
                 }
-            })
-            .catch((error) => {
-                // 오류발생시 실행
 
-                CommonConsole("log", error);
-                CommonConsole("decLog", error);
-                // CommonConsole("alertMsg", error);
-
-                dispatch(
-                    set_spinner({
-                        isLoading: true,
-                        error: "Y",
-                    })
-                );
+                setIsSpinner(false);
+            } else {
+                setIsSpinner(false);
 
                 CommonNotify({
                     type: "alert",
                     hook: alert,
-                    message: "잠시 후 다시 시도해주세요",
-                    callback: () => goToMain(),
+                    message: res.headers.result_message_ko,
                 });
-            });
+            }
+        };
     };
 
     const handleModalOpen = () => {

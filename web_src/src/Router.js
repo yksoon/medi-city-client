@@ -6,25 +6,34 @@ import NotFoundPage from "NotFoundPage";
 import { Suspense, lazy } from "react";
 import { Backdrop, CircularProgress } from "@mui/material";
 import HealthCheck from "components/HealthCheck";
+import Main from "components/main/Main";
+import SignUpMain from "components/signUp/SignUpMain";
+import SignUpOk from "components/signUp/SignUpOk";
+import TermsMain from "components/termPrivacy/TermMain";
+import PrivacyMain from "components/termPrivacy/PrivacyMain";
+import FindIDMain from "components/findAccount/findID/FindIDMain";
+import FindPWMain from "components/findAccount/findPW/FindPWMain";
+import MyPageMain from "components/myPage/myPage/MyPageMain";
+import CertResult from "components/common/CertResult";
 
 const Router = () => {
     // 레이지 로딩 추가
-    const Main = lazy(() => import("components/main/Main"));
-    const MyPageMain = lazy(() =>
-        import("components/myPage/myPage/MyPageMain")
-    );
-    const SignUpMain = lazy(() => import("components/signUp/SignUpMain"));
-    const SignUpOk = lazy(() => import("components/signUp/SignUpOk"));
-    const TermsMain = lazy(() => import("components/termPrivacy/TermMain"));
-    const PrivacyMain = lazy(() =>
-        import("components/termPrivacy/PrivacyMain")
-    );
-    const FindIdMain = lazy(() =>
-        import("components/findAccount/findID/FindIDMain")
-    );
-    const FindPWMain = lazy(() =>
-        import("components/findAccount/findPW/FindPWMain")
-    );
+    // const Main = lazy(() => import("components/main/Main"));
+    // const MyPageMain = lazy(() =>
+    //     import("components/myPage/myPage/MyPageMain")
+    // );
+    // const SignUpMain = lazy(() => import("components/signUp/SignUpMain"));
+    // const SignUpOk = lazy(() => import("components/signUp/SignUpOk"));
+    // const TermsMain = lazy(() => import("components/termPrivacy/TermMain"));
+    // const PrivacyMain = lazy(() =>
+    //     import("components/termPrivacy/PrivacyMain")
+    // );
+    // const FindIdMain = lazy(() =>
+    //     import("components/findAccount/findID/FindIDMain")
+    // );
+    // const FindPWMain = lazy(() =>
+    //     import("components/findAccount/findPW/FindPWMain")
+    // );
 
     return (
         <Suspense
@@ -56,13 +65,19 @@ const Router = () => {
                 />
 
                 {/* 아이디 찾기 */}
-                <Route path={routerPath.findId_url} element={<FindIdMain />} />
+                <Route path={routerPath.findId_url} element={<FindIDMain />} />
 
                 {/* 비번 찾기 */}
                 <Route path={routerPath.findPw_url} element={<FindPWMain />} />
 
                 {/* 마이페이지 */}
                 <Route path={routerPath.myPage_url} element={<MyPageMain />} />
+
+                {/* 본인인증결과 */}
+                <Route
+                    path={`${routerPath.cert_result}:cert_idx`}
+                    element={<CertResult />}
+                />
 
                 {/* 상태체크 */}
                 <Route path="/health" element={<HealthCheck />} />

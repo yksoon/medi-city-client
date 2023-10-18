@@ -6,20 +6,26 @@ import { Link } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import ResetPW from "./ResetPW";
 import ResetPWComplete from "./ResetPWComplete";
-import { CircularProgress } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { set_cert_info } from "redux/actions/certAction";
-import { CommonConsole, CommonNotify } from "common/js/Common";
-import { set_spinner } from "redux/actions/commonAction";
+import { CommonConsole, CommonErrModule, CommonNotify } from "common/js/Common";
 import useAlert from "hook/useAlert";
+import useConfirm from "hook/useConfirm";
+import { useSetRecoilState } from "recoil";
+import { certInfoAtom, isSpinnerAtom } from "recoils/atoms";
 
 function FindPWMain() {
+    const { alert } = useAlert();
+    const { confirm } = useConfirm();
+    const err = CommonErrModule();
+    const setIsSpinner = useSetRecoilState(isSpinnerAtom);
+
     const [isFind, setIsFind] = useState("1");
     const [userID, setUserID] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
 
     const [certStatus, setCertStatus] = useState(false);
+
+    const setCertInfo = useSetRecoilState(certInfoAtom);
 
     // 인증정보
     const form_url = useRef(null);
@@ -39,8 +45,7 @@ function FindPWMain() {
     const timerId = useRef(null); // 간격 타이머의 Id 저장
     const [timerStatus, setTimerStatus] = useState(false); // 타이머 상태
 
-    const dispatch = useDispatch();
-    const { alert } = useAlert();
+    // const dispatch = useDispatch();
 
     // 타이머 시작
     // - 의존성 배열이 비어있으므로 한 번만 실행됨
@@ -134,11 +139,12 @@ function FindPWMain() {
             return;
         } else {
             // Spinner
-            dispatch(
-                set_spinner({
-                    isLoading: true,
-                })
-            );
+            // dispatch(
+            //     set_spinner({
+            //         isLoading: true,
+            //     })
+            // );
+            setIsSpinner(true);
 
             const url = apiPath.api_user_cert;
 
@@ -219,15 +225,17 @@ function FindPWMain() {
                         stopTimer();
 
                         // Spinner
-                        dispatch(
-                            set_spinner({
-                                isLoading: false,
-                            })
-                        );
+                        // dispatch(
+                        //     set_spinner({
+                        //         isLoading: false,
+                        //     })
+                        // );
+                        setIsSpinner(false);
 
                         setCertStatus(true);
 
-                        dispatch(set_cert_info(null));
+                        // dispatch(set_cert_info(null));
+                        setCertInfo(resData);
                         // 인증 완료 후 로직
                         setIsFind("2");
                     } else {
@@ -247,12 +255,13 @@ function FindPWMain() {
                     // CommonConsole("alertMsg", error);
 
                     // Spinner
-                    dispatch(
-                        set_spinner({
-                            isLoading: true,
-                            error: "Y",
-                        })
-                    );
+                    // dispatch(
+                    //     set_spinner({
+                    //         isLoading: true,
+                    //         error: "Y",
+                    //     })
+                    // );
+                    setIsSpinner(false);
                 });
         }
     };

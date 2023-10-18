@@ -2,23 +2,47 @@ import React, { useRef, forwardRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { RestServer } from "common/js/Rest";
 import { apiPath } from "webPath";
-import { useDispatch, useSelector } from "react-redux";
-import { set_cert_info } from "redux/actions/certAction";
-import { CommonConsole, CommonNotify, CommonSpinner } from "common/js/Common";
-import { set_spinner } from "redux/actions/commonAction";
+// import { useDispatch, useSelector } from "react-redux";
+// import { set_cert_info } from "redux/actions/certAction";
+import {
+    CommonConsole,
+    CommonErrModule,
+    CommonModal,
+    CommonNotify,
+    CommonRest,
+    CommonSpinner,
+} from "common/js/Common";
+// import { set_spinner } from "redux/actions/commonAction";
 import useAlert from "hook/useAlert";
+import useConfirm from "hook/useConfirm";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { certInfoAtom, isSpinnerAtom } from "recoils/atoms";
+import { successCode } from "common/js/resultCode";
 
 // 인증 idx
 let certNumIdxFromServer;
 
 const MobileComponent = forwardRef((props, ref) => {
+    const { alert } = useAlert();
+    const { confirm } = useConfirm();
+    const err = CommonErrModule();
+    const setIsSpinner = useSetRecoilState(isSpinnerAtom);
+
+    const setCertInfo = useSetRecoilState(certInfoAtom);
+
     const { inputMobile1, inputMobile2, inputMobile3, inter_phone_number } =
         ref;
 
     const mobileStatus = props.mobileStatus;
 
-    const dispatch = useDispatch();
-    const { alert } = useAlert();
+    // 모달 데이터
+    // const [modData, setModData] = useState({});
+    // 모달
+    const [isOpen, setIsOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [isNeedUpdate, setIsNeedUpdate] = useState(false);
+
+    // const dispatch = useDispatch();
 
     // 인증정보
     const form_url = useRef(null);
@@ -106,6 +130,19 @@ const MobileComponent = forwardRef((props, ref) => {
         }
     }
 
+    // // 모달창 열기
+    // const handleModalOpen = () => {
+    //     setModalTitle("본인인증");
+    //     setIsOpen(true);
+    // };
+
+    // // 모달창 닫기
+    // const handleModalClose = () => {
+    //     setModalTitle("");
+    //     setModData({});
+    //     setIsOpen(false);
+    // };
+
     function phoneDisplay(idName, displayType) {
         document.getElementById(idName).style.display = displayType;
     }
@@ -143,50 +180,42 @@ const MobileComponent = forwardRef((props, ref) => {
 
     // 인증번호 발송
     const sendCert = () => {
-        dispatch(
-            set_spinner({
-                isLoading: true,
-            })
-        );
+        setIsSpinner(true);
 
         const url = apiPath.api_user_cert;
 
-        let data = {
+        const data = {
             certification_tool: "000",
             certification_type: "000",
         };
 
-        RestServer("post", url, data)
-            .then((response) => {
-                let resData = response.data.result_info;
+        // 파라미터
+        const restParams = {
+            method: "post",
+            url: url,
+            data: data,
+            err: err,
+            callback: (res) => responsLogic(res),
+        };
 
-                localStorage.setItem(
-                    "certification_idx",
-                    resData.certification_idx
-                );
+        CommonRest(restParams);
 
-                insertFormData(resData);
-            })
-            .catch((error) => {
-                // 오류발생시 실행
-                CommonConsole("log", error);
-                CommonConsole("decLog", error);
-                // CommonConsole("alertMsg", error);
+        const responsLogic = (res) => {
+            let resData = res.data.result_info;
 
-                // alert
-                CommonNotify({
-                    type: "alert",
-                    hook: alert,
-                    message: "잠시 후 다시 시도해주세요",
-                });
+            localStorage.setItem(
+                "certification_idx",
+                resData.certification_idx
+            );
 
-                // Spinner
-                dispatch(
-                    set_spinner({
-                        isLoading: false,
-                    })
-                );
-            });
+            insertFormData(resData);
+
+            // setModData(resData);
+
+            // handleModalOpen();
+
+            setTimerStatus(true);
+        };
     };
 
     const insertFormData = (resData) => {
@@ -200,6 +229,8 @@ const MobileComponent = forwardRef((props, ref) => {
 
     const sendForm = (form_url) => {
         let form = document.getElementById("form");
+
+        // 인증 모달 오픈
 
         // 5초마다 타이머 시작
         setTimerStatus(true);
@@ -223,64 +254,53 @@ const MobileComponent = forwardRef((props, ref) => {
         const url = apiPath.api_user_cert_result + `/${certification_idx}`;
 
         if (certification_idx) {
-            RestServer("get", url, {})
-                .then((response) => {
-                    CommonConsole("log", response);
+            // 파라미터
+            const restParams = {
+                method: "get",
+                url: url,
+                data: {},
+                err: err,
+                callback: (res) => responsLogic(res),
+            };
 
-                    let resData = response.data.result_info;
-                    let result_code = response.headers.result_code;
+            CommonRest(restParams);
 
-                    if (result_code === "0000") {
-                        dispatch(set_cert_info(resData));
-                        mobileStatus(true);
+            const responsLogic = (res) => {
+                CommonConsole("log", res);
 
-                        // 인증 확인 시 인터벌 해제
-                        stopTimer();
+                let resData = res.data.result_info;
+                let result_code = res.headers.result_code;
 
-                        // Spinner
-                        dispatch(
-                            set_spinner({
-                                isLoading: false,
-                            })
-                        );
+                if (result_code === successCode.success) {
+                    // dispatch(set_cert_info(resData));
+                    setCertInfo(resData);
 
-                        setCertStatus(true);
+                    mobileStatus(true);
 
-                        // 인증 완료 후 로직
-                        certComplete(resData);
-                    } else {
-                        CommonConsole("log", response);
-
-                        // alert
-                        CommonNotify({
-                            type: "alert",
-                            hook: alert,
-                            message: "잠시 후 다시 시도해주세요",
-                        });
-
-                        // Spinner
-                        dispatch(
-                            set_spinner({
-                                isLoading: false,
-                            })
-                        );
-                    }
-                })
-                .catch((error) => {
-                    // 오류발생시 실행
-
-                    CommonConsole("log", error);
-                    CommonConsole("decLog", error);
-                    // CommonConsole("alertMsg", error);
+                    // 인증 확인 시 인터벌 해제
+                    stopTimer();
 
                     // Spinner
-                    dispatch(
-                        set_spinner({
-                            isLoading: true,
-                            error: "Y",
-                        })
-                    );
-                });
+                    setIsSpinner(false);
+
+                    setCertStatus(true);
+
+                    // 인증 완료 후 로직
+                    certComplete(resData);
+                } else {
+                    CommonConsole("log", res);
+
+                    // alert
+                    CommonNotify({
+                        type: "alert",
+                        hook: alert,
+                        message: "잠시 후 다시 시도해주세요",
+                    });
+
+                    // Spinner
+                    setIsSpinner(false);
+                }
+            };
         }
     };
 
@@ -435,6 +455,16 @@ const MobileComponent = forwardRef((props, ref) => {
                     ref={integrity_value}
                 />
             </form>
+
+            {/* <CommonModal
+                isOpen={isOpen}
+                title={modalTitle}
+                width={"1000"}
+                handleModalClose={handleModalClose}
+                component={"CertModal"}
+                // handleNeedUpdate={handleNeedUpdate}
+                modData={modData}
+            /> */}
         </>
     );
 });

@@ -52,6 +52,9 @@ const routerPath = {
 
     // 비번찾기
     findPw_url: `${base_url}find_pw${slash}`,
+
+    // 인증결과
+    cert_result: `${base_url}cert/result${slash}`,
 };
 
 // api
@@ -84,12 +87,14 @@ const apiPath = {
     }board${slash}`,
 
     // 공통 결과코드
-    api_result: `${
+    api_mng_result: `${
         base_api_url + slash + mng + slash + version + slash
     }info/result`,
 
     // 공통 결과코드
-    api_codes: `${base_api_url + slash + mng + slash + version + slash}_codes`,
+    api_mng_codes: `${
+        base_api_url + slash + mng + slash + version + slash
+    }_codes`,
 
     // ------------------ Account Service ------------------
     // 사용자 상세 GET
@@ -118,6 +123,11 @@ const apiPath = {
     api_user_cert_result: `${
         base_api_url + slash + account + slash + version + slash
     }user/_cert`,
+
+    // 인증결과 받아서 다시 GET
+    api_auth_cert_recieve_result: `${
+        base_api_url + slash + auth + slash + version + slash
+    }cert/result/`,
 
     // 사용자 목록 POST
     api_users: `${
