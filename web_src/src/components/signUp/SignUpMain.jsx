@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import { RestServer } from "common/js/Rest";
-// import { set_cert_info } from "redux/actions/certAction";
 
 import Header from "components/common/Header";
 import Footer from "components/common/Footer";

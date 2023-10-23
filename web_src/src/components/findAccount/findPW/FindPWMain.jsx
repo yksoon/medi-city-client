@@ -6,11 +6,17 @@ import { Link } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
 import ResetPW from "./ResetPW";
 import ResetPWComplete from "./ResetPWComplete";
-import { CommonConsole, CommonErrModule, CommonNotify } from "common/js/Common";
+import {
+    CommonConsole,
+    CommonErrModule,
+    CommonNotify,
+    CommonRest,
+} from "common/js/Common";
 import useAlert from "hook/useAlert";
 import useConfirm from "hook/useConfirm";
 import { useSetRecoilState } from "recoil";
 import { certInfoAtom, isSpinnerAtom } from "recoils/atoms";
+import { successCode } from "common/js/resultCode";
 
 function FindPWMain() {
     const { alert } = useAlert();
@@ -138,44 +144,37 @@ function FindPWMain() {
             inputFirstName.current.focus();
             return;
         } else {
-            // Spinner
-            // dispatch(
-            //     set_spinner({
-            //         isLoading: true,
-            //     })
-            // );
             setIsSpinner(true);
 
             const url = apiPath.api_user_cert;
 
-            let data = {
+            const data = {
                 certification_tool: "000",
                 certification_type: "200",
                 user_id: userID,
             };
 
-            RestServer("post", url, data)
-                .then((response) => {
-                    let resData = response.data.result_info;
+            // 파라미터
+            const restParams = {
+                method: "post",
+                url: url,
+                data: data,
+                err: err,
+                callback: (res) => responsLogic(res),
+            };
 
-                    localStorage.setItem(
-                        "certification_idx",
-                        resData.certification_idx
-                    );
+            CommonRest(restParams);
 
-                    insertFormData(resData);
-                })
-                .catch((error) => {
-                    // 오류발생시 실행
-                    CommonConsole("log", error);
+            const responsLogic = (res) => {
+                const resData = res.data.result_info;
 
-                    // alert
-                    CommonNotify({
-                        type: "alert",
-                        hook: alert,
-                        message: "잠시 후 다시 시도해주세요",
-                    });
-                });
+                localStorage.setItem(
+                    "certification_idx",
+                    resData.certification_idx
+                );
+
+                insertFormData(resData);
+            };
         }
     };
 
@@ -213,56 +212,51 @@ function FindPWMain() {
         const url = apiPath.api_user_cert_result + `/${certification_idx}`;
 
         if (certification_idx) {
-            RestServer("get", url, {})
-                .then((response) => {
-                    CommonConsole("log", response);
+            // 파라미터
+            const restParams = {
+                method: "get",
+                url: url,
+                data: {},
+                err: err,
+                callback: (res) => responsLogic(res),
+            };
 
-                    let resData = response.data.result_info;
-                    let result_code = response.headers.result_code;
+            CommonRest(restParams);
 
-                    if (result_code === "0000") {
-                        // 인증 확인 시 인터벌 해제
-                        stopTimer();
+            const responsLogic = (res) => {
+                CommonConsole("log", res);
 
-                        // Spinner
-                        // dispatch(
-                        //     set_spinner({
-                        //         isLoading: false,
-                        //     })
-                        // );
-                        setIsSpinner(false);
+                let resData = res.data.result_info;
+                let result_code = res.headers.result_code;
 
-                        setCertStatus(true);
-
-                        // dispatch(set_cert_info(null));
-                        setCertInfo(resData);
-                        // 인증 완료 후 로직
-                        setIsFind("2");
-                    } else {
-                        // alert
-
-                        CommonNotify({
-                            type: "alert",
-                            hook: alert,
-                            message: "잠시 후 다시 시도해주세요",
-                        });
-                    }
-                })
-                .catch((error) => {
-                    // 오류발생시 실행
-                    CommonConsole("log", error);
-                    CommonConsole("decLog", error);
-                    // CommonConsole("alertMsg", error);
+                if (result_code === successCode.success) {
+                    // 인증 확인 시 인터벌 해제
+                    stopTimer();
 
                     // Spinner
                     // dispatch(
                     //     set_spinner({
-                    //         isLoading: true,
-                    //         error: "Y",
+                    //         isLoading: false,
                     //     })
                     // );
                     setIsSpinner(false);
-                });
+
+                    setCertStatus(true);
+
+                    // dispatch(set_cert_info(null));
+                    setCertInfo(resData);
+                    // 인증 완료 후 로직
+                    setIsFind("2");
+                } else {
+                    // alert
+
+                    CommonNotify({
+                        type: "alert",
+                        hook: alert,
+                        message: "잠시 후 다시 시도해주세요",
+                    });
+                }
+            };
         }
     };
 
