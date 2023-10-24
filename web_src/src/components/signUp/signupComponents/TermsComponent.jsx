@@ -8,8 +8,6 @@ import {
 import React, { useState, forwardRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiPath, routerPath } from "webPath";
-// import { useDispatch } from "react-redux";
-// import { set_spinner } from "redux/actions/commonAction";
 import useAlert from "hook/useAlert";
 import useConfirm from "hook/useConfirm";
 import { useSetRecoilState } from "recoil";

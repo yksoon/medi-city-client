@@ -1,24 +1,31 @@
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { pwPattern } from "common/js/Pattern";
-import { CircularProgress } from "@mui/material";
-import { RestServer } from "common/js/Rest";
 import { apiPath } from "webPath";
-import { CommonConsole, CommonNotify } from "common/js/Common";
-import { useDispatch } from "react-redux";
-import { set_spinner } from "redux/actions/commonAction";
+import {
+    CommonConsole,
+    CommonErrModule,
+    CommonNotify,
+    CommonRest,
+} from "common/js/Common";
 import useAlert from "hook/useAlert";
+import useConfirm from "hook/useConfirm";
+import { useSetRecoilState } from "recoil";
+import { isSpinnerAtom } from "recoils/atoms";
+import { successCode } from "common/js/resultCode";
 
 function ResetPW({ userID, changeIsFind }) {
+    const { alert } = useAlert();
+    const { confirm } = useConfirm();
+    const err = CommonErrModule();
+    const setIsSpinner = useSetRecoilState(isSpinnerAtom);
+
     let user_id = userID;
     const [patternChk1, setPatternChk1] = useState(false);
     const [patternChk2, setPatternChk2] = useState(false);
 
     const [inputPW1, setInputPW1] = useState("");
     const [inputPW2, setInputPW2] = useState("");
-
-    const dispatch = useDispatch();
-    const { alert } = useAlert();
 
     // 1 : 비번 서로 X, 패턴 X
     // 2 : 비번 서로 X, 패턴 O
@@ -109,14 +116,6 @@ function ResetPW({ userID, changeIsFind }) {
 
     const changePW = () => {
         // Spinner
-        dispatch(
-            set_spinner({
-                isLoading: true,
-            })
-        );
-
-        // CommonConsole("log", pwStatus);
-
         if (!pwStatus) {
             // alert
             CommonNotify({
@@ -125,13 +124,6 @@ function ResetPW({ userID, changeIsFind }) {
                 message: "비밀번호를 확인 해주세요",
             });
 
-            // Spinner
-            dispatch(
-                set_spinner({
-                    isLoading: false,
-                })
-            );
-
             return;
         } else {
             restChangePw();
@@ -139,49 +131,34 @@ function ResetPW({ userID, changeIsFind }) {
     };
 
     const restChangePw = () => {
-        let url = apiPath.api_user_reset_pw;
-        let data = {
+        setIsSpinner(true);
+
+        const url = apiPath.api_user_reset_pw;
+        const data = {
             user_id: user_id,
             user_pwd: inputPW1,
         };
 
-        RestServer("put", url, data)
-            .then(function (response) {
-                // response
-                let res = response;
-                let result_info = res.data.result_info;
+        // 파라미터
+        const restParams = {
+            method: "put",
+            url: url,
+            data: data,
+            err: err,
+            callback: (res) => responsLogic(res),
+        };
 
-                CommonConsole("log", response);
+        CommonRest(restParams);
 
-                if (res.headers.result_code === "0000") {
-                    // Spinner
-                    dispatch(
-                        set_spinner({
-                            isLoading: false,
-                        })
-                    );
+        const responsLogic = (res) => {
+            const result_info = res.data.result_info;
 
-                    changeIsFind("3");
-                } else {
-                    // alert
-                    CommonNotify({
-                        type: "alert",
-                        hook: alert,
-                        message: "잠시 후 다시 시도해주세요",
-                    });
+            if (res.headers.result_code === successCode.success) {
+                // Spinner
+                setIsSpinner(false);
 
-                    // Spinner
-                    dispatch(
-                        set_spinner({
-                            isLoading: false,
-                        })
-                    );
-                }
-            })
-            .catch(function (error) {
-                // 오류발생시 실행
-                CommonConsole("log", error);
-
+                changeIsFind("3");
+            } else {
                 // alert
                 CommonNotify({
                     type: "alert",
@@ -190,12 +167,9 @@ function ResetPW({ userID, changeIsFind }) {
                 });
 
                 // Spinner
-                dispatch(
-                    set_spinner({
-                        isLoading: false,
-                    })
-                );
-            });
+                setIsSpinner(false);
+            }
+        };
     };
 
     return (

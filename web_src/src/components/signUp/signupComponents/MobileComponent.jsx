@@ -1,9 +1,6 @@
 import React, { useRef, forwardRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { RestServer } from "common/js/Rest";
 import { apiPath } from "webPath";
-// import { useDispatch, useSelector } from "react-redux";
-// import { set_cert_info } from "redux/actions/certAction";
 import {
     CommonConsole,
     CommonErrModule,
@@ -12,7 +9,6 @@ import {
     CommonRest,
     CommonSpinner,
 } from "common/js/Common";
-// import { set_spinner } from "redux/actions/commonAction";
 import useAlert from "hook/useAlert";
 import useConfirm from "hook/useConfirm";
 import { useRecoilState, useSetRecoilState } from "recoil";

@@ -1,7 +1,4 @@
 import axios from "axios";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import store from "redux/store/store";
 
 let ip;
 let token;

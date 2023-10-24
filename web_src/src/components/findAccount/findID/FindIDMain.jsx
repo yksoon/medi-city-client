@@ -1,4 +1,3 @@
-import { RestServer } from "common/js/Rest";
 import Footer from "components/common/Footer";
 import Header from "components/common/Header";
 import React, { useState, useEffect, useRef } from "react";
@@ -12,8 +11,6 @@ import {
     CommonRest,
     CommonSpinner,
 } from "common/js/Common";
-import { useDispatch } from "react-redux";
-import { set_spinner } from "redux/actions/commonAction";
 import useAlert from "hook/useAlert";
 import useConfirm from "hook/useConfirm";
 import { useSetRecoilState } from "recoil";
