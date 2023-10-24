@@ -50,7 +50,7 @@ function Footer() {
                         통신판매번호:제2023-경기고양-12345호 |
                         개인정보관리책임자 : 백광동 | 메일 :
                         security@medi-city.co.kr | Copyright©Medi-City All
-                        Rights Reserved.
+                        Rights Reserved..
                     </address>
                 </div>
             </footer>
