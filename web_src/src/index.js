@@ -1,12 +1,12 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
+import {BrowserRouter} from "react-router-dom";
 // import { Provider } from "react-redux";
 // import store from "redux/store/store";
 // import { persistStore } from "redux-persist";
 // import { PersistGate } from "redux-persist/integration/react";
-import { RecoilRoot } from "recoil";
+import {RecoilRoot} from "recoil";
 import RecoilizeDebugger from "recoilize";
 
 // Bootstrap
@@ -16,6 +16,8 @@ import App from "./App";
 
 import "common/css/default.css";
 import "common/css/style.css";
+import {DevSupport} from "@react-buddy/ide-toolbox";
+import {ComponentPreviews, useInitial} from "./dev";
 
 // const persistor = persistStore(store);
 
@@ -25,8 +27,12 @@ const app = document.getElementById("app");
 root.render(
     <BrowserRouter>
         <RecoilRoot>
-            <RecoilizeDebugger root={app} />
-            <App />
+            <RecoilizeDebugger root={app}/>
+            <DevSupport ComponentPreviews={ComponentPreviews}
+                        useInitialHook={useInitial}
+            >
+                <App/>
+            </DevSupport>
         </RecoilRoot>
     </BrowserRouter>
 );

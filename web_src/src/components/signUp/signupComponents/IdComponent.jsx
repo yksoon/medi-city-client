@@ -35,12 +35,12 @@ const IdComponent = forwardRef((props, ref) => {
             url: user_chk_url,
             data: data,
             err: err,
-            callback: (res) => responsLogic(res),
+            callback: (res) => responseLogic(res),
         };
 
         CommonRest(restParams);
 
-        const responsLogic = (res) => {
+        const responseLogic = (res) => {
             if (res.headers.result_code === successCode.success) {
                 setIdchkCode("0000");
                 idStatus(true);
