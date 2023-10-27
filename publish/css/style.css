@@ -299,6 +299,8 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .qna_view .m_title {border-bottom: 1px solid #ddd;padding:0 0 20px;}
 .qna_view p {line-height: 30px;}
 
+.qna_view_an_no {text-align: center;}
+
 /* 마이페이지 - 동영상 view */
 .video_view {border: 1px solid #ddd;padding:30px 40px;border-radius: 20px;margin: 0 0 30px;line-height: 26px;}
 .video_view .video_box {position: relative;}
