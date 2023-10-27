@@ -61,7 +61,7 @@ function MyPageMain() {
                                                         alt=""
                                                     />
                                                 </span>
-                                                1,480,960
+                                                1,480,960,000
                                             </p>
                                         </div>
                                         <div className="my_list">
