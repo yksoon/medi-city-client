@@ -13,7 +13,7 @@ import TermsMain from "components/termPrivacy/TermMain";
 import PrivacyMain from "components/termPrivacy/PrivacyMain";
 import FindIDMain from "components/findAccount/findID/FindIDMain";
 import FindPWMain from "components/findAccount/findPW/FindPWMain";
-import MyPageMain from "components/myPage/myPage/MyPageMain";
+import MyPageMain from "components/myPage/myPage/main/MyPageMain";
 import CertResult from "components/common/CertResult";
 
 const Router = () => {

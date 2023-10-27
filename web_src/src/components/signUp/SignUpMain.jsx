@@ -189,17 +189,18 @@ function SignUpMain() {
                 url: url,
                 data: data,
                 err: err,
-                callback: (res) => responsLogic(res),
+                callback: (res) => responseLogic(res),
             };
 
             CommonRest(restParams);
 
-            const responsLogic = (res) => {
+            const responseLogic = (res) => {
                 const result_code = res.headers.result_code;
 
                 if (result_code === successCode.success) {
                     localStorage.removeItem("certification_idx");
                     setCertInfo(null);
+
                     // dispatch(set_cert_info(null));
 
                     // Spinner

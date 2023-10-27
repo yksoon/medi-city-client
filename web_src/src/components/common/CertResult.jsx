@@ -9,49 +9,49 @@ import { isSpinnerAtom } from "recoils/atoms";
 import { apiPath } from "webPath";
 
 const CertResult = (props) => {
-    const { alert } = useAlert();
-    const { confirm } = useConfirm();
-    const err = CommonErrModule();
-    const [isSpinner, setIsSpinner] = useRecoilState(isSpinnerAtom);
+  const { alert } = useAlert();
+  const { confirm } = useConfirm();
+  const err = CommonErrModule();
+  const [isSpinner, setIsSpinner] = useRecoilState(isSpinnerAtom);
 
-    const params = useParams();
-    const cert_idx = params.cert_idx;
+  const params = useParams();
+  const cert_idx = params.cert_idx;
 
-    const location = useLocation();
-    const queryString = location.search;
+  const location = useLocation();
+  const queryString = location.search;
 
-    useEffect(() => {
-        sendResult();
-    }, []);
+  useEffect(() => {
+    sendResult();
+  }, []);
 
-    const sendResult = () => {
-        setIsSpinner(true);
+  const sendResult = () => {
+    setIsSpinner(true);
 
-        const url = `${apiPath.api_auth_cert_recieve_result}${cert_idx}${queryString}`;
+    const url = `${apiPath.api_auth_cert_recieve_result}${cert_idx}${queryString}`;
 
-        // 파라미터
-        const restParams = {
-            method: "get",
-            url: url,
-            data: {},
-            err: err,
-            callback: (res) => responsLogic(res),
-        };
-
-        CommonRest(restParams);
-
-        const responsLogic = (res) => {
-            const result_code = res.headers.result_code;
-
-            if (result_code === successCode.success) {
-                window.opener = null;
-                window.open("", "_self");
-                window.close();
-            }
-        };
+    // 파라미터
+    const restParams = {
+      method: "get",
+      url: url,
+      data: {},
+      err: err,
+      callback: (res) => responseLogic(res),
     };
 
-    return <>{isSpinner && <CommonSpinner2 />}</>;
+    CommonRest(restParams);
+
+    const responseLogic = (res) => {
+      const result_code = res.headers.result_code;
+
+      if (result_code === successCode.success) {
+        window.opener = null;
+        window.open("", "_self");
+        window.close();
+      }
+    };
+  };
+
+  return <>{isSpinner && <CommonSpinner2 />}</>;
 };
 
 export default CertResult;

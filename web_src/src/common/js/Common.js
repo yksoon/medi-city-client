@@ -210,7 +210,7 @@ const CommonConsole = (type, responseData) => {
                 decodeURI(result_message_ko),
                 decodeURI(result_message_en),
                 decodeURI(result_code),
-                decodeURI(message)
+                decodeURI(message),
             );
 
         case "alertMsg":
@@ -269,7 +269,7 @@ const CommonErrorCatch = (
     setIsSpinner,
     alert,
     resetUserInfo,
-    resetUserToken
+    resetUserToken,
 ) => {
     // 오류발생시 실행
     CommonConsole("log", error);
@@ -306,7 +306,7 @@ const CommonErrorCatch = (
                 setIsSpinner,
                 alert,
                 resetUserInfo,
-                resetUserToken
+                resetUserToken,
             );
         } else if (
             error.request.responseURL.indexOf(apiPath.api_user_cert) === 0 ||
@@ -413,7 +413,7 @@ data : {}
 callback : callback()
 admin: ""
 */
-const CommonRest = async (restParams = {}) => {
+const CommonRest = (restParams = {}) => {
     // const dispatch = restParams.err.dispatch;
     const setIsSpinner = restParams.err.setIsSpinner;
     const alert = restParams.err.alert ? restParams.err.alert : "";
@@ -425,7 +425,7 @@ const CommonRest = async (restParams = {}) => {
     const data = restParams.data;
     const admin = restParams.admin;
 
-    await RestServer(method, url, data, admin)
+    RestServer(method, url, data, admin)
         .then((response) => {
             restParams.callback(response);
         })
@@ -436,7 +436,7 @@ const CommonRest = async (restParams = {}) => {
                 setIsSpinner,
                 alert,
                 resetUserInfo,
-                resetUserToken
+                resetUserToken,
             );
 
             // console.log(restParams);
