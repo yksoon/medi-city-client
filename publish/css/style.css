@@ -91,7 +91,7 @@ input[type="checkbox"]:checked + label.checkbox svg {fill:#fff;}
 h3.title {font-size: 38px;font-weight: 700;}
 .title p {display:inline-block;font-size: 21px;font-weight: 500;color: #818181;margin: 0 0 0 30px;}
 
-.subtitle {font-size: 42px;font-weight: 700;}
+.subtitle {font-size: 42px;font-weight: 700;margin:0 0 42px;}
 .linebox {border: 1px solid #ddd;padding:26px 36px;border-radius: 10px;}
 
 /* 공통 //E */
@@ -365,13 +365,114 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 
 /* 호텔 */
 /* 호텔리스트 */
-.hotel_list ul li {border: 1px solid #ddd;padding: 40px;display:flex;border-radius: 50px;}
-.hotel_list ul li span.hotel_list_thumb {width: 745px;height: 450px;overflow:hidden;border-radius: 50px;}
-.hotel_list ul li span.hotel_list_thumb img {width: 100%;}
-.hotel_list ul li .hotel_list_txt {width: calc( 100% - 745px ) ;padding:0 0 0 30px;}
+.hotel_list ul li {border: 1px solid #ddd;padding: 40px;display:flex;border-radius: 50px;margin:0 0 40px;}
+.hotel_list ul li span.hotel_list_thumb {width: 735px;height: 450px;overflow:hidden;border-radius: 50px;}
+.hotel_list ul li span.hotel_list_thumb img {width: 100%;border-radius: 50px;}
+.hotel_list ul li .hotel_list_txt {width: calc( 100% - 735px ) ;padding:0 0 0 40px;}
+.hotel_list ul li .hotel_list_txt .event img {width:120px;margin:0 0 10px;}
 .hotel_list ul li .hotel_list_txt h3 {font-size: 32px;font-weight: 700;color: #000;}
 .hotel_list ul li .hotel_list_txt h5 {font-size: 21px;font-weight: 600;color: #616161;margin:10px 0 20px;}
-.hotel_list ul li .hotel_list_txt .hotel_venue p{font-size: 21px;font-weight: 500;}
+.hotel_list ul li .hotel_list_txt .hotel_venue p{font-size: 18px;font-weight: 500;margin:0 0 10px;}
 .hotel_list ul li .hotel_list_txt .hotel_venue p span{display:inline-block;vertical-align:middle;margin:0 10px 0 0;}
-.hotel_list ul li .hotel_list_txt .hotel_intro {color: #333;margin:10px 0 20px;margin:28px 0 40px;}
-.hotel_list ul li .hotel_list_txt .hotel_intro .hotel_intro_more {display:inline-block;color: #818181;cursor:pointer;}
+.hotel_list ul li .hotel_list_txt .hotel_intro {color: #333;margin:20px 0 30px;font-size: 16px;line-height: 28px;text-align: justify;}
+.hotel_list ul li .hotel_list_txt .more {display:inline-block;color: #818181;cursor:pointer;font-size: 16px;line-height: 28px;font-size: 14px; font-weight: 500; color: #818181; text-decoration: underline;margin:6px 0 0;}
+.hotel_list .hotel_btn {display:flex;gap:16px;}
+.hotel_list .hotel_btn .hotel_list_btn {width:223px;height: 53px;border-radius: 50px;line-height: 53px;border: 1px solid #ddd;color: #a8a8a8;display: block;text-align: center;font-size: 16px;}
+.hotel_list .hotel_btn .hotel_list_btn span {display: inline-block;margin:0 0 0 6px;transition:0.3s;}
+.hotel_list .hotel_btn .hotel_list_btn.blue {color: #0047A0;border: 1px solid #0047A0;}
+.hotel_list .hotel_btn .hotel_list_btn:hover span {margin:0 0 0 20px}
+
+/* 호텔상세 */
+.hotel_view div.hotel_info {display:flex;margin:0 0 90px;}
+.hotel_view div.hotel_info .hotel_list_thumb {width: 680px;}
+.hotel_view div.hotel_info .hotel_list_thumb img {width: 100%;border-radius: 50px;}
+.hotel_view div.hotel_info .hotel_list_thumb .big_thumb img {width: 100%;height:420px;object-fit: cover;}
+.hotel_view div.hotel_info .hotel_list_thumb .small_thumb {display:flex;gap:10px;margin:20px 0 0;}
+.hotel_view div.hotel_info .hotel_list_thumb .small_thumb span {display: block;cursor:pointer;width:20%;height:80px;overflow: hidden;border-radius: 20px;}
+.hotel_view div.hotel_info .hotel_list_thumb .small_thumb span img {display: block;border-radius: 0;object-fit: cover;height:80px;}
+.hotel_view div.hotel_info .hotel_list_txt {width: calc( 100% - 680px ) ;padding:0 0 0 40px;}
+.hotel_view div.hotel_info .hotel_list_txt .event img {width:120px;margin:0 0 10px;}
+.hotel_view div.hotel_info .hotel_list_txt h3 {font-size: 32px;font-weight: 700;color: #000;margin:0 14px 0 0;}
+.hotel_view div.hotel_info .hotel_list_txt h5 {font-size: 21px;font-weight: 600;color: #616161;margin:10px 0 20px;}
+.hotel_view div.hotel_info .hotel_list_txt .hotel_venue p{font-size: 18px;font-weight: 500;margin:0 0 10px;}
+.hotel_view div.hotel_info .hotel_list_txt .hotel_venue p span{display:inline-block;vertical-align:middle;margin:0 10px 0 0;}
+.hotel_view div.hotel_info .hotel_list_txt .hotel_intro {color: #333;margin:20px 0 30px;font-size: 16px;line-height: 28px;text-align: justify;}
+.hotel_view div.hotel_info .info_link {display:flex;align-items: center;gap:10px;}
+.hotel_view div.hotel_info .info_link a {border: 1px solid #ddd;border-radius: 5px;line-height: 36px;padding: 0 20px;font-size: 14px;color: #818181;text-align: center;}
+.hotel_view div.hotel_info .info_link a.img_btn {padding:0;width:36px;}
+.hotel_view div.hotel_info .info_link a.img_btn img {vertical-align: middle;}
+
+.hotel_view .room_slide {width:100%;overflow: hidden;margin: 42px 0 28px;}
+.hotel_view .room_slide li {height: 234px;border-radius: 20px;overflow: hidden;}
+.hotel_view .room_slide img {max-width: 100%;object-fit: cover;}
+.hotel_view .room_list > li {border: 1px solid #ddd;padding: 40px;border-radius: 50px;margin:0 0 40px;}
+.hotel_view .room_list > li .room_info {display:flex;justify-content: space-between;align-items: center;}
+.hotel_view .room_list > li h5 {font-size: 28px;font-weight: 700;color: #111;}
+.hotel_view .room_list > li h5 span {font-size: 18px;color: #333;display: inline-block;margin:0 0 0 13px;font-weight: 500;}
+.hotel_view .room_list > li .service_icon {margin:18px 0 0;font-weight: 500;display:flex;gap:16px; align-items: center;}
+.hotel_view .room_list > li .service_icon p {height:23px;}
+.hotel_view .room_list > li .service_icon a {font-size: 16px;text-decoration: underline;}
+.hotel_view .room_list > li .service_icon p img {height:100%;vertical-align: middle;margin:0 4px 0 0;}
+.hotel_view .room_list > li .pay {display:flex; align-items: center;gap:30px;}
+.hotel_view .room_list > li .pay > div {text-align: right;}
+.hotel_view .room_list > li .pay a {display:block;width:185px;height:60px;line-height: 60px;text-align: center;background: #0047A0;border-radius: 15px ;color: #fff;font-size: 21px;font-weight: 700;}
+.hotel_view .room_list > li .pay .cost {font-size: 21px;color: #A6A6A6;text-decoration: line-through;}
+.hotel_view .room_list > li .pay .price {font-size: 32px;color: #0047A0;font-weight: 700;margin:5px 0;}
+.hotel_view .room_list > li .pay .sale {font-size: 18px;color: #0047A0;font-weight: 500;}
+.hotel_view .room_list > li .additional_info_btn {margin:28px 0 0;display: block;}
+
+/* 호텔예약 */
+.hotel_reservation .reservation_top {display:flex;border: 1px solid #ddd;padding: 40px;border-radius: 50px;margin:0 0 40px;    align-items: center;}
+.hotel_reservation .reservation_top .thumb {width:352px;height:180px;overflow:hidden;border-radius:40px;}
+.hotel_reservation .reservation_top .thumb img {object-fit: cover;width:100%;height:180px;}
+.hotel_reservation .reservation_top .info {padding:0 0 0 40px;}
+.hotel_reservation .reservation_top .info h3 {font-size: 32px;font-weight: 700;color: #111;}
+.hotel_reservation .reservation_top .info h5 {font-size: 21px;font-weight: 600;color: #616161;margin:10px 0 20px;}
+.hotel_reservation .reservation_top .info .hotel_venue p{font-size: 18px;font-weight: 500;margin:0 0 10px;}
+.hotel_reservation .reservation_top .info .hotel_venue p:last-child{margin:0;}
+.hotel_reservation .reservation_top .info .hotel_venue p span{display:inline-block;vertical-align:middle;margin:0 10px 0 0;}
+.hotel_reservation .reservation {display:flex;} 
+.hotel_reservation .reservation .left_box {width:1050px;}
+.hotel_reservation .reservation .calendar {padding:40px;border: 1px solid #ddd;border-radius: 40px;}
+.hotel_reservation .reservation .right_box {position: relative; width:calc( 100% - 1100px);margin:0 0 0 50px;padding:40px;border: 1px solid #ddd;border-radius: 40px;min-height:620px;}
+.hotel_reservation .reservation .right_box .info .hotel_name {font-size: 38px;font-weight: 700;color: #0047A0;margin:0 0 30px;}
+.hotel_reservation .reservation .right_box .info > div {display:flex;font-size: 24px;font-weight: 700;margin:0 0 20px;}
+.hotel_reservation .reservation .right_box .info > div:last-child {margin:0;}
+.hotel_reservation .reservation .right_box .info > div h6 {width:90px;font-weight: 700;color: #111;}
+.hotel_reservation .reservation .right_box .info > div p {vertical-align: middle;margin: 0 0 10px;}
+.hotel_reservation .reservation .right_box .info > div span {font-size: 16px;color: #a6a6a6;font-weight: 400;vertical-align: middle;}
+.hotel_reservation .reservation .right_box .info > div .room_amount + span {margin:0 10px;display: inline-block;}
+.hotel_reservation .reservation .right_box .info > div p:last-child {margin:0;}
+.hotel_reservation .reservation .right_box .info button {background:#fff;border:1px solid #ddd;border-radius: 50%;width: 22px;height: 22px;color: #616161;font-size: 16px;font-weight: 500;padding:0;text-align: center;vertical-align: middle;margin:0 10px;cursor: pointer;}
+.hotel_reservation .reservation .right_box .info button img {vertical-align: middle;}
+.hotel_reservation .reservation .right_box a.next_btn {position: absolute;bottom:40px; lefT:40px; display: block;width:calc(100% - 80px);height:78px;background: #0047a0;text-align: center;color: #fff;font-size: 28px;font-weight: 700;line-height: 78px;border-radius: 20px;}
+.hotel_reservation .room_list li.room {padding:30px;border: 1px solid #ddd;border-radius: 40px;cursor: pointer;margin:0 0 30px;}
+.hotel_reservation .room_list li.room.active {border: 1px solid #0047A0;background: #F6FBFF;}
+.hotel_reservation .room_list li.room.active h5 {color:#0047A0;}
+.hotel_reservation .room_list .thumb {border-radius: 20px;overflow: hidden;width: 280px;height: 190px;margin:0 30px 0 0;}
+.hotel_reservation .room_list .thumb img {width: 100%;height: 190px;object-fit: cover;}
+.hotel_reservation .room_list .info_box {display:flex; align-items: center;gap:30px; justify-content: space-between;}
+.hotel_reservation .room_list .info_box .info {display:flex;align-items: center;}
+.hotel_reservation .room_list .info_box h5 {font-size: 28px;font-weight: 700;color: #111;}
+.hotel_reservation .room_list .info_box h6 {font-size: 18px;color: #333;display: inline-block;margin:10px 0 0;display: block;font-weight: 500;}
+.hotel_reservation .room_list .info_box .service_icon {margin:18px 0 0;font-weight: 500;display:flex;gap:10px; align-items: center;font-size: 16px;flex-wrap: wrap;}
+.hotel_reservation .room_list .info_box .service_icon p {height:20px;}
+.hotel_reservation .room_list .info_box .service_icon a {font-size: 14px;text-decoration: underline;}
+.hotel_reservation .room_list .info_box .service_icon p img {height:100%;vertical-align: middle;margin:0 4px 0 0;}
+.hotel_reservation .room_list .info_box .pay {text-align: right;}
+.hotel_reservation .room_list .info_box .pay a {display:block;width:185px;height:60px;line-height: 60px;text-align: center;background: #0047A0;border-radius: 15px ;color: #fff;font-size: 21px;font-weight: 700;}
+.hotel_reservation .room_list .info_box .pay .cost {font-size: 21px;color: #A6A6A6;text-decoration: line-through;}
+.hotel_reservation .room_list .info_box .pay .price {font-size: 32px;color: #0047A0;font-weight: 700;margin:5px 0;}
+.hotel_reservation .room_list .info_box .pay .sale {font-size: 18px;color: #0047A0;font-weight: 500;}
+.hotel_reservation .room_list .info_box .additional_info_btn {margin:28px 0 0;display: block;}
+
+.room_info_modal .room_slide {width:100%;overflow: hidden;margin: 32px 0 60px;}
+.room_info_modal .room_slide li {height: 234px;border-radius: 20px;overflow: hidden;}
+.room_info_modal .room_slide img {max-width: 100%;object-fit: cover;}
+.room_info_modal .room_info {display:flex;justify-content: space-between;align-items: center;}
+.room_info_modal h5 {font-size: 28px;font-weight: 700;color: #111;}
+.room_info_modal h5 span {font-size: 18px;color: #333;display: inline-block;margin:0 0 0 13px;font-weight: 500;}
+.room_info_modal .service_icon {margin:18px 0 0;font-weight: 500;display:flex;gap:16px; align-items: center;}
+.room_info_modal .service_icon p {height:23px;}
+.room_info_modal .service_icon a {font-size: 16px;text-decoration: underline;}
+.room_info_modal .service_icon p img {height:100%;vertical-align: middle;margin:0 4px 0 0;}
