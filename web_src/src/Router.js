@@ -15,6 +15,8 @@ import FindIDMain from "components/findAccount/findID/FindIDMain";
 import FindPWMain from "components/findAccount/findPW/FindPWMain";
 import MyPageMain from "components/myPage/myPage/main/MyPageMain";
 import CertResult from "components/common/CertResult";
+import ModMyPageMain from "components/myPage/modMyPage/ModMyPageMain";
+import SvgList from "SvgList";
 
 const Router = () => {
     // 레이지 로딩 추가
@@ -79,8 +81,17 @@ const Router = () => {
                     element={<CertResult />}
                 />
 
+                {/* 회원정보 수정 */}
+                <Route
+                    path={`${routerPath.mod_mypage}`}
+                    element={<ModMyPageMain />}
+                />
+
                 {/* 상태체크 */}
                 <Route path="/health" element={<HealthCheck />} />
+
+                {/* 아이콘 이미지 리스트 */}
+                <Route path="/svg_list" element={<SvgList />} />
 
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>

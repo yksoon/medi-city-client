@@ -238,13 +238,7 @@ function Header({ props }) {
                       >
                         로그아웃
                       </Link>
-
-                      {/* <a
-                                                href="mypage_modify_step1.html"
-                                                className="font-12"
-                                            >
-                                                회원정보수정
-                                            </a> */}
+                        <Link to={routerPath.mod_mypage} className="font-12">회원정보수정</Link>
                     </div>
                     <Link
                       to={routerPath.myPage_url}

@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, {useEffect} from "react";
+import {Link} from "react-router-dom";
 import Header from "components/common/Header";
 import Footer from "components/common/Footer";
-import $ from "jquery";
-import { useRecoilValue } from "recoil";
-import { userInfoAtom } from "../../../../recoils/atoms";
+import {useRecoilValue} from "recoil";
+import {userInfoAtom} from "recoils/atoms";
 
-function MyPageMain() {
+
+const MyPageMain = () => {
     const userInfo = useRecoilValue(userInfoAtom);
 
     useEffect(() => {
