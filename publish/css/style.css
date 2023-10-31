@@ -78,7 +78,8 @@ a.hotel_btn {display:inline-block;width: 220px;height: 53px;line-height: 53px;fo
 
 select {border: 1px solid #ddd;height:48px;line-height:48px;font-size: 18px;color: #333;border-radius: 10px;padding: 0 20px;cursor:pointer}
 input::placeholder {color: #a6a6a6;}
-input.input {border: 1px solid #ddd;height:48px;line-height:48px;font-size: 18px;color: #333;border-radius: 10px;padding: 0 20px;display:inline-block;min-width:80px;margin:0 10px 0 0 ;}
+input.input {border: 1px solid #ddd;height:48px;line-height:48px;font-size: 16px;color: #333;border-radius: 10px;padding: 0 20px;display:inline-block;min-width:80px;margin:0 10px 0 0 ;}
+textarea {border: 1px solid #ddd;min-height:180px;line-height:26px;font-size: 16px;color: #333;border-radius: 10px;padding: 20px;display:inline-block;min-width:80px;margin:0 10px 0 0 ;resize:none;width:100%;font-family: inherit;}
 input.input.hold {background: #efefef;color: #bdbdbd;}
 input.input:last-child {margin:0;}
 input.login {border: 1px solid #818181;height:36px;line-height:36px;font-size: 12px;color: #333;border-radius: 20px;padding: 0 20px;}
@@ -86,7 +87,7 @@ label.checkbox {display:flex;width:30px;height:30px;border: 1px solid #bdbdbd;bo
 input[type="checkbox"]:checked + label.checkbox {background:#0047a0;border: 1px solid #0047a0;}
 input[type="checkbox"]:checked + label.checkbox svg {fill:#fff;}
 
-.title{margin: 0 0 34px;}
+.title{margin: 0 0 28px;}
 .title h3 {display:inline-block;font-size: 38px;font-weight: 700;}
 h3.title {font-size: 38px;font-weight: 700;}
 .title p {display:inline-block;font-size: 21px;font-weight: 500;color: #818181;margin: 0 0 0 30px;}
@@ -256,6 +257,8 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .ok_page {padding:60px 0 0;text-align:center;}
 .ok h3 {font-size: 32px;font-weight: 700;margin: 32px 0 15px;}
 .ok_page h3 {font-size: 32px;font-weight: 700;margin: 32px 0 15px;}
+.ok_page p {font-size: 18px;line-height: 30px;}
+.ok_page .btn_box {margin:32px 0 0;}
 
 /* 404 */
 .error_page {padding:120px 0 0;text-align:center;height:100vh;background:#f2f2f2;}
@@ -420,7 +423,7 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .hotel_view .room_list > li .pay .price {font-size: 32px;color: #0047A0;font-weight: 700;margin:5px 0;}
 .hotel_view .room_list > li .pay .sale {font-size: 18px;color: #0047A0;font-weight: 500;}
 .hotel_view .room_list > li .additional_info_btn {margin:28px 0 0;display: block;}
-
+ 
 /* 호텔예약 */
 .hotel_reservation .reservation_top {display:flex;border: 1px solid #ddd;padding: 40px;border-radius: 50px;margin:0 0 40px;    align-items: center;}
 .hotel_reservation .reservation_top .thumb {width:352px;height:180px;overflow:hidden;border-radius:40px;}
@@ -431,10 +434,10 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .hotel_reservation .reservation_top .info .hotel_venue p{font-size: 18px;font-weight: 500;margin:0 0 10px;}
 .hotel_reservation .reservation_top .info .hotel_venue p:last-child{margin:0;}
 .hotel_reservation .reservation_top .info .hotel_venue p span{display:inline-block;vertical-align:middle;margin:0 10px 0 0;}
-.hotel_reservation .reservation {display:flex;} 
+.hotel_reservation .reservation {display:flex;position: relative;} 
 .hotel_reservation .reservation .left_box {width:1050px;}
 .hotel_reservation .reservation .calendar {padding:40px;border: 1px solid #ddd;border-radius: 40px;}
-.hotel_reservation .reservation .right_box {position: relative; width:calc( 100% - 1100px);margin:0 0 0 50px;padding:40px;border: 1px solid #ddd;border-radius: 40px;min-height:620px;}
+.hotel_reservation .reservation .right_box {position: sticky; width:500px;margin:0 0 0 50px;padding:40px;border: 1px solid #ddd;border-radius: 40px;height:620px;right:0;top:40px;}
 .hotel_reservation .reservation .right_box .info .hotel_name {font-size: 38px;font-weight: 700;color: #0047A0;margin:0 0 30px;}
 .hotel_reservation .reservation .right_box .info > div {display:flex;font-size: 24px;font-weight: 700;margin:0 0 20px;}
 .hotel_reservation .reservation .right_box .info > div:last-child {margin:0;}
@@ -446,6 +449,9 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .hotel_reservation .reservation .right_box .info button {background:#fff;border:1px solid #ddd;border-radius: 50%;width: 22px;height: 22px;color: #616161;font-size: 16px;font-weight: 500;padding:0;text-align: center;vertical-align: middle;margin:0 10px;cursor: pointer;}
 .hotel_reservation .reservation .right_box .info button img {vertical-align: middle;}
 .hotel_reservation .reservation .right_box a.next_btn {position: absolute;bottom:40px; lefT:40px; display: block;width:calc(100% - 80px);height:78px;background: #0047a0;text-align: center;color: #fff;font-size: 28px;font-weight: 700;line-height: 78px;border-radius: 20px;}
+.hotel_reservation .reservation .right_box .info > div.agree {margin:60px 0 20px;}
+.hotel_reservation .reservation .right_box .info > div.agree p {font-size: 16px;width:calc(100% - 20px);padding:0 0 0 10px;}
+.hotel_reservation .reservation .right_box .info > div.agree p span {font-size: 16px;color: #0047A0;font-weight: 800;vertical-align: text-top;}
 .hotel_reservation .room_list li.room {padding:30px;border: 1px solid #ddd;border-radius: 40px;cursor: pointer;margin:0 0 30px;}
 .hotel_reservation .room_list li.room.active {border: 1px solid #0047A0;background: #F6FBFF;}
 .hotel_reservation .room_list li.room.active h5 {color:#0047A0;}
@@ -476,3 +482,23 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .room_info_modal .service_icon p {height:23px;}
 .room_info_modal .service_icon a {font-size: 16px;text-decoration: underline;}
 .room_info_modal .service_icon p img {height:100%;vertical-align: middle;margin:0 4px 0 0;}
+
+.reservation .input_box {border: 1px solid #ddd;padding: 40px;border-radius: 50px;margin:0 0 40px; align-items: center;}
+.reservation .input_box .title h3 {font-size: 32px;}
+.reservation .input_box .title a {margin:0 0 0 20px;vertical-align: middle;display: inline-block;}
+.reservation .input_box div.name_box > div, .reservation .input_box div.phone_box > div, .reservation .input_box div.email_box > div {width: calc( 100% - 100px );}
+.reservation .input_box div.name_box input {width:calc(( 100% - 15px ) /2);}
+.reservation .input_box div.phone_box input {width:calc(( 100% - 30px ) /3);}
+.reservation .input_box div.email_box input {width:100%;}
+.reservation .input_box .reservation_person > div {width: calc( 100% - 100px );display:flex;margin:0 0 14px;align-items: center;width:100%;}
+.reservation .input_box .reservation_person h5 {width:100px;}
+.reservation .input_box .guest_info {justify-content: space-between;}
+.reservation .input_box .guest_info span {cursor: pointer;}
+.reservation .input_box .guest_info label {margin:0 10px 0 0;}
+.reservation .input_box .guest > div {width: calc( 100% - 100px );display:flex;margin:0 0 14px;align-items: center;width:100%;}
+.reservation .input_box .guest h5 {width:100px;}
+.reservation .input_box .guest .guest_title {display:flex;justify-content: space-between;}
+.reservation .input_box .guest .guest_title h4 {font-size: 23px;font-weight: 600;}
+.reservation .input_box .guest .guest_title a {height:36px;display: block;padding:0 20px;border-radius: 5px;background: #dd0000;color: #fff;line-height: 36px;font-size: 16px;}
+.reservation .input_box p.cancel {line-height: 30px;}
+.reservation .input_box p.cancel span {color: #dd0000;}

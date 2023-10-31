@@ -39,52 +39,96 @@
 
                 <div class="reservation">
                     <div class="left_box">
-                        <ul class="room_list">
-                            <li class="room">
-                                <div class="info_box">
-                                    <div class="info">
-                                        <div class="thumb"><img src="img/sub/room_sam01.png" alt=""></div>
-                                        <div>
-                                            <h5 class="room_name">Superior Accessible </h5>
-                                            <h6>슈페리어 액세서블 노오션뷰</h6>
-                                            <div class="service_icon">
-                                                <p><img src="img/icon/BED.svg" alt="">퀸사이즈침대 1개</p>
-                                                <p><img src="img/icon/WIFI.svg" alt=""> 무료 WiFi</p>
-                                                <p><img src="img/icon/PARKING.svg" alt=""> 무료 셀프 주차</p>
-                                            </div>
-                                            <a href="javascript:void(0);" class="font-12 additional_info_btn" onclick="modal_open();">추가정보 보기</a>
-                                        </div>
-                                    </div>
-                                    <div class="pay">
-                                        <p class="cost">₩500,000</p>
-                                        <p class="price">₩<span class="room_price">300000</span></p>
-                                        <p class="sale">40% 할인</p>
+                        <div class="input_box">
+                            <div class="title">
+                                <h3>예약자 정보</h3>
+                                <a href="mypage_modify_step1.html" class="font-12">정보수정</a>
+                            </div>
+                            <div class="reservation_person">
+                                <div class="name_box">
+                                    <h5>이름</h5>
+                                    <div>
+                                        <input type="name" class="input" placeholder="성" readonly>
+                                        <input type="name" class="input" placeholder="이름" readonly>
                                     </div>
                                 </div>
-                            </li>
-                            <li class="room">
-                                <div class="info_box">
-                                    <div class="info">
-                                        <div class="thumb"><img src="img/sub/room_sam01.png" alt=""></div>
-                                        <div>
-                                            <h5 class="room_name">Superior Hollywood </h5>
-                                            <h6>슈페리어 할리우드 노오션뷰</h6>
-                                            <div class="service_icon">
-                                                <p><img src="img/icon/BED.svg" alt="">퀸사이즈침대 1개</p>
-                                                <p><img src="img/icon/WIFI.svg" alt=""> 무료 WiFi</p>
-                                                <p><img src="img/icon/PARKING.svg" alt=""> 무료 셀프 주차</p>
-                                            </div>
-                                            <a href="javascript:void(0);" class="font-12 additional_info_btn" onclick="modal_open();">추가정보 보기</a>
-                                        </div>
-                                    </div>
-                                    <div class="pay">
-                                        <p class="cost">₩500,000</p>
-                                        <p class="price">₩<span class="room_price">360000</span></p>
-                                        <p class="sale">40% 할인</p>
+                                <div class="phone_box">
+                                    <h5>연락처</h5>
+                                    <div id="phone_num" class="m0">
+                                        <input type="tel" class="input" id="phone_num1" value="010" readonly>
+                                        <input type="tel" class="input" id="phone_num2" readonly>
+                                        <input type="tel" class="input" id="phone_num3" readonly>
                                     </div>
                                 </div>
-                            </li>
-                        </ul>
+                                <div class="email_box">
+                                    <h5>이메일</h5>
+                                    <div><input type="email" class="input" readonly></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input_box">
+                            <div class="title flex guest_info">
+                                <h3>투숙객 정보 <span class="guest_add_btn" onclick="guest_add();">+</span></h3>
+                                <div class="flex">
+                                    <input type="checkbox" id="guest_info" class="hide">
+                                    <label for="guest_info" class="checkbox">
+                                        <svg width="9.772" height="7.181" viewBox="0 0 9.772 7.181" fill="#bdbdbd">
+                                            <path d="M0,6.181a1,1,0,0,1-.707-.293,1,1,0,0,1,0-1.414L4.474-.707a1,1,0,0,1,1.414,0,1,1,0,0,1,0,1.414L.707,5.888A1,1,0,0,1,0,6.181Z" transform="translate(3.591 1)"/>
+                                            <path d="M2.591,3.591A1,1,0,0,1,1.883,3.3L-.707.707a1,1,0,0,1,0-1.414,1,1,0,0,1,1.414,0L3.3,1.883a1,1,0,0,1-.707,1.707Z" transform="translate(1 3.591)" />
+                                        </svg>
+                                    </label>
+                                    예약자 정보와 같습니다.
+                                </div>
+                            </div>
+                            <div class="guest_box">
+                                <div class="guest">
+                                    <div class="guest_title">
+                                        <h4 class="guest_num">투숙객 1</h4>
+                                        <a href="javascript:void(0)" class="guest_remove">투숙객 삭제</a>
+                                    </div>
+                                    <div class="name_box">
+                                        <h5>이름</h5>
+                                        <div>
+                                            <input type="name" class="input" placeholder="성">
+                                            <input type="name" class="input" placeholder="이름">
+                                        </div>
+                                    </div>
+                                    <div class="phone_box">
+                                        <h5>연락처</h5>
+                                        <div id="phone_num" class="m0">
+                                            <input type="tel" class="input" id="phone_num1" value="010" readonly>
+                                            <input type="tel" class="input" id="phone_num2">
+                                            <input type="tel" class="input" id="phone_num3">
+                                        </div>
+                                    </div>
+                                    <div class="email_box">
+                                        <h5>이메일</h5>
+                                        <div><input type="email" class="input" autofocus></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input_box">
+                            <div class="title">
+                                <h3>요청사항</h3>
+                            </div>
+                            <div class="">
+                                <textarea name="" id="" class="input" placeholder="요청사항이 있으시다면 적어주세요."></textarea>
+                            </div>
+                        </div>
+                        <div class="input_box">
+                            <div class="title">
+                                <h3>예약 취소/변경 규정</h3>
+                            </div>
+                            <div>
+                                <p class="cancel">
+                                    체크인 3일 전: 위약금 없음<br>
+                                    체크인 2일 전: 객실료의 <span>30% 취소 위약금 부과</span><br>
+                                    체크인 1일 전: 객실료의 <span>50% 취소 위약금 부과</span><br>
+                                    당일 취소 및 No-Show: 객실료의 <span>100% 취소 위약금 부과</span><br>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                     <div class="right_box">
                         <div class="info">
@@ -119,8 +163,20 @@
                                     <p><strong class="room_amount">0</strong>원<span>부가세 포함</span></p>
                                 </div>
                             </div>
+                            <div class="agree">
+                                <input type="checkbox" id="reservation_agree" class="hide">
+                                <label for="reservation_agree" class="checkbox">
+                                    <svg width="9.772" height="7.181" viewBox="0 0 9.772 7.181" fill="#bdbdbd">
+                                        <path d="M0,6.181a1,1,0,0,1-.707-.293,1,1,0,0,1,0-1.414L4.474-.707a1,1,0,0,1,1.414,0,1,1,0,0,1,0,1.414L.707,5.888A1,1,0,0,1,0,6.181Z" transform="translate(3.591 1)"/>
+                                        <path d="M2.591,3.591A1,1,0,0,1,1.883,3.3L-.707.707a1,1,0,0,1,0-1.414,1,1,0,0,1,1.414,0L3.3,1.883a1,1,0,0,1-.707,1.707Z" transform="translate(1 3.591)" />
+                                    </svg>
+                                </label>
+                                <p>
+                                    해당 예약 요청 시, 메디씨티 <span>이용약관</span> 및 <span>개인정보 처리방침</span>을 읽었으며 이에 동의합니다.
+                                </p>
+                            </div>
                         </div>
-                        <a href="hotel_reservation_step2.html" class="next_btn">다음</a>
+                        <a href="hotel_reservation_step4.html" class="next_btn">다음</a>
                     </div>
                 </div>
                
@@ -215,30 +271,19 @@
     .then(data => footer.innerHTML = data);
 </script>
 
+
 <script>
-    let room_amount = 0;
-    // room 클릭시 
-    $('.room').click(function(){
-        // class 추가
-        $(this).toggleClass('active');
-        let room_name = $(this).find('.room_name').text();
-        let room_price_text = Number($(this).find('.room_price').text());
-        let room_vat = room_price_text * 0.1;
-        let room_price = room_price_text +  room_vat;
-        
-        // 룸타입, 결제금액 계산
-        if($(this).hasClass('active')){
-            $('.room_type').append('<p>' + room_name + "</p>" );
-            $(this).each(function(){
-                room_amount += room_price;
-            });
-            $('.room_amount').text(room_amount + room_vat);
-        }else{
-            $('.room_type').remove(room_name);
-            $(this).each(function(){
-                room_amount -= room_price;
-            });
-            $('.room_amount').text(room_amount);
-        };
-    });
+    var i = 1;
+    var guest = $('.guest_box').html();
+    
+    function guest_add() {
+         if (i >= 4) {
+             alert('최대 인원을 초과하였습니다.');
+             return;
+         }
+        $('.guest_box').append(guest);
+        i++;
+    }
+
+
 </script>
