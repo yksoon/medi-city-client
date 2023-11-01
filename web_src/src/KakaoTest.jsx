@@ -34,6 +34,7 @@ const KakaoTest = () => {
 
         const responseLogic = (res) => {
             console.log(res)
+            console.log(res)
         };
     }
     return (
