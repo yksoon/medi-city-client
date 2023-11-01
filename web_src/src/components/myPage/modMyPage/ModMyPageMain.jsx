@@ -1,29 +1,34 @@
-import {useRecoilValue, useSetRecoilState} from "recoil";
-import {isSpinnerAtom, userInfoAtom} from "recoils/atoms";
-import {useEffect, useRef} from "react";
-import {Link} from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+    isModUserAtom,
+    isSpinnerAtom,
+    userInfoAtom,
+    userTokenAtom,
+} from "recoils/atoms";
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import Header from "components/common/Header";
 import Footer from "components/common/Footer";
-import {CommonErrModule, CommonNotify, CommonRest} from "common/js/Common";
-import {apiPath, routerPath} from "webPath";
-import {successCode} from "common/js/resultCode";
+import { CommonErrModule, CommonNotify, CommonRest } from "common/js/Common";
+import { apiPath, routerPath } from "webPath";
+import { successCode } from "common/js/resultCode";
 import useAlert from "hook/useAlert";
 import useConfirm from "hook/useConfirm";
-
+import { useNavigate } from "react-router";
 
 const ModMyPageMain = () => {
     const { alert } = useAlert();
     const { confirm } = useConfirm();
     const err = CommonErrModule();
     const setIsSpinner = useSetRecoilState(isSpinnerAtom);
+    const setIsModUser = useSetRecoilState(isModUserAtom);
+    const setUserToken = useSetRecoilState(userTokenAtom);
+
+    const navigate = useNavigate();
 
     const userInfo = useRecoilValue(userInfoAtom);
 
     const inputPw = useRef(null);
-
-    useEffect(() => {
-
-    }, [])
 
     const signIn = () => {
         if (!inputPw.current.value) {
@@ -66,10 +71,12 @@ const ModMyPageMain = () => {
             let result_code = res.headers.result_code;
 
             if (result_code === successCode.success) {
-
                 setIsSpinner(false);
 
-                // navigate(routerPath.main_url);
+                setUserToken(res.data.result_info.token);
+
+                setIsModUser(true);
+                navigate(routerPath.mod_mypage_user);
             } else {
                 setIsSpinner(false);
 
@@ -97,17 +104,24 @@ const ModMyPageMain = () => {
                     <h3 className="title">회원정보 수정</h3>
                     <div className="modify_form">
                         <h5>비밀번호를 입력해주세요</h5>
-                        <input type="password" className="input w370" onKeyDown={handleOnKeyPress} ref={inputPw} />
+                        <input
+                            type="password"
+                            className="input w370"
+                            onKeyDown={handleOnKeyPress}
+                            ref={inputPw}
+                        />
                     </div>
                 </div>
                 <div className="btn_box">
-                    <Link onClick={signIn} className="mainbtn btn01">다음</Link>
+                    <Link onClick={signIn} className="mainbtn btn01">
+                        다음
+                    </Link>
                 </div>
             </div>
 
             <Footer />
         </>
-    )
-}
+    );
+};
 
 export default ModMyPageMain;

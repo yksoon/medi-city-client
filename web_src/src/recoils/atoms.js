@@ -72,3 +72,9 @@ export const isSpinnerAtom = atom({
     key: "isSpinner",
     default: false,
 });
+
+// 회원정보 수정 가능여부
+export const isModUserAtom = atom({
+    key: "isModUser",
+    default: false,
+});

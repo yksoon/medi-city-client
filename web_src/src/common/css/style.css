@@ -345,7 +345,7 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .my_fix_wrap {float: left;width:410px;}
 .fixed_menu {position:fixed;width:410px;}
 .my_quick {padding: 40px;border: 1px solid #ddd;border-radius: 20px;margin:0 0 32px}
-.my_quick .name {display:flex; align-items: center;margin: 0 0 28px 0;}
+.my_quick .name {display:flex; align-items: center;margin: 0 0 28px 0;flex-wrap: wrap;}
 .my_quick .name h3 {font-size: 32px;font-weight: 700;color: #0047a0;margin:0 18px 0 0;}
 .my_quick .name p.point {color: #0047a0;font-size: 24px;font-weight: 700;}
 .my_quick .name p.point span {display: inline-block;margin:0 5px 0 0;vertical-align: middle;}
