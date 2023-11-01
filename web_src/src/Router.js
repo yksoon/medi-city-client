@@ -17,6 +17,8 @@ import MyPageMain from "components/myPage/myPage/main/MyPageMain";
 import CertResult from "components/common/CertResult";
 import ModMyPageMain from "components/myPage/modMyPage/ModMyPageMain";
 import SvgList from "SvgList";
+import ModMyPageUser from "components/myPage/modMyPage/ModMyPageUser";
+import KakaoTest from "KakaoTest";
 
 const Router = () => {
     // 레이지 로딩 추가
@@ -81,10 +83,22 @@ const Router = () => {
                     element={<CertResult />}
                 />
 
-                {/* 회원정보 수정 */}
+                {/* 회원정보 수정 (비번입력) */}
                 <Route
                     path={`${routerPath.mod_mypage}`}
                     element={<ModMyPageMain />}
+                />
+
+                {/* 회원정보 수정 (비번입력) */}
+                <Route
+                    path={`${routerPath.mod_mypage_user}`}
+                    element={<ModMyPageUser />}
+                />
+
+                {/* 카카오알림톡테스트 */}
+                <Route
+                    path="/kakaotest"
+                    element={<KakaoTest />}
                 />
 
                 {/* 상태체크 */}

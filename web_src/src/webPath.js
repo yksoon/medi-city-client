@@ -56,8 +56,11 @@ const routerPath = {
     // 인증결과
     cert_result: `${base_url}cert/result${slash}`,
 
-    // 회원정보 수정
+    // 회원정보 수정 (비번입력)
     mod_mypage: `${base_url}mod_mypage${slash}`,
+
+    // 회원정보 수정
+    mod_mypage_user: `${base_url}mod_mypage${slash}mod_user${slash}`,
 };
 
 // api

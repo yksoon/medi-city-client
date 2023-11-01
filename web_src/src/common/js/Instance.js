@@ -32,4 +32,26 @@ Instance.interceptors.request.use(
     }
 );
 
-export { Instance };
+
+
+const Instance_kakao = axios.create({
+    headers: {
+        "Content-Type": "application/json",
+    },
+    timeout: 5000,
+});
+
+// const userInfo;
+Instance_kakao.interceptors.request.use(
+    (config) => {
+
+        config.headers["Authorization"] = "Basic ClientId ClientSecret";
+        config.headers["version"] = "v1";
+        return config;
+    },
+    (err) => {
+        return Promise.reject(err);
+    }
+);
+
+export { Instance, Instance_kakao };

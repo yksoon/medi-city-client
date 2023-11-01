@@ -13,6 +13,7 @@ import {
     codesAtom,
     countryBankAtom,
     ipInfoAtom,
+    isModUserAtom,
     resultCodeAtom,
 } from "recoils/atoms";
 
@@ -25,6 +26,8 @@ function App() {
     const setCodes = useSetRecoilState(codesAtom);
     const setCountryBank = useSetRecoilState(countryBankAtom);
 
+    // const setIsModUser = useSetRecoilState(isModUserAtom);
+
     useEffect(() => {
         if (ipInfo === "") {
             getIpInfo();
@@ -35,6 +38,8 @@ function App() {
             setInterval(getResultCode, 3600000);
             setInterval(getCodes, 3600000);
         }
+
+        // initModUser();
     }, []);
 
     // IP
@@ -114,6 +119,10 @@ function App() {
                 console.log(decodeURI(error));
             });
     };
+
+    // const initModUser = () => {
+    //     setIsModUser(false);
+    // };
 
     return (
         <>

@@ -1,4 +1,4 @@
-import { Instance } from "./Instance";
+import { Instance, Instance_kakao } from "./Instance";
 
 let res;
 
@@ -15,6 +15,9 @@ const RestServer = (method, url, data) => {
 
         case "delete":
             return Instance.delete(url, data);
+
+        case "post_kakao":
+            return Instance_kakao.post(url, data);
 
         default:
             break;
