@@ -1,7 +1,9 @@
 import React, { forwardRef } from "react";
 
-const IdComponent = forwardRef((props, ref) => {
+const IDComponent = forwardRef((props, ref) => {
+    const userInfo = props.userInfo;
 
+    const { userId } = ref;
     return (
         <>
             <h5>아이디</h5>
@@ -10,7 +12,8 @@ const IdComponent = forwardRef((props, ref) => {
                     <input
                         type="email"
                         className="input w600 hold"
-                        value="email@email.com"
+                        defaultValue={userInfo.user_id}
+                        ref={userId}
                         readOnly
                     />
                 </div>
@@ -19,4 +22,4 @@ const IdComponent = forwardRef((props, ref) => {
     );
 });
 
-export default IdComponent;
+export default IDComponent;

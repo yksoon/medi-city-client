@@ -1,13 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useAlert from "hook/useAlert";
 import useConfirm from "hook/useConfirm";
 import { useRecoilValue } from "recoil";
-import { isModUserAtom } from "recoils/atoms";
+import { isModUserAtom, userInfoAtom, userTokenAtom } from "recoils/atoms";
 import { useNavigate } from "react-router";
 import Footer from "components/common/Footer";
-import IdComponent from "./modMyPageUserComponents/IdComponent";
+import IDComponent from "src/components/myPage/modMyPage/modMyPageUserComponents/IDComponent";
 import Header from "components/common/Header";
 import { CommonErrModule } from "common/js/Common";
+import PWComponent from "components/myPage/modMyPage/modMyPageUserComponents/PWComponent";
+import NameComponent from "components/myPage/modMyPage/modMyPageUserComponents/NameComponent";
+import { routerPath } from "webPath";
+import MobileComponent from "components/myPage/modMyPage/modMyPageUserComponents/MobileComponent.jsx";
+import DepartmentLicenseComponent from "components/myPage/modMyPage/modMyPageUserComponents/DepartmentLicenseComponent.jsx";
 
 const ModMyPageUser = () => {
     const { alert } = useAlert();
@@ -15,18 +20,38 @@ const ModMyPageUser = () => {
     const err = CommonErrModule();
 
     const isModUser = useRecoilValue(isModUserAtom);
+    const userInfo = useRecoilValue(userInfoAtom);
+    const userToken = useRecoilValue(userTokenAtom);
 
     const navigate = useNavigate();
 
     const refs = {
+        userId: useRef(null),
+        userPwd: useRef(null),
+        userPwdCheck: useRef(null),
+        userNameFirstKo: useRef(null),
+        userNameLastKo: useRef(null),
+        userNameFirstEn: useRef(null),
+        userNameLastEn: useRef(null),
+        interPhoneNumber: useRef(null),
+        mobile1: useRef(null),
+        mobile2: useRef(null),
+        mobile3: useRef(null),
+    };
 
-    }
+    const [chkPw, setChkPw] = useState(false);
+
     useEffect(() => {
         // 비밀번호 인증 안했을경우 다시 페이지 이동
-        // if (!isModUser) {
-        //     navigate(routerPath.mod_mypage);
-        // }
+        if (!isModUser && !userToken) {
+            navigate(routerPath.mod_mypage);
+        }
     }, []);
+
+    // 비밀번호 상태 확인
+    const pwStatus = (status) => {
+        setChkPw(status);
+    };
 
     return (
         <>
@@ -37,144 +62,23 @@ const ModMyPageUser = () => {
                     <h3 className="title">회원정보수정</h3>
                     <div>
                         {/*아이디*/}
-                        <IdComponent />
+                        <IDComponent userInfo={userInfo} ref={refs} />
 
-                        <div className="flex">
-                            <div>
-                                <h5>비밀번호</h5>
-                                <input type="password" className="input w370" />
-                            </div>
-                            <div>
-                                <h5>비밀번호 확인</h5>
-                                <input type="password" className="input w370" />
-                            </div>
-                            <div>
-                                <h5>&nbsp;</h5>
-                                <p className="mark" id="mark_pw">
-                                    비밀번호는 4-10자리로 입력해주세요
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex">
-                            <div>
-                                <div className="flex mb15">
-                                    <h5 className="m0">성명 (국문)</h5>
-                                    <div
-                                        id="phone_check_after_btn"
-                                        style={{ display: "block" }}
-                                    >
-                                        <a
-                                            href="javascript:void(0);"
-                                            className="font-12"
-                                            onClick=""
-                                        >
-                                            이름을 변경할까요?
-                                        </a>
-                                    </div>
-                                </div>
-                                <input
-                                    type="name"
-                                    className="input w180 hold"
-                                    placeholder="성"
-                                    value="홍"
-                                    readOnly
-                                />
-                                <input
-                                    type="name"
-                                    className="input w180 hold"
-                                    placeholder="이름"
-                                    value="길동"
-                                    readOnly
-                                />
-                            </div>
-                            <div>
-                                <h5>성명 (영문)</h5>
-                                <input
-                                    type="name"
-                                    className="input w180"
-                                    placeholder="First name"
-                                />
-                                <input
-                                    type="name"
-                                    className="input w180"
-                                    placeholder="Last name"
-                                />
-                            </div>
-                        </div>
-                        <div className="end">
-                            <div>
-                                <div className="flex mb15">
-                                    <h5 className="m0">휴대전화</h5>
-                                    <div
-                                        id="phone_check_after_btn"
-                                        style={{ display: "block" }}
-                                    >
-                                        <a
-                                            href="javascript:void(0);"
-                                            className="font-12"
-                                            onClick=""
-                                        >
-                                            휴대폰번호가 변경되셨나요?
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div id="phone_num" className="m0">
-                                    <input
-                                        type="tel"
-                                        className="input w100 hold"
-                                        id="phone_num0"
-                                        value="+82"
-                                        readOnly
-                                    />
-                                    <input
-                                        type="tel"
-                                        className="input w100 hold"
-                                        id="phone_num1"
-                                        value="010"
-                                        readOnly
-                                    />
-                                    <input
-                                        type="tel"
-                                        className="input w120 hold"
-                                        id="phone_num2"
-                                        value="1111"
-                                        readOnly
-                                    />
-                                    <input
-                                        type="tel"
-                                        className="input w120 hold"
-                                        id="phone_num3"
-                                        value="2222"
-                                        readOnly
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <h5>면허번호</h5>
-                            <input
-                                type="text"
-                                className="input w370 hold"
-                                value="0000000"
-                                readOnly
-                            />
-                        </div>
-                        <div className="flex">
-                            <div>
-                                <h5>소속 기관</h5>
-                                <input type="text" className="input w280" />
-                            </div>
-                            <div>
-                                <h5>전공과</h5>
-                                <input type="text" className="input w280" />
-                            </div>
-                            <div>
-                                <h5>전공분야</h5>
-                                <input type="text" className="input w280" />
-                            </div>
-                        </div>
+                        <PWComponent
+                            userInfo={userInfo}
+                            ref={refs}
+                            pwStatus={pwStatus}
+                        />
+
+                        <NameComponent userInfo={userInfo} ref={refs} />
+
+                        <MobileComponent userInfo={userInfo} ref={refs} />
+
+                        <DepartmentLicenseComponent
+                            userInfo={userInfo}
+                            ref={refs}
+                        />
+
                         <div className="term_wrap">
                             <div className="flex between">
                                 <div>

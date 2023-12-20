@@ -1,8 +1,4 @@
 import { React, useEffect, useState, useLayoutEffect } from "react";
-import { Link } from "react-router-dom";
-import { Button, Form } from "react-bootstrap";
-import { routerPath } from "webPath";
-import { CommonAlert, CommonConfirm } from "common/js/Common";
 
 import Header from "components/common/Header";
 import Footer from "components/common/Footer";

@@ -1,7 +1,11 @@
 import { routerPath } from "webPath";
 import { RestServer } from "./Rest";
 import { set_user_info, set_user_token } from "redux/actions/userInfoAction";
-import { CommonConsole, CommonErrorCatch, CommonNotify } from "./Common";
+import {
+    CommonConsole,
+    CommonErrorCatch,
+    CommonNotify,
+} from "src/common/js/Common";
 import { set_spinner } from "redux/actions/commonAction";
 
 export default function Login(url, data, resultCode, dispatch, alert) {
@@ -36,7 +40,7 @@ export default function Login(url, data, resultCode, dispatch, alert) {
                 dispatch(
                     set_spinner({
                         isLoading: false,
-                    })
+                    }),
                 );
 
                 window.location.replace(routerPath.main_url);
@@ -55,7 +59,7 @@ export default function Login(url, data, resultCode, dispatch, alert) {
                 dispatch(
                     set_spinner({
                         isLoading: false,
-                    })
+                    }),
                 );
             }
         })
