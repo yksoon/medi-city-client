@@ -158,6 +158,13 @@ function Header({ props }) {
                     setUserToken("");
 
                     setIsSpinner(false);
+
+                    CommonNotify({
+                        type: "alert",
+                        hook: alert,
+                        message: "로그아웃 되었습니다.",
+                        callback: () => navigate(routerPath.main_url),
+                    });
                 } else {
                     setIsSpinner(false);
 

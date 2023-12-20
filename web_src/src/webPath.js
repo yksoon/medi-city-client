@@ -2,13 +2,23 @@
 const colon = ":";
 const slash = "/";
 
+const isDeveloping = import.meta.env.VITE_ISDEVELOPING;
+
 // 프로토콜
 // 호스트
 // 포트
 // 버전
 const protocol = "http://";
 
-const host = "dev-api.medi-city.co.kr";
+let host = "";
+if (isDeveloping === "local" || isDeveloping === "dev") {
+    host = "dev-api.medi-city.co.kr";
+} else if (isDeveloping === "prd") {
+    // host = "3.36.85.141";
+    host = "gateway.medi-people.co.kr";
+} else {
+    host = "dev-api.medi-city.co.kr";
+}
 
 const port = "60000";
 
@@ -26,7 +36,7 @@ const auth = "auth";
 const mng = "mng";
 
 // Account Service
-const account = "account";
+const account = "act";
 
 // Hotel Service
 const hotel = "hotel";

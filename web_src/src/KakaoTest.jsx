@@ -2,7 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import useAlert from "./hook/useAlert";
 import useConfirm from "./hook/useConfirm";
-import { CommonConsole, CommonErrModule, CommonNotify, CommonRest } from "./common/js/Common";
+import {
+    CommonConsole,
+    CommonErrModule,
+    CommonNotify,
+    CommonRest,
+} from "src/common/js/Common";
 import { useSetRecoilState } from "recoil";
 import { isSpinnerAtom } from "./recoils/atoms";
 import { successCode } from "./common/js/resultCode";
@@ -18,8 +23,8 @@ const KakaoTest = () => {
     const setIsSpinner = useSetRecoilState(isSpinnerAtom);
 
     const sendPush = () => {
-        const url = "https://bizmsg-web.kakaoenterprise.com/v1/oauth/token"
-        const data = {}
+        const url = "https://bizmsg-web.kakaoenterprise.com/v1/oauth/token";
+        const data = {};
 
         // 파라미터
         const restParams = {
@@ -33,13 +38,15 @@ const KakaoTest = () => {
         CommonRest(restParams);
 
         const responseLogic = (res) => {
-            console.log(res)
-            console.log(res)
+            console.log(res);
+            console.log(res);
         };
-    }
+    };
     return (
         <div>
-            <Link to="" onClick={sendPush}>푸시전송</Link>
+            <Link to="" onClick={sendPush}>
+                푸시전송
+            </Link>
         </div>
     );
 };

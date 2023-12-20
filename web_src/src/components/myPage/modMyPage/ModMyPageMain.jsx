@@ -27,9 +27,16 @@ const ModMyPageMain = () => {
     const navigate = useNavigate();
 
     const userInfo = useRecoilValue(userInfoAtom);
+    const userToken = useRecoilValue(userTokenAtom);
 
     const inputPw = useRef(null);
 
+    useEffect(() => {
+        // 비밀번호 인증 안했을경우 다시 페이지 이동
+        if (!userToken) {
+            navigate(routerPath.main_url);
+        }
+    }, []);
     const signIn = () => {
         if (!inputPw.current.value) {
             CommonNotify({

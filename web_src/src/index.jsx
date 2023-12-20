@@ -12,7 +12,7 @@ import RecoilizeDebugger from "recoilize";
 // Bootstrap
 // import "common/css/bootstrap.min.css";
 
-import App from "./App";
+import App from "src/App";
 
 import "common/css/default.css";
 import "common/css/style.css";
@@ -21,6 +21,20 @@ import "common/css/style.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const app = document.getElementById("app");
+
+console.log(
+    `%c
+ __   __  _______  ______   ___          _______  _______  _______  _______  ___      _______ 
+|  |_|  ||       ||      | |   |        |       ||       ||       ||       ||   |    |       |
+|       ||    ___||  _    ||   |  ____  |    _  ||    ___||   _   ||    _  ||   |    |    ___|
+|       ||   |___ | | |   ||   | |____| |   |_| ||   |___ |  | |  ||   |_| ||   |    |   |___ 
+|       ||    ___|| |_|   ||   |        |    ___||    ___||  |_|  ||    ___||   |___ |    ___|
+| ||_|| ||   |___ |       ||   |        |   |    |   |___ |       ||   |    |       ||   |___ 
+|_|   |_||_______||______| |___|        |___|    |_______||_______||___|    |_______||_______|
+Create by 𝒀𝑲𝑺𝒐𝒐𝒏_
+`,
+    "color:#1976d2",
+);
 
 root.render(
     <BrowserRouter>
