@@ -8,20 +8,17 @@ const isDeveloping = import.meta.env.VITE_ISDEVELOPING;
 // 호스트
 // 포트
 // 버전
-const protocol =
-    isDeveloping === "local" || isDeveloping === "dev"
-        ? "http://"
-        : isDeveloping === "prd"
-        ? "http://"
-        : "http://";
-
+let protocol;
 let host = "";
 if (isDeveloping === "local" || isDeveloping === "dev") {
+    protocol = "https://";
     host = "dev-api.medi-city.co.kr";
 } else if (isDeveloping === "prd") {
+    protocol = "http://";
     // host = "3.36.85.141";
     host = "api.medi-people.co.kr";
 } else {
+    protocol = "https://";
     host = "dev-api.medi-city.co.kr";
 }
 
@@ -76,11 +73,25 @@ const routerPath = {
 
     // 회원정보 수정
     mod_mypage_user: `${base_url}mod_mypage${slash}mod_user${slash}`,
+
+    /**
+     * Hotel
+     */
+    // Hotel - List
+    // 호텔 - 리스트
+    // /hotel/list
+    hotel_list: `${base_url}hotel/list`,
 };
 
 // api
 const apiPath = {
     // http://dev-api.medi-city.co.kr:60000/auth/v1/signin
+    // File Image
+    // mng/v1/_file/000/${file_path_enc}
+    // get
+    api_img_path: `${
+        base_api_url + slash + mng + slash + version + slash
+    }_file/000/`,
     // ------------------ Auth ------------------
     // Refresh POST
     api_refresh: `${
@@ -183,6 +194,16 @@ const apiPath = {
     api_terms_list: `${
         base_api_url + slash + account + slash + version + slash
     }_policies`,
+
+    /**
+     * 호텔
+     */
+    // 호텔 리스트
+    // hotel/v1/meta/hotel
+    // post
+    api_hotel_list: `${
+        base_api_url + slash + hotel + slash + version + slash
+    }meta/hotels`,
 };
 
 export { routerPath, apiPath };
