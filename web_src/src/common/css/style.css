@@ -52,10 +52,10 @@ a.font-12 {font-size: 12px; font-weight: 500; color: #818181; text-decoration: u
 .red {color: #de1414;}
 .green {color: #05b10b;}
 
-
 /* btn */
 a.login {display:inline-block;width: 104px;height: 36px;line-height: 36px;background: #0047A0;color: #fff;font-size: 12px;font-weight: 500;text-align: center;border-radius: 50px;}
 .btn_box {margin:0 auto;text-align:center;margin:60px 0 0;}
+.rightbtn_box {text-align: right;margin:60px 0 0;}
 a.mainbtn {display:inline-block;width: 280px;height: 68px;line-height: 68px;font-size: 21px;font-weight: 500;text-align: center;border-radius: 50px;margin: 0 20px 0 0 ;transition:all 0.3s;}
 a.mainbtn:last-child {margin: 0;}
 a.mainbtn.btn01 {background: #0047A0;color: #fff;}
@@ -65,7 +65,9 @@ a.mainbtn.btn02:hover {background: #ddd;}
 a.subbtn {display:inline-block;width:auto;min-width:146px;padding: 0 38px;height: 48px;text-align: center;border-radius: 10px;line-height: 48px;}
 a.subbtn.on {border: 1px solid #0047a0;color: #0047a0;transition:all 0.3s;}
 a.subbtn.on:hover {background: #0047a0;color:#fff;}
-a.subbtn.off {border: 1px solid #ddd;color: #ddd;}
+a.subbtn.gray {background: #a8a8a8;color: #fff;}
+a.subbtn.blue {background: #0047a0;color: #fff;}
+a.subbtn.off {border: 1px solid #ddd;color: #9e9e9e;}
 a.subbtn.hold {border: 1px solid #efefef;background: #efefef;color: #bdbdbd;}
 a.subbtn.hold:hover {border: 1px solid #efefef;background: #efefef;color: #bdbdbd;}
 a.backbtn {display:inline-block;height: 53px;line-height: 53px;font-size: 16px;text-align: center;border-radius: 50px;transition:all 0.3s;border: 1px solid #ddd;padding: 0 60px;color: #a8a8a8;}
@@ -76,7 +78,8 @@ a.hotel_btn {display:inline-block;width: 220px;height: 53px;line-height: 53px;fo
 
 select {border: 1px solid #ddd;height:48px;line-height:48px;font-size: 18px;color: #333;border-radius: 10px;padding: 0 20px;cursor:pointer}
 input::placeholder {color: #a6a6a6;}
-input.input {border: 1px solid #ddd;height:48px;line-height:48px;font-size: 18px;color: #333;border-radius: 10px;padding: 0 20px;display:inline-block;min-width:80px;margin:0 10px 0 0 ;}
+input.input {border: 1px solid #ddd;height:48px;line-height:48px;font-size: 16px;color: #333;border-radius: 10px;padding: 0 20px;display:inline-block;min-width:80px;margin:0 10px 0 0 ;}
+textarea {border: 1px solid #ddd;min-height:180px;line-height:26px;font-size: 16px;color: #333;border-radius: 10px;padding: 20px;display:inline-block;min-width:80px;margin:0 10px 0 0 ;resize:none;width:100%;font-family: inherit;}
 input.input.hold {background: #efefef;color: #bdbdbd;}
 input.input:last-child {margin:0;}
 input.login {border: 1px solid #818181;height:36px;line-height:36px;font-size: 12px;color: #333;border-radius: 20px;padding: 0 20px;}
@@ -84,12 +87,12 @@ label.checkbox {display:flex;width:30px;height:30px;border: 1px solid #bdbdbd;bo
 input[type="checkbox"]:checked + label.checkbox {background:#0047a0;border: 1px solid #0047a0;}
 input[type="checkbox"]:checked + label.checkbox svg {fill:#fff;}
 
-.title{margin: 0 0 34px;}
+.title{margin: 0 0 28px;}
 .title h3 {display:inline-block;font-size: 38px;font-weight: 700;}
 h3.title {font-size: 38px;font-weight: 700;}
 .title p {display:inline-block;font-size: 21px;font-weight: 500;color: #818181;margin: 0 0 0 30px;}
 
-.subtitle {font-size: 42px;font-weight: 700;}
+.subtitle {font-size: 42px;font-weight: 700;margin:0 0 42px;}
 .linebox {border: 1px solid #ddd;padding:26px 36px;border-radius: 10px;}
 
 /* 공통 //E */
@@ -156,6 +159,12 @@ header{position:relative;width:100%;top:0;left:0;height:112px;z-index: 30;backgr
 .header_content .profile .profile_img_wrap .profile_img img {width: 100%;position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);}
 .header_content .profile .profile_img_wrap .grade {position: absolute;top:-10px;right:-2px;z-index:2}
 #header_profile {display:none;}
+.role_icon {height: 22px;display: inline-block;margin:0 6px 0 0;font-size: 12px;line-height: 22px;background:#818181;padding:0 6px;border-radius: 5px;color: #fff;vertical-align: text-bottom;}
+.role_icon.role_100 {background:#003679;}
+.role_icon.role_200 {background:#007941;}
+.role_icon.role_300 {background:#ffd000;color:#111;font-weight: 600;}
+.role_icon.role_400 {background:#818181;}
+.role_icon.role_900 {background:#9e9e9e;}
 
 /* nav */
 nav {position: relative; width: 24px; height: 22px; transform: rotate(0deg); transition: 0.5s ease-in-out; cursor: pointer; margin:0 15px 20px;} 
@@ -302,12 +311,23 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .ok_page {padding:60px 0 0;text-align:center;}
 .ok h3 {font-size: 32px;font-weight: 700;margin: 32px 0 15px;}
 .ok_page h3 {font-size: 32px;font-weight: 700;margin: 32px 0 15px;}
+.ok_page p {font-size: 18px;line-height: 30px;}
+.ok_page .btn_box {margin:32px 0 0;}
 
 /* 404 */
 .error_page {padding:120px 0 0;text-align:center;height:100vh;background:#f2f2f2;}
 .error_page > img {width:180px;}
 .error_page a.backbtn {background:#fff;}
 .error_page h3 {font-size: 32px;font-weight: 700;margin: 32px 0 15px;}
+
+/* pagenation */
+/*추가 2023-12-29*/
+.pagenation ul {justify-content: center;margin:40px 0 0;}
+.pagenation ul li {border-radius:5px !important;}
+.pagenation ul li button {background:#f2f2f2;}
+.pagenation ul li:first-child button, .pagenation ul li:last-child button {background:none;}
+
+.cursor-pointer {cursor: pointer;}
 
 /* 아이디,비밀번호찾기 */
 .find .flex {justify-content: center;}
@@ -316,7 +336,7 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 /* 마이페이지 - 리스트*/
 .mypage::after {display:block;content:"";clear:both;}
 .mypage {position: relative;}
-.my_history {float: right;width: calc( 100% - 450px);}
+.my_history {float: right;width: calc( 100% - 450px); min-height: 600px;}
 .my_history > ul > li {border: 1px solid #ddd;padding:30px 40px;border-radius: 20px;margin: 0 0 30px;line-height: 26px;}
 .my_history > ul > li .m_title {display: flex;margin: 4px 0 15px;}
 .my_history > ul > li .m_title h5{font-size: 24px;font-weight: 700;max-width:808px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
@@ -339,8 +359,45 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .my_inq p.date {color: #9e9e9e;margin:0 0 10px;}
 .my_inq .i_status.end {background: #0047a0;}
 
-.my_inq_view .i_status {background: #a6a6a6; color: #fff;font-size: 16px;line-height: 26px;padding: 0 16px;border-radius: 50px;display:inline-block;margin: 0 0 0 10px;}
-.my_inq_view .i_status.end {background: #0047a0;}
+.qna_view > div {border: 1px solid #ddd;padding:30px 40px;border-radius: 20px;margin: 0 0 30px;line-height: 26px;}
+.qna_view .i_status {background: #a6a6a6; color: #fff;font-size: 16px;line-height: 26px;padding: 0 16px;border-radius: 50px;display:inline-block;margin: 0 0 0 10px;}
+.qna_view .i_status.end {background: #0047a0;}
+.qna_view .m_title {border-bottom: 1px solid #ddd;padding:0 0 20px;}
+.qna_view p {line-height: 30px;}
+
+.qna_view_an_no {text-align: center;}
+
+/* 마이페이지 - 동영상 view */
+.video_view {border: 1px solid #ddd;padding:30px 40px;border-radius: 20px;margin: 0 0 30px;line-height: 26px;}
+.video_view .video_box {position: relative;}
+.video_view .video_box .vip_label {position: absolute; top:0;left:40px;}
+.video_view .video_box .vip_label img {width:48px;}
+.video_view .video_box > img {width:100%;border-radius: 20px;}
+.video_view .video_box > video {width:100%;}
+.video_view .video_info .v_detail {display:flex; justify-content: space-between;padding:10px 0;}
+.video_view .video_info .v_detail div span {display:inline-block;margin:0 24px 0 8px;}
+.video_view .video_info .v_detail .v_time {border: 1px solid #505050;padding:0 12px;border-radius: 50px;}
+.video_view .video_info .v_title {font-size: 24px;font-weight: 700;color: #111;margin:0 0 24px;}
+.video_view .video_info svg {vertical-align: middle;}
+.video_view .video_info .v_lang {padding:20px 0;border-bottom: 1px solid #bcbcbc;margin:0 0 28px;border-top: 1px solid #bcbcbc;}
+.video_view .video_info .v_lang span{display:inline-block;margin:0 24px 0 8px;vertical-align: middle;}
+.video_view .video_info .v_author {padding:20px 30px;margin:36px 0 0;background: #f4f4f4;color: #505050;border-radius: 10px;;}
+.video_view .video_info .v_author .name {font-weight: 700;}
+
+.video_preview_wrap {background: #212121;padding:40px 0;}
+.video_preview {border: none;padding:0;border-radius: 0;margin: 0 0 30px;line-height: 26px;max-width:375px;font-size: 14px;margin: 0 auto;background: #fff;}
+.video_preview .video_box > img {border-radius: 0;}
+.video_preview .video_info {padding:0 15px;}
+.video_preview .video_info .v_detail {display: flex; justify-content: space-between; padding: 10px 0;}
+.video_preview .video_info .v_detail > div {display: flex; height: 24px; align-items: center;font-size: 12px;}
+.video_preview .video_info .v_title {margin-top: 20px; font-family: source-sans-pro,sans-serif; font-size: 18px; font-weight: 700; line-height: 23px; color: #505050;}
+.video_preview .video_info .v_author {padding:15px;line-height: 22px;}
+.video_preview .video_info .v_time {display: flex; align-items: center; box-sizing: border-box; padding: 0 6px; height: 24px; border: 1px solid #505050; border-radius: 12px;}
+.video_preview .video_info > p { margin-top: 30px; font-family: source-sans-pro,sans-serif; font-size: 14px;  line-height: 18px; color: #505050;}
+.video_preview .video_info .v_lang {display: flex; align-items: center; margin: 30px 0 0; padding: 20px 0; border: 1px solid #bcbcbc; border-width: 1px 0; font-family: source-sans-pro,sans-serif; font-size: 14px; color: #505050;}
+.video_preview .video_info .v_author .category {line-height: 18px;margin-top: 5px;}
+
+
 
 .my_fix_wrap {float: left;width:410px;}
 .fixed_menu {position:fixed;width:410px;}
@@ -371,15 +428,140 @@ footer {margin:140px 0 0; border-top: 1px solid #ddd;padding: 40px 0;}
 .change_profile_wrap input[type="text"] {width: calc( 100% - 160px );}
 
 
+
 /* 호텔 */
 /* 호텔리스트 */
-.hotel_list ul li {border: 1px solid #ddd;padding: 40px;display:flex;border-radius: 50px;}
-.hotel_list ul li span.hotel_list_thumb {width: 745px;height: 450px;overflow:hidden;border-radius: 50px;}
-.hotel_list ul li span.hotel_list_thumb img {width: 100%;}
-.hotel_list ul li .hotel_list_txt {width: calc( 100% - 745px ) ;padding:0 0 0 30px;}
+.hotel_list ul li {border: 1px solid #ddd;padding: 40px;display:flex;border-radius: 50px;margin:0 0 40px;}
+.hotel_list ul li span.hotel_list_thumb {width: 735px;height: 450px;overflow:hidden;border-radius: 50px;}
+.hotel_list ul li span.hotel_list_thumb img {width: 100%;border-radius: 50px;}
+.hotel_list ul li .hotel_list_txt {width: calc( 100% - 735px ) ;padding:0 0 0 40px;}
+.hotel_list ul li .hotel_list_txt .event img {width:120px;margin:0 0 10px;}
 .hotel_list ul li .hotel_list_txt h3 {font-size: 32px;font-weight: 700;color: #000;}
 .hotel_list ul li .hotel_list_txt h5 {font-size: 21px;font-weight: 600;color: #616161;margin:10px 0 20px;}
-.hotel_list ul li .hotel_list_txt .hotel_venue p{font-size: 21px;font-weight: 500;}
+.hotel_list ul li .hotel_list_txt .hotel_venue p{font-size: 18px;font-weight: 500;margin:0 0 10px;}
 .hotel_list ul li .hotel_list_txt .hotel_venue p span{display:inline-block;vertical-align:middle;margin:0 10px 0 0;}
-.hotel_list ul li .hotel_list_txt .hotel_intro {color: #333;margin:10px 0 20px;margin:28px 0 40px;}
-.hotel_list ul li .hotel_list_txt .hotel_intro .hotel_intro_more {display:inline-block;color: #818181;cursor:pointer;}
+.hotel_list ul li .hotel_list_txt .hotel_intro {color: #333;margin:20px 0 30px;font-size: 16px;line-height: 28px;text-align: justify;}
+.hotel_list ul li .hotel_list_txt .more {display:inline-block;color: #818181;cursor:pointer;font-size: 16px;line-height: 28px;font-size: 14px; font-weight: 500; color: #818181; text-decoration: underline;margin:6px 0 0;}
+.hotel_list .hotel_btn {display:flex;gap:16px;}
+.hotel_list .hotel_btn .hotel_list_btn {width:223px;height: 53px;border-radius: 50px;line-height: 53px;border: 1px solid #ddd;color: #a8a8a8;display: block;text-align: center;font-size: 16px;}
+.hotel_list .hotel_btn .hotel_list_btn span {display: inline-block;margin:0 0 0 6px;transition:0.3s;}
+.hotel_list .hotel_btn .hotel_list_btn.blue {color: #0047A0;border: 1px solid #0047A0;}
+.hotel_list .hotel_btn .hotel_list_btn:hover span {margin:0 0 0 20px}
+
+/* 호텔상세 */
+.hotel_view div.hotel_info {display:flex;margin:0 0 90px;}
+.hotel_view div.hotel_info .hotel_list_thumb {width: 680px;}
+.hotel_view div.hotel_info .hotel_list_thumb img {width: 100%;border-radius: 50px;}
+.hotel_view div.hotel_info .hotel_list_thumb .big_thumb img {width: 100%;height:420px;object-fit: cover;}
+.hotel_view div.hotel_info .hotel_list_thumb .small_thumb {display:flex;gap:10px;margin:20px 0 0;}
+.hotel_view div.hotel_info .hotel_list_thumb .small_thumb span {display: block;cursor:pointer;width:20%;height:80px;overflow: hidden;border-radius: 20px;}
+.hotel_view div.hotel_info .hotel_list_thumb .small_thumb span img {display: block;border-radius: 0;object-fit: cover;height:80px;}
+.hotel_view div.hotel_info .hotel_list_txt {width: calc( 100% - 680px ) ;padding:0 0 0 40px;}
+.hotel_view div.hotel_info .hotel_list_txt .event img {width:120px;margin:0 0 10px;}
+.hotel_view div.hotel_info .hotel_list_txt h3 {font-size: 32px;font-weight: 700;color: #000;margin:0 14px 0 0;}
+.hotel_view div.hotel_info .hotel_list_txt h5 {font-size: 21px;font-weight: 600;color: #616161;margin:10px 0 20px;}
+.hotel_view div.hotel_info .hotel_list_txt .hotel_venue p{font-size: 18px;font-weight: 500;margin:0 0 10px;}
+.hotel_view div.hotel_info .hotel_list_txt .hotel_venue p span{display:inline-block;vertical-align:middle;margin:0 10px 0 0;}
+.hotel_view div.hotel_info .hotel_list_txt .hotel_intro {color: #333;margin:20px 0 30px;font-size: 16px;line-height: 28px;text-align: justify;}
+.hotel_view div.hotel_info .info_link {display:flex;align-items: center;gap:10px;}
+.hotel_view div.hotel_info .info_link a {border: 1px solid #ddd;border-radius: 5px;line-height: 36px;padding: 0 20px;font-size: 14px;color: #818181;text-align: center;}
+.hotel_view div.hotel_info .info_link a.img_btn {padding:0;width:36px;}
+.hotel_view div.hotel_info .info_link a.img_btn img {vertical-align: middle;}
+
+.hotel_view .room_slide {width:100%;overflow: hidden;margin: 42px 0 28px;}
+.hotel_view .room_slide li {height: 234px;border-radius: 20px;overflow: hidden;}
+.hotel_view .room_slide img {max-width: 100%;object-fit: cover;}
+.hotel_view .room_list > li {border: 1px solid #ddd;padding: 40px;border-radius: 50px;margin:0 0 40px;}
+.hotel_view .room_list > li .room_info {display:flex;justify-content: space-between;align-items: center;}
+.hotel_view .room_list > li h5 {font-size: 28px;font-weight: 700;color: #111;}
+.hotel_view .room_list > li h5 span {font-size: 18px;color: #333;display: inline-block;margin:0 0 0 13px;font-weight: 500;}
+.hotel_view .room_list > li .service_icon {margin:18px 0 0;font-weight: 500;display:flex;gap:16px; align-items: center;}
+.hotel_view .room_list > li .service_icon p {height:23px;}
+.hotel_view .room_list > li .service_icon a {font-size: 16px;text-decoration: underline;}
+.hotel_view .room_list > li .service_icon p img {height:100%;vertical-align: middle;margin:0 4px 0 0;}
+.hotel_view .room_list > li .pay {display:flex; align-items: center;gap:30px;}
+.hotel_view .room_list > li .pay > div {text-align: right;}
+.hotel_view .room_list > li .pay a {display:block;width:185px;height:60px;line-height: 60px;text-align: center;background: #0047A0;border-radius: 15px ;color: #fff;font-size: 21px;font-weight: 700;}
+.hotel_view .room_list > li .pay .cost {font-size: 21px;color: #A6A6A6;text-decoration: line-through;}
+.hotel_view .room_list > li .pay .price {font-size: 32px;color: #0047A0;font-weight: 700;margin:5px 0;}
+.hotel_view .room_list > li .pay .sale {font-size: 18px;color: #0047A0;font-weight: 500;}
+.hotel_view .room_list > li .additional_info_btn {margin:28px 0 0;display: block;}
+ 
+/* 호텔예약 */
+.hotel_reservation .reservation_top {display:flex;border: 1px solid #ddd;padding: 40px;border-radius: 50px;margin:0 0 40px;    align-items: center;}
+.hotel_reservation .reservation_top .thumb {width:352px;height:180px;overflow:hidden;border-radius:40px;}
+.hotel_reservation .reservation_top .thumb img {object-fit: cover;width:100%;height:180px;}
+.hotel_reservation .reservation_top .info {padding:0 0 0 40px;}
+.hotel_reservation .reservation_top .info h3 {font-size: 32px;font-weight: 700;color: #111;}
+.hotel_reservation .reservation_top .info h5 {font-size: 21px;font-weight: 600;color: #616161;margin:10px 0 20px;}
+.hotel_reservation .reservation_top .info .hotel_venue p{font-size: 18px;font-weight: 500;margin:0 0 10px;}
+.hotel_reservation .reservation_top .info .hotel_venue p:last-child{margin:0;}
+.hotel_reservation .reservation_top .info .hotel_venue p span{display:inline-block;vertical-align:middle;margin:0 10px 0 0;}
+.hotel_reservation .reservation {display:flex;position: relative;} 
+.hotel_reservation .reservation .left_box {width:1050px;}
+.hotel_reservation .reservation .calendar {padding:40px;border: 1px solid #ddd;border-radius: 40px;}
+.hotel_reservation .reservation .right_box {position: sticky; width:500px;margin:0 0 0 50px;padding:40px;border: 1px solid #ddd;border-radius: 40px;height:620px;right:0;top:40px;}
+.hotel_reservation .reservation .right_box .info .hotel_name {font-size: 38px;font-weight: 700;color: #0047A0;margin:0 0 30px;}
+.hotel_reservation .reservation .right_box .info > div {display:flex;font-size: 24px;font-weight: 700;margin:0 0 20px;}
+.hotel_reservation .reservation .right_box .info > div:last-child {margin:0;}
+.hotel_reservation .reservation .right_box .info > div h6 {width:90px;font-weight: 700;color: #111;}
+.hotel_reservation .reservation .right_box .info > div p {vertical-align: middle;margin: 0 0 10px;}
+.hotel_reservation .reservation .right_box .info > div span {font-size: 16px;color: #a6a6a6;font-weight: 400;vertical-align: middle;}
+.hotel_reservation .reservation .right_box .info > div .room_amount + span {margin:0 10px;display: inline-block;}
+.hotel_reservation .reservation .right_box .info > div p:last-child {margin:0;}
+.hotel_reservation .reservation .right_box .info button {background:#fff;border:1px solid #ddd;border-radius: 50%;width: 22px;height: 22px;color: #616161;font-size: 16px;font-weight: 500;padding:0;text-align: center;vertical-align: middle;margin:0 10px;cursor: pointer;}
+.hotel_reservation .reservation .right_box .info button img {vertical-align: middle;}
+.hotel_reservation .reservation .right_box a.next_btn {position: absolute;bottom:40px; lefT:40px; display: block;width:calc(100% - 80px);height:78px;background: #0047a0;text-align: center;color: #fff;font-size: 28px;font-weight: 700;line-height: 78px;border-radius: 20px;}
+.hotel_reservation .reservation .right_box .info > div.agree {margin:60px 0 20px;}
+.hotel_reservation .reservation .right_box .info > div.agree p {font-size: 16px;width:calc(100% - 20px);padding:0 0 0 10px;}
+.hotel_reservation .reservation .right_box .info > div.agree p span {font-size: 16px;color: #0047A0;font-weight: 800;vertical-align: text-top;}
+.hotel_reservation .room_list li.room {padding:30px;border: 1px solid #ddd;border-radius: 40px;cursor: pointer;margin:0 0 30px;}
+.hotel_reservation .room_list li.room.active {border: 1px solid #0047A0;background: #F6FBFF;}
+.hotel_reservation .room_list li.room.active h5 {color:#0047A0;}
+.hotel_reservation .room_list .thumb {border-radius: 20px;overflow: hidden;width: 280px;height: 190px;margin:0 30px 0 0;}
+.hotel_reservation .room_list .thumb img {width: 100%;height: 190px;object-fit: cover;}
+.hotel_reservation .room_list .info_box {display:flex; align-items: center;gap:30px; justify-content: space-between;}
+.hotel_reservation .room_list .info_box .info {display:flex;align-items: center;}
+.hotel_reservation .room_list .info_box h5 {font-size: 28px;font-weight: 700;color: #111;}
+.hotel_reservation .room_list .info_box h6 {font-size: 18px;color: #333;display: inline-block;margin:10px 0 0;display: block;font-weight: 500;}
+.hotel_reservation .room_list .info_box .service_icon {margin:18px 0 0;font-weight: 500;display:flex;gap:10px; align-items: center;font-size: 16px;flex-wrap: wrap;}
+.hotel_reservation .room_list .info_box .service_icon p {height:20px;}
+.hotel_reservation .room_list .info_box .service_icon a {font-size: 14px;text-decoration: underline;}
+.hotel_reservation .room_list .info_box .service_icon p img {height:100%;vertical-align: middle;margin:0 4px 0 0;}
+.hotel_reservation .room_list .info_box .pay {text-align: right;}
+.hotel_reservation .room_list .info_box .pay a {display:block;width:185px;height:60px;line-height: 60px;text-align: center;background: #0047A0;border-radius: 15px ;color: #fff;font-size: 21px;font-weight: 700;}
+.hotel_reservation .room_list .info_box .pay .cost {font-size: 21px;color: #A6A6A6;text-decoration: line-through;}
+.hotel_reservation .room_list .info_box .pay .price {font-size: 32px;color: #0047A0;font-weight: 700;margin:5px 0;}
+.hotel_reservation .room_list .info_box .pay .sale {font-size: 18px;color: #0047A0;font-weight: 500;}
+.hotel_reservation .room_list .info_box .additional_info_btn {margin:28px 0 0;display: block;}
+
+.room_info_modal .room_slide {width:100%;overflow: hidden;margin: 32px 0 60px;}
+.room_info_modal .room_slide li {height: 234px;border-radius: 20px;overflow: hidden;}
+.room_info_modal .room_slide img {max-width: 100%;object-fit: cover;}
+.room_info_modal .room_info {display:flex;justify-content: space-between;align-items: center;}
+.room_info_modal h5 {font-size: 28px;font-weight: 700;color: #111;}
+.room_info_modal h5 span {font-size: 18px;color: #333;display: inline-block;margin:0 0 0 13px;font-weight: 500;}
+.room_info_modal .service_icon {margin:18px 0 0;font-weight: 500;display:flex;gap:16px; align-items: center;}
+.room_info_modal .service_icon p {height:23px;}
+.room_info_modal .service_icon a {font-size: 16px;text-decoration: underline;}
+.room_info_modal .service_icon p img {height:100%;vertical-align: middle;margin:0 4px 0 0;}
+
+.reservation .input_box {border: 1px solid #ddd;padding: 40px;border-radius: 50px;margin:0 0 40px; align-items: center;}
+.reservation .input_box .title h3 {font-size: 32px;}
+.reservation .input_box .title a {margin:0 0 0 20px;vertical-align: middle;display: inline-block;}
+.reservation .input_box div.name_box > div, .reservation .input_box div.phone_box > div, .reservation .input_box div.email_box > div {width: calc( 100% - 100px );}
+.reservation .input_box div.name_box input {width:calc(( 100% - 15px ) /2);}
+.reservation .input_box div.phone_box input {width:calc(( 100% - 30px ) /3);}
+.reservation .input_box div.email_box input {width:100%;}
+.reservation .input_box .reservation_person > div {width: calc( 100% - 100px );display:flex;margin:0 0 14px;align-items: center;width:100%;}
+.reservation .input_box .reservation_person h5 {width:100px;}
+.reservation .input_box .guest_info {justify-content: space-between;}
+.reservation .input_box .guest_info span {cursor: pointer;}
+.reservation .input_box .guest_info label {margin:0 10px 0 0;}
+.reservation .input_box .guest > div {width: calc( 100% - 100px );display:flex;margin:0 0 14px;align-items: center;width:100%;}
+.reservation .input_box .guest h5 {width:100px;}
+.reservation .input_box .guest .guest_title {display:flex;justify-content: space-between;}
+.reservation .input_box .guest .guest_title h4 {font-size: 23px;font-weight: 600;}
+.reservation .input_box .guest .guest_title a {height:36px;display: block;padding:0 20px;border-radius: 5px;background: #dd0000;color: #fff;line-height: 36px;font-size: 16px;}
+.reservation .input_box p.cancel {line-height: 30px;}
+.reservation .input_box p.cancel span {color: #dd0000;}

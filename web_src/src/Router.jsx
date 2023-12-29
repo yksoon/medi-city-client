@@ -19,6 +19,7 @@ import ModMyPageMain from "components/myPage/modMyPage/ModMyPageMain";
 import SvgList from "SvgList";
 import ModMyPageUser from "components/myPage/modMyPage/ModMyPageUser";
 import KakaoTest from "KakaoTest";
+import HotelList from "components/hotel/list/HotelList";
 
 const Router = () => {
     // 레이지 로딩 추가
@@ -95,11 +96,18 @@ const Router = () => {
                     element={<ModMyPageUser />}
                 />
 
-                {/* 카카오알림톡테스트 */}
+                {/*
+                    // Hotel - List
+                    // 호텔 - 리스트
+                    // /hotel/list
+                 */}
                 <Route
-                    path="/kakaotest"
-                    element={<KakaoTest />}
+                    path={`${routerPath.hotel_list}`}
+                    element={<HotelList />}
                 />
+
+                {/* 카카오알림톡테스트 */}
+                <Route path="/kakaotest" element={<KakaoTest />} />
 
                 {/* 상태체크 */}
                 <Route path="/health" element={<HealthCheck />} />

@@ -17,7 +17,7 @@ export default ({ mode }) => {
             outDir: mode === "development" ? "../build" : "../build_prd",
             // rollupOptions: {
             //     input: {
-            //         main: resolve(__dirname, "index.html"),
+            //         main: resolve(__dirname, "index_2.html"),
             //     },
             // },
             rollupOptions: {
