@@ -81,6 +81,11 @@ const routerPath = {
     // 호텔 - 리스트
     // /hotel/list
     hotel_list: `${base_url}hotel/list`,
+
+    // Hotel - detail
+    // 호텔 - 디테일
+    // /hotel/detail/idx
+    hotel_detail: `${base_url}hotel/detail${slash}`,
 };
 
 // api
@@ -204,6 +209,13 @@ const apiPath = {
     api_hotel_list: `${
         base_api_url + slash + hotel + slash + version + slash
     }meta/hotels`,
+
+    // 호텔 리스트
+    // /meta/hotel/{hotel_idx}/
+    // get
+    api_hotel_detail: `${
+        base_api_url + slash + hotel + slash + version + slash
+    }meta/hotel${slash}`,
 };
 
 export { routerPath, apiPath };
