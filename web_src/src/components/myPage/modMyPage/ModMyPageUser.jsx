@@ -11,8 +11,8 @@ import { CommonErrModule } from "common/js/Common";
 import PWComponent from "components/myPage/modMyPage/modMyPageUserComponents/PWComponent";
 import NameComponent from "components/myPage/modMyPage/modMyPageUserComponents/NameComponent";
 import { routerPath } from "webPath";
-import MobileComponent from "components/myPage/modMyPage/modMyPageUserComponents/MobileComponent.jsx";
-import DepartmentLicenseComponent from "components/myPage/modMyPage/modMyPageUserComponents/DepartmentLicenseComponent.jsx";
+import MobileComponent from "components/myPage/modMyPage/modMyPageUserComponents/MobileComponent";
+import DepartmentLicenseComponent from "components/myPage/modMyPage/modMyPageUserComponents/DepartmentLicenseComponent";
 
 const ModMyPageUser = () => {
     const { alert } = useAlert();

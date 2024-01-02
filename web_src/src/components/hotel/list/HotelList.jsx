@@ -16,6 +16,7 @@ import Header from "components/common/Header";
 import Footer from "components/common/Footer";
 import $ from "jquery";
 import { successCode } from "common/js/resultCode";
+import { Link } from "react-router-dom";
 
 const HotelList = () => {
     const { confirm } = useConfirm();
@@ -202,8 +203,8 @@ const HotelList = () => {
                                                     />
                                                 </span>
                                             </a>
-                                            <a
-                                                href="hotel_view.html"
+                                            <Link
+                                                to={`${routerPath.hotel_detail}${item.hotel_idx}`}
                                                 className="hotel_list_btn"
                                             >
                                                 호텔 상세보기{" "}
@@ -213,7 +214,7 @@ const HotelList = () => {
                                                         alt=""
                                                     />
                                                 </span>
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </li>

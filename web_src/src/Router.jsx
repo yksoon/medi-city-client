@@ -20,6 +20,7 @@ import SvgList from "SvgList";
 import ModMyPageUser from "components/myPage/modMyPage/ModMyPageUser";
 import KakaoTest from "KakaoTest";
 import HotelList from "components/hotel/list/HotelList";
+import HotelDetailMain from "components/hotel/detail/HotelDetailMain";
 
 const Router = () => {
     // 레이지 로딩 추가
@@ -104,6 +105,16 @@ const Router = () => {
                 <Route
                     path={`${routerPath.hotel_list}`}
                     element={<HotelList />}
+                />
+
+                {/*
+                    // Hotel - detail
+                    // 호텔 - 디테일
+                    // /hotel/detail/idx
+                 */}
+                <Route
+                    path={`${routerPath.hotel_detail}:hotelIdx`}
+                    element={<HotelDetailMain />}
                 />
 
                 {/* 카카오알림톡테스트 */}
