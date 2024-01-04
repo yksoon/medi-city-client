@@ -12,8 +12,9 @@
 - 백엔드 : JAVA
 - 백엔드 프레임워크 : Springboot
 - 프론트엔드 : Javascript
-- 프론트엔드 프레임워크 : ReactJS, Vite (컴파일러)
-- Server : Linux (CentOS), AWS EC2 + Apache + nginx
+- 프론트엔드 프레임워크 : ReactJS, Webpack -> Vite (컴파일러)
+- Server : Linux (CentOS)(dev), AWS EC2(product) + Apache(dev) + nginx(product)
+- 상태관리 라이브러리 : Recoil
 
 ## 작업기간
 - 2023.06 ~
@@ -24,8 +25,12 @@
 
 ## 구현 설명
 - REST API를 이용하여 Back-End와 통신.
+- 구현에 필요한 Skeleton 및 scaffolding 작업.
 - 사용성과 사용범위를 넓히기 위하여 module화를 진행하였고, 그 결과 확장성이 용이 함.
 - Component의 재활용과 module의 재사용으로 프로젝트 진행 시간 최소화.
+- Webpack 빌더의 무거운 환경을 개선하고자 Vite 로 마이그레이션 진행.
+- Redux -> Recoil 로 변경.
+- EC2 이중화 작업 진행.
 
 ## 느낀점
 - Front-End의 로직 구현에 대한 다양한 방법의 시도 필요.
