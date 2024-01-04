@@ -15,6 +15,7 @@
 - 프론트엔드 프레임워크 : ReactJS, Webpack -> Vite (컴파일러)
 - Server : Linux (CentOS)(dev), AWS EC2(product) + Apache(dev) + nginx(product)
 - 상태관리 라이브러리 : Recoil
+- 외부연동 : Nicepay 본인인증 서비스 (PASS)
 
 ## 작업기간
 - 2023.06 ~
